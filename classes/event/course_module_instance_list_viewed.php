@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_page instance list viewed event.
+ * The mod_notetaker instance list viewed event class.
  *
  * @package    mod_notetaker
- * @copyright  2013 Ankit Agarwal
+ * @copyright  2020 Jo Beaver <myemail@example.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,13 +26,6 @@ namespace mod_notetaker\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * The mod_notetaker instance list viewed event class.
- *
- * @package    mod_notetaker
- * @copyright  2020 Jo Beaver <myemail@example.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
     // No code required here as the parent class handles it all.
 }
