@@ -26,13 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
-/**
- * Module instance settings form.
- *
- * @package    mod_notetaker
- * @copyright  2020 Jo Beaver <myemail@example.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class mod_notetaker_mod_form extends moodleform_mod {
 
     /**
@@ -67,8 +60,8 @@ class mod_notetaker_mod_form extends moodleform_mod {
 
         // Adding the "appearance" fieldset, where the public / private setting is shown. 
         $mform->addElement('header', 'notetakerappearance', get_string('notetakerappearance', 'mod_notetaker'));
-        $mform->addElement('selectyesno', 'notepublic', get_string('allowpublicposts', 'mod_notetaker'));
-        $mform->addHelpButton('notepublic', 'allowpublicposts', 'mod_notetaker');
+        $mform->addElement('selectyesno', 'publicposts', get_string('allowpublicposts', 'mod_notetaker'));
+        $mform->addHelpButton('publicposts', 'allowpublicposts', 'mod_notetaker');
 
         // Add standard elements.
         $this->standard_coursemodule_elements();
