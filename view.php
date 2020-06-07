@@ -37,7 +37,7 @@ if ($cmid) {
     $course         = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', 'notetaker'));
+    print_error(get_string('missingidandcmid', 'mod_notetaker'));
 }
 
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);

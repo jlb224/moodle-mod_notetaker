@@ -43,7 +43,7 @@ $event->add_record_snapshot('course', $course);
 $event->trigger();
 
 $url = new moodle_url('/mod/notetaker/index.php', array('id' => $id));
-$strplural = get_string('modulenameplural', 'notetaker');
+$strplural = get_string('modulenameplural', 'mod_notetaker');
 
 $PAGE->set_url($url);
 $PAGE->set_title($course->fullname);
@@ -53,14 +53,14 @@ $PAGE->navbar->add($strplural);
 
 echo $OUTPUT->header();
 
-$modulenameplural = get_string('modulenameplural', 'notetaker');
+$modulenameplural = get_string('modulenameplural', 'mod_notetaker');
 echo $OUTPUT->heading($modulenameplural);
 
 // TODO only get users own. Except if public
 $notetakers = get_all_instances_in_course('notetaker', $course);
 
 if (empty($notetakers)) {
-    notice(get_string('nonewmodules', 'notetaker'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('nonewmodules', 'mod_notetaker'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 // TODO move display into a mustache template.
