@@ -30,14 +30,6 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $feature Constant representing the feature.
  * @return true | null True if the feature is supported, null otherwise.
  */
-// function notetaker_supports($feature) {
-//     switch ($feature) {
-//         case FEATURE_MOD_INTRO:
-//             return true;
-//         default:
-//             return null;
-//     }
-// }
 function notetaker_supports($feature) {
     switch($feature) {
         case FEATURE_MOD_ARCHETYPE:
