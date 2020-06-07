@@ -26,35 +26,44 @@ require(__DIR__.'/../../config.php');
 
 require_once(__DIR__.'/lib.php');
 
+// Get the current course.
 $id = required_param('id', PARAM_INT);
-
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+
+// Build current course page.
 require_course_login($course);
+// $PAGE->set_pagelayout('incourse');
 
 $coursecontext = context_course::instance($course->id);
 
 $event = \mod_notetaker\event\course_module_instance_list_viewed::create(array(
-    'context' => $modulecontext
+    'context' => $coursecontext
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/notetaker/index.php', array('id' => $id));
-$PAGE->set_title(format_string($course->fullname));
-$PAGE->set_heading(format_string($course->fullname));
+$url = new moodle_url('/mod/notetaker/index.php', array('id' => $id));
+$strplural = get_string('modulenameplural', 'notetaker');
+
+$PAGE->set_url($url);
+$PAGE->set_title($course->fullname);
+$PAGE->set_heading($course->fullname);
 $PAGE->set_context($coursecontext);
+$PAGE->navbar->add($strplural);
 
 echo $OUTPUT->header();
 
-$modulenameplural = get_string('modulenameplural', 'mod_notetaker');
+$modulenameplural = get_string('modulenameplural', 'notetaker');
 echo $OUTPUT->heading($modulenameplural);
 
+// TODO only get users own. Except if public
 $notetakers = get_all_instances_in_course('notetaker', $course);
 
 if (empty($notetakers)) {
-    notice(get_string('nonewmodules', 'mod_notetaker'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('nonewmodules', 'notetaker'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
+// TODO move display into a mustache template.
 $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
@@ -89,4 +98,8 @@ foreach ($notetakers as $notetaker) {
 }
 
 echo html_writer::table($table);
+
+// $data = ['name' => 'Test'];
+// echo $OUTPUT->render_from_template('mod_notetaker/index', ['rows' => $data]);
+
 echo $OUTPUT->footer();

@@ -25,41 +25,45 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
-// Course_module ID, or
-$id = optional_param('id', 0, PARAM_INT);
+$cmid = optional_param('id', 0, PARAM_INT); // Course_module id.
+$modid  = optional_param('n', 0, PARAM_INT); // Module instance id.
 
-// ... module instance id.
-$n  = optional_param('n', 0, PARAM_INT);
-
-if ($id) {
-    $cm             = get_coursemodule_from_id('notetaker', $id, 0, false, MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
-} else if ($n) {
-    $moduleinstance = $DB->get_record('notetaker', array('id' => $n), '*', MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
-    $cm             = get_coursemodule_from_instance('notetaker', $moduleinstance->id, $course->id, false, MUST_EXIST);
+if ($cmid) {
+    $cm             = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
+    // $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+    $notetaker      = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+} else if ($modid) {
+    $notetaker      = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
+    $course         = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
+    $cm             = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', 'mod_notetaker'));
+    print_error(get_string('missingidandcmid', 'notetaker'));
 }
+
+$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
 require_login($course, true, $cm);
 
-$modulecontext = context_module::instance($cm->id);
+$context = context_module::instance($cm->id);
 
-$event = \mod_notetaker\event\course_module_viewed::create(array(
-    'objectid' => $moduleinstance->id,
-    'context' => $modulecontext
-));
-$event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('notetaker', $moduleinstance);
-$event->trigger();
+require_capability('mod/notetaker:view', $context);
 
-$PAGE->set_url('/mod/notetaker/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($moduleinstance->name));
+// Completion and trigger events.
+notetaker_view($notetaker, $course, $cm, $context);
+
+$url = new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id));
+
+$PAGE->set_url($url);
+$PAGE->set_title(format_string($notetaker->name));
 $PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($modulecontext);
+$PAGE->set_context($context);
 
 echo $OUTPUT->header();
 
+echo $OUTPUT->heading(format_string($notetaker->name));
+
+$data = ['name' => 'Test'];
+echo $OUTPUT->render_from_template('mod_notetaker/view', ['rows' => $data]);
+
 echo $OUTPUT->footer();
+

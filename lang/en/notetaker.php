@@ -29,11 +29,16 @@ $string['pluginname'] = "Notetaker";
 
 // Plugin strings.
 $string['allowpublicposts'] = "Allow public posts";
-$string['missingidandcmid'] = "missingidandcmid";
+$string['allowpublicposts_help'] = "If yes, the user can choose to make their posts visible to other participants";
+$string['indexintro'] = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique iure atque dolorum! Facilis in temporibus hic voluptatem itaque error placeat minus quia repellat laboriosam, incidunt saepe dicta suscipit ab nulla.";
+$string['missingidandcmid'] = "Error: Lorem ipsum dolor sit amet consectetur adipisicing elit.";
 $string['modulename'] = "Notetaker";
-$string['modulenameplural'] = "modulenameplural";
-$string['nonewmodules'] = "nonewmodules";
+$string['modulenameplural'] = "Notes";
+$string['modulename_help'] = "A notetaker file is a course resource where students can make notes";
+$string['nonewmodules'] = "No notes have been created";
 $string['notetakerappearance'] = "Appearance";
 $string['notetakername'] = "Name";
-
-
+$string['notetaker:addinstance'] = 'Add a new note';
+$string['notetaker:view'] = 'View notes';
+$string['pluginadministration'] = "Plugin administration";
+$string['viewintro'] = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur voluptate voluptatibus accusamus modi obcaecati quisquam id laboriosam dolorum dolor ea, placeat magni soluta nostrum, dolore at itaque quidem atque. Labore.";

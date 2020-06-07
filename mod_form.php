@@ -65,6 +65,11 @@ class mod_notetaker_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
+        // Adding the "appearance" fieldset, where the public / private setting is shown. 
+        $mform->addElement('header', 'notetakerappearance', get_string('notetakerappearance', 'mod_notetaker'));
+        $mform->addElement('selectyesno', 'notepublic', get_string('allowpublicposts', 'mod_notetaker'));
+        $mform->addHelpButton('notepublic', 'allowpublicposts', 'mod_notetaker');
+
         // Add standard elements.
         $this->standard_coursemodule_elements();
 

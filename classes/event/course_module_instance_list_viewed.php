@@ -30,10 +30,10 @@ defined('MOODLE_INTERNAL') || die();
  * The mod_notetaker instance list viewed event class.
  *
  * @package    mod_notetaker
- * @since      Moodle 2.7
- * @copyright  2013 onwards Ankit Agarwal
+ * @copyright  2020 Jo Beaver <myemail@example.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+    // No code required here as the parent class handles it all.
 }
 
