@@ -31,17 +31,6 @@
 
 <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">{{#str}} modulename, mod_notetaker {{/str}}</th>            
-        </tr>
-    </thead>
-    <tbody>
-    {{#rows}}
-        <tr>
-            <td>{{name}}</td>  
-        </tr>
-    {{/rows}}    
-    </tbody>
-</table>
+<div class="py-3">
+    <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
+</div>

@@ -23,7 +23,6 @@
  */
 
 require(__DIR__.'/../../config.php');
-
 require_once(__DIR__.'/lib.php');
 
 // Get the current course.
@@ -32,12 +31,12 @@ $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 // Build current course page.
 require_course_login($course);
-// $PAGE->set_pagelayout('incourse');
+$PAGE->set_pagelayout('incourse');
 
-$coursecontext = context_course::instance($course->id);
+$context = context_course::instance($course->id);
 
 $event = \mod_notetaker\event\course_module_instance_list_viewed::create(array(
-    'context' => $coursecontext
+    'context' => $context
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
@@ -48,7 +47,7 @@ $strplural = get_string('modulenameplural', 'mod_notetaker');
 $PAGE->set_url($url);
 $PAGE->set_title($course->fullname);
 $PAGE->set_heading($course->fullname);
-$PAGE->set_context($coursecontext);
+$PAGE->set_context($context);
 $PAGE->navbar->add($strplural);
 
 echo $OUTPUT->header();

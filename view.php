@@ -25,12 +25,12 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
-$cmid = optional_param('id', 0, PARAM_INT); // Course_module id.
+$cmid = required_param('id', PARAM_INT); // Course_module id.
 $modid  = optional_param('n', 0, PARAM_INT); // Module instance id.
 
 if ($cmid) {
     $cm             = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
-    // $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+    $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $notetaker      = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($modid) {
     $notetaker      = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
@@ -39,8 +39,6 @@ if ($cmid) {
 } else {
     print_error(get_string('missingidandcmid', 'mod_notetaker'));
 }
-
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
 require_login($course, true, $cm);
 
@@ -62,8 +60,11 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-$data = ['name' => 'Test'];
-echo $OUTPUT->render_from_template('mod_notetaker/view', ['rows' => $data]);
+$data = [
+    'id' => $cmid
+]; // TODO get the notes already created. $data = array_values(xxxx_lib::get_notes());
+
+echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
 
 echo $OUTPUT->footer();
 
