@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_notetaker\form\addnote_form;
+
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
@@ -41,13 +43,26 @@ $PAGE->set_title(format_string($notetaker->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
-echo $OUTPUT->header();
+$mform = new addnote_form();
 
-// TODO Use the addnote_form here 
+if ($mform->is_cancelled()) {
+    
+    redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)));
+} else if ($fromform = $mform->get_data()) {
+    if ($fromform->id) {        
+        $recordid = $fromform->id;
+        //$DB->update_record('np_newtable', $fromform);
+    } else {        
+        //$recordid = $DB->insert_record('np_newtable', $fromform);
+    }    
+    redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)), get_string('success'), 5);
+} 
+
+echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string(get_string('addnote', 'mod_notetaker')));
 
-echo "Just a placeholder for now";
+$mform->display();
 
 echo $OUTPUT->footer();
 

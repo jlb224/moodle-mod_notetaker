@@ -24,17 +24,13 @@
 
 namespace mod_notetaker\form;
 
-use moodleform;
-
 defined('MOODLE_INTERNAL') || die;
 
-class addnote_form extends moodleform 
+require_once($CFG->dirroot.'/lib/formslib.php');
+
+class addnote_form extends \moodleform 
 {
-    /**
-     * Defines forms elements
-     */
     public function definition() {
-        global $CFG;
 
         $mform = $this->_form;
 
@@ -52,9 +48,16 @@ class addnote_form extends moodleform
         $mform->setType('name', PARAM_CLEANHTML);
         
         // Adding the editor.
-        $mform->addElement('editor', 'notecontent', get_string('', 'mod_notetaker'));
+        $mform->addElement('editor', 'notecontent', get_string('notecontent', 'mod_notetaker'));
         $mform->setType('notecontent', PARAM_RAW);
-        
+
+        // TODO Adding the category selector.        
+
+        // Adding the "make post public" field..
+        $mform->addElement('selectyesno', 'makepostpublic', get_string('makepostpublic', 'mod_notetaker'));
+        $mform->setType('makepostpublic', PARAM_INT);
+        $mform->addHelpButton('makepostpublic', 'makepostpublic', 'notetaker');
+
         // Action buttons.
         $this->add_action_buttons();
     } 
