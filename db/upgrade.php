@@ -64,5 +64,32 @@ function xmldb_notetaker_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2020060611, 'notetaker');
     }
 
+    if ($oldversion < 2020061000) {
+
+        // Define table notetaker_notes to be created.
+        $table = new xmldb_table('notetaker_notes');
+
+        // Adding fields to table notetaker_notes.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('notetakerid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('notecontent', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('publicpost', XMLDB_TYPE_BINARY, null, null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table notetaker_notes.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('notetakerid', XMLDB_KEY_FOREIGN, ['notetakerid'], 'notetaker', ['id']);
+
+        // Conditionally launch create table for notetaker_notes.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Notetaker savepoint reached.
+        upgrade_mod_savepoint(true, 2020061000, 'notetaker');
+    }
+
     return true;
 }

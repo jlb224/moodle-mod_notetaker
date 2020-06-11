@@ -31,11 +31,11 @@ $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+$returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
-
 $url = new moodle_url('/mod/notetaker/addnote.php', array('id' => $cm->id));
 
 $PAGE->set_url($url);
@@ -43,17 +43,16 @@ $PAGE->set_title(format_string($notetaker->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
-$mform = new addnote_form();
+$mform = new addnote_form(null, array('id' => $cm->id));
 
 if ($mform->is_cancelled()) {
-    
     redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)));
 } else if ($fromform = $mform->get_data()) {
     if ($fromform->id) {        
         $recordid = $fromform->id;
-        //$DB->update_record('np_newtable', $fromform);
+        $DB->update_record('notetaker_notes', $fromform);
     } else {        
-        //$recordid = $DB->insert_record('np_newtable', $fromform);
+        $recordid = $DB->insert_record('notetaker_notes', $fromform);
     }    
     redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)), get_string('success'), 5);
 } 

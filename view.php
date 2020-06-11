@@ -26,7 +26,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
 $cmid = required_param('id', PARAM_INT); // Course_module id.
-$modid  = optional_param('n', 0, PARAM_INT); // Module instance id.
+$modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
 
 if ($cmid) {
     $cm             = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);

@@ -40,7 +40,7 @@ class addnote_form extends \moodleform
         $mform->addElement('html', $addintro);
 
         // Store the ID.
-        $mform->addElement('hidden', 'id', 0);
+        $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 
         // Adding the standard "name" field.
@@ -54,9 +54,9 @@ class addnote_form extends \moodleform
         // TODO Adding the category selector.        
 
         // Adding the "make post public" field..
-        $mform->addElement('selectyesno', 'makepostpublic', get_string('makepostpublic', 'mod_notetaker'));
-        $mform->setType('makepostpublic', PARAM_INT);
-        $mform->addHelpButton('makepostpublic', 'makepostpublic', 'notetaker');
+        $mform->addElement('selectyesno', 'publicpost', get_string('publicpost', 'mod_notetaker'));
+        $mform->setType('publicpost', PARAM_INT);
+        $mform->addHelpButton('publicpost', 'publicpost', 'mod_notetaker');
 
         // Action buttons.
         $this->add_action_buttons();
