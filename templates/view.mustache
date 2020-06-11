@@ -29,8 +29,27 @@
     * None    
 }}
 
-<p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
+<div class="mod_view">
+    <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
-<div class="py-3">
-    <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
+    <div class="float-right py-3">
+        <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
+    </div>
+    {{#note}}
+        <div class="py-3">
+            <h3>Name: {{name}}</h3>
+            <p>Note content: {{notecontent}}</p>
+            <p><small>Time created: {{timecreated}}</small></p>
+            <p><small>Time modified: {{timemodified}}</small></p>
+            <p>ID: {{id}}</p>
+            <p>NotetakerID: {{notetakerid}}</p>
+            <p>Public post: {{publicpost}}</p>
+            <div>
+                <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/local/newplugin/create.php?id={{id}}"><i class="icon fa fa-edit"></i></a>
+                <a title="{{#str}} delete {{/str}}" href="?delete={{id}}"><i class="icon fa fa-trash"></i></a> 
+            </div>
+        </div>
+    {{/note}}    
 </div>
+
+

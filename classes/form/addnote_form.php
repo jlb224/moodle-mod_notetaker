@@ -39,12 +39,12 @@ class addnote_form extends \moodleform
         // Intoduction.
         $mform->addElement('html', $addintro);
 
-        // Store the ID.
+        // Store the cm->id.
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('notetakername', 'mod_notetaker'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('name', 'mod_notetaker'), array('size' => '64'));
         $mform->setType('name', PARAM_CLEANHTML);
         
         // Adding the editor.

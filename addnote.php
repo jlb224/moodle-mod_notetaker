@@ -31,7 +31,7 @@ $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
-$returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
+// $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 require_login($course, true, $cm);
 
@@ -47,13 +47,21 @@ $mform = new addnote_form(null, array('id' => $cm->id));
 
 if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)));
+
 } else if ($fromform = $mform->get_data()) {
-    if ($fromform->id) {        
-        $recordid = $fromform->id;
-        $DB->update_record('notetaker_notes', $fromform);
-    } else {        
-        $recordid = $DB->insert_record('notetaker_notes', $fromform);
-    }    
+    $fromform->notecontent = $fromform->notecontent['text'];
+    $fromform->notetakerid = $cm->id; // TODO change this. Column name should be modid
+    $fromform->timecreated = time();    
+    $DB->insert_record('notetaker_notes', $fromform);
+
+    // if ($fromform->id) {        
+    //     $recordid = $fromform->id;
+    //     // 
+    // } else {   
+    //     $fromform->timemodified = time();     
+    //     $recordid = $DB->insert_record('notetaker_notes', $fromform);
+    // }  
+
     redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)), get_string('success'), 5);
 } 
 

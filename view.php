@@ -29,13 +29,13 @@ $cmid = required_param('id', PARAM_INT); // Course_module id.
 $modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
 
 if ($cmid) {
-    $cm             = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $notetaker      = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
+    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+    $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($modid) {
-    $notetaker      = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
-    $cm             = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
+    $notetaker = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
+    $course = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
 } else {
     print_error(get_string('missingidandcmid', 'mod_notetaker'));
 }
@@ -60,9 +60,27 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-$data = [
-    'id' => $cmid
-]; // TODO get the notes already created. $data = array_values(xxxx_lib::get_notes());
+$results = $DB->get_records('notetaker_notes', array('notetakerid' => $cm->id));
+
+$note = [];
+
+foreach ($results as $result) {
+$note[] = [
+        'id' => $result->id,
+        'notetakerid' => $result->notetakerid,
+        'name' => $result->name,
+        'notecontent' => $result->notecontent,
+        'timecreated' => $result->timecreated,
+        'timemodified' => $result->timemodified,
+	    'publicpost' => $result->publicpost
+    ];
+}
+
+$data = (object) [
+    'id' => $cmid,
+    'note' => array_values($note),
+    'backbuttonlink' => new moodle_url('/course/view.php'),
+];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
 
