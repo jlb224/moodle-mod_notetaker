@@ -32,24 +32,30 @@
 <div class="mod_view">
     <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
-    <div class="float-right py-3">
+    <div class="py-3">
         <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
     </div>
-    {{#note}}
-        <div class="py-3">
-            <h3>Name: {{name}}</h3>
-            <p>Note content: {{notecontent}}</p>
-            <p><small>Time created: {{timecreated}}</small></p>
-            <p><small>Time modified: {{timemodified}}</small></p>
-            <p>ID: {{id}}</p>
-            <p>NotetakerID: {{notetakerid}}</p>
-            <p>Public post: {{publicpost}}</p>
-            <div>
+
+    <div class="card-columns">
+        {{#note}}
+        <div class="card border-secondary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{#str}} category, mod_notetaker {{/str}}</h6>
+                <p class="card-text">
+                {{notecontent}}
+                </p>
                 <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/local/newplugin/create.php?id={{id}}"><i class="icon fa fa-edit"></i></a>
-                <a title="{{#str}} delete {{/str}}" href="?delete={{id}}"><i class="icon fa fa-trash"></i></a> 
+                <a title="{{#str}} delete {{/str}}" href="?delete={{id}}"><i class="icon fa fa-trash"></i></a>
+                <a href="" class="btn btn-outline-primary stretched-link" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{timecreated}}
             </div>
         </div>
-    {{/note}}    
+        {{/note}} 
+    </div>    
+
 </div>
 
 

@@ -65,7 +65,7 @@ $results = $DB->get_records('notetaker_notes', array('notetakerid' => $cm->id));
 $note = [];
 
 foreach ($results as $result) {
-$note[] = [
+    $note[] = [
         'id' => $result->id,
         'notetakerid' => $result->notetakerid,
         'name' => $result->name,

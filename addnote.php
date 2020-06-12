@@ -31,7 +31,6 @@ $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
-// $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 require_login($course, true, $cm);
 
