@@ -35,21 +35,37 @@ $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUS
 require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
-$url = new moodle_url('/mod/notetaker/addnote.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/notetaker/addnote.php', ['id' => $cm->id]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
-$mform = new addnote_form(null, array('id' => $cm->id));
+$editoroptions = [
+    'subdirs'=>0,
+    'maxbytes'=>90,
+    'maxfiles'=>5,
+    'changeformat'=>0,
+    'context'=>null,
+    'noclean'=>0,
+    'trusttext'=>0,
+    'enable_filemanagement' => true
+];
+
+$mform = new addnote_form(null, [
+    'id' => $cm->id, 
+    'editoroptions'=>$editoroptions
+    ]
+);
 
 if ($mform->is_cancelled()) {
-    redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)));
+    redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
 
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notecontent = $fromform->notecontent['text'];
-    $fromform->notetakerid = $cm->id; // TODO change this. Column name should be modid
+    $fromform->notecontent = $fromform->notecontent_editor['text']; //TODO Column name should be notetext.
+    $fromform->notecontentformat = $fromform->notecontent_editor['format']; // TODO add noteformat column to DB table.
+    $fromform->notetakerid = $cm->id; // TODO change this. Column name should be modid.
     $fromform->timecreated = time();    
     $DB->insert_record('notetaker_notes', $fromform);
 
@@ -61,7 +77,7 @@ if ($mform->is_cancelled()) {
     //     $recordid = $DB->insert_record('notetaker_notes', $fromform);
     // }  
 
-    redirect(new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id)), get_string('success'), 5);
+    redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
 } 
 
 echo $OUTPUT->header();

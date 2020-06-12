@@ -48,8 +48,9 @@ class addnote_form extends \moodleform
         $mform->setType('name', PARAM_CLEANHTML);
         
         // Adding the editor.
-        $mform->addElement('editor', 'notecontent', get_string('notecontent', 'mod_notetaker'));
-        $mform->setType('notecontent', PARAM_RAW);
+        $editoroptions = $this->_customdata['editoroptions'];
+        $mform->addElement('editor', 'notecontent_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
+        $mform->setType('notecontent_editor', PARAM_RAW);
 
         // TODO Adding the category selector.        
 
