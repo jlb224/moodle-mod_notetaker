@@ -60,17 +60,6 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-$editoroptions = [
-    'subdirs'=>0,
-    'maxbytes'=>$course->maxbytes,
-    'maxfiles'=>EDITOR_UNLIMITED_FILES,
-    'changeformat'=>0,
-    'context'=>$context,
-    'noclean'=>0,
-    'trusttext'=>0,
-    'enable_filemanagement' => true
-];
-
 $results = $DB->get_records('notetaker_notes', array('modid' => $cm->id));
 
 $note = [];
