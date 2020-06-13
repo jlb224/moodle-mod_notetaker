@@ -153,7 +153,7 @@ function notetaker_get_post_actions() {
  * @param  stdClass $cm         course module object
  * @param  stdClass $context    context object
  */
-function notetaker_view($notetaker, $course, $cm, $context) {
+function notetaker_view ($notetaker, $course, $cm, $context) {
 
     // Trigger course_module_viewed event.
     $event = \mod_notetaker\event\course_module_viewed::create(array(

@@ -62,4 +62,38 @@ class addnote_form extends \moodleform
         // Action buttons.
         $this->add_action_buttons();
     } 
+
+    // /** THINKS this is for filemanager
+    //  * Enforce defaults here.
+    //  *
+    //  * @param array $defaultvalues Form defaults
+    //  * @return void
+    // **/
+    // public function data_preprocessing(&$defaultvalues) {
+    //     if ($this->current->instance) {
+    //         $draftitemid = file_get_submitted_draft_itemid('notecontent_editor');
+    //         $defaultvalues['notecontent_editor']['format'] = $defaultvalues['contentformat'];
+    //         $defaultvalues['notecontent_editor']['text']   = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_notetaker',
+    //                 'content', 0, page_get_editor_options($this->context), $defaultvalues['content']);
+    //         $defaultvalues['notecontent_editor']['itemid'] = $draftitemid;
+    //     }
+    //     if (!empty($defaultvalues['displayoptions'])) {
+    //         $displayoptions = unserialize($defaultvalues['displayoptions']);
+    //         if (isset($displayoptions['printintro'])) {
+    //             $defaultvalues['printintro'] = $displayoptions['printintro'];
+    //         }
+    //         if (isset($displayoptions['printheading'])) {
+    //             $defaultvalues['printheading'] = $displayoptions['printheading'];
+    //         }
+    //         if (isset($displayoptions['printlastmodified'])) {
+    //             $defaultvalues['printlastmodified'] = $displayoptions['printlastmodified'];
+    //         }
+    //         if (!empty($displayoptions['popupwidth'])) {
+    //             $defaultvalues['popupwidth'] = $displayoptions['popupwidth'];
+    //         }
+    //         if (!empty($displayoptions['popupheight'])) {
+    //             $defaultvalues['popupheight'] = $displayoptions['popupheight'];
+    //         }
+    //     }
+    // }
 }

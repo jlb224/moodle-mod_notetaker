@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/notetaker/db" VERSION="20200610" COMMENT="XMLDB file for Moodle mod_notetaker"
+<XMLDB PATH="mod/notetaker/db" VERSION="20200613" COMMENT="XMLDB file for Moodle mod_notetaker"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -23,16 +23,17 @@
     <TABLE NAME="notetaker_notes" COMMENT="XMLDB file for Moodle mod_notetaker">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="notetakerid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Foreign key references notetaker.id."/>
+        <FIELD NAME="modid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Foreign key references notetaker.id."/>
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the note"/>
-        <FIELD NAME="notecontent" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Note text content"/>
+        <FIELD NAME="notetext" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Note text content"/>
+        <FIELD NAME="noteformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the note was added."/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the note was last modified."/>
         <FIELD NAME="publicpost" TYPE="binary" NOTNULL="true" SEQUENCE="false" COMMENT="Makes post visible to course participants"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="notetakerid" TYPE="foreign" FIELDS="notetakerid" REFTABLE="notetaker" REFFIELDS="id"/>
+        <KEY NAME="modid" TYPE="foreign" FIELDS="modid" REFTABLE="notetaker" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

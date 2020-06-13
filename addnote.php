@@ -26,6 +26,7 @@ use mod_notetaker\form\addnote_form;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
+require_once($CFG->libdir.'/formslib.php');
 
 $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
@@ -44,10 +45,10 @@ $PAGE->set_context($context);
 
 $editoroptions = [
     'subdirs'=>0,
-    'maxbytes'=>90,
-    'maxfiles'=>5,
+    'maxbytes'=>$course->maxbytes,
+    'maxfiles'=>EDITOR_UNLIMITED_FILES,
     'changeformat'=>0,
-    'context'=>null,
+    'context'=>$context,
     'noclean'=>0,
     'trusttext'=>0,
     'enable_filemanagement' => true
@@ -63,9 +64,9 @@ if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
 
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notecontent = $fromform->notecontent_editor['text']; //TODO Column name should be notetext.
-    $fromform->notecontentformat = $fromform->notecontent_editor['format']; // TODO add noteformat column to DB table.
-    $fromform->notetakerid = $cm->id; // TODO change this. Column name should be modid.
+    $fromform->notetext = $fromform->notecontent_editor['text']; 
+    $fromform->noteformat = $fromform->notecontent_editor['format']; 
+    $fromform->modid = $cm->id;
     $fromform->timecreated = time();    
     $DB->insert_record('notetaker_notes', $fromform);
 

@@ -60,16 +60,28 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-$results = $DB->get_records('notetaker_notes', array('notetakerid' => $cm->id));
+$editoroptions = [
+    'subdirs'=>0,
+    'maxbytes'=>$course->maxbytes,
+    'maxfiles'=>EDITOR_UNLIMITED_FILES,
+    'changeformat'=>0,
+    'context'=>$context,
+    'noclean'=>0,
+    'trusttext'=>0,
+    'enable_filemanagement' => true
+];
+
+$results = $DB->get_records('notetaker_notes', array('modid' => $cm->id));
 
 $note = [];
 
 foreach ($results as $result) {
+
     $note[] = [
         'id' => $result->id,
-        'notetakerid' => $result->notetakerid,
+        'modid' => $result->modid,
         'name' => $result->name,
-        'notecontent' => $result->notecontent,
+        'notecontent' => $result->notetext,
         'timecreated' => $result->timecreated,
         'timemodified' => $result->timemodified,
 	    'publicpost' => $result->publicpost
