@@ -24,6 +24,7 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
+use mod_notetaker\lib\local;
 
 $cmid = required_param('id', PARAM_INT); // Course_module id.
 $modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
@@ -60,19 +61,26 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-$results = $DB->get_records('notetaker_notes', array('modid' => $cm->id));
+// Get note records.
+$modid = $cm->id;
+$results = local::get_notes($modid);
 
 $note = [];
 
-foreach ($results as $result) {
+foreach ($results as $result) {   
+    
+    if ($result->timemodified != null) {
+        $lastmodified = $result->timemodified;
+        } else {
+        $lastmodified = $result->timecreated;
+    }
 
     $note[] = [
         'id' => $result->id,
         'modid' => $result->modid,
         'name' => $result->name,
         'notecontent' => $result->notetext,
-        'timecreated' => $result->timecreated,
-        'timemodified' => $result->timemodified,
+        'lastmodified' => $lastmodified,        
 	    'publicpost' => $result->publicpost
     ];
 }

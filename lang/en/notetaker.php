@@ -41,6 +41,7 @@ $string['attachment_filemanager_help'] = "Add text";
 $string['category'] = "Category";
 $string['edit'] = "Edit";
 $string['indexintro'] = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique iure atque dolorum! Facilis in temporibus hic voluptatem itaque error placeat minus quia repellat laboriosam, incidunt saepe dicta suscipit ab nulla.";
+$string['lastmodified'] = "Last modified: ";
 $string['missingidandcmid'] = "Error: Missing ID and CMID.";
 $string['name'] = "Name";
 $string['nonewmodules'] = "No notes have been created";
