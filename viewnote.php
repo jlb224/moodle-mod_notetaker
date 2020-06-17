@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints an instance of mod_notetaker.
+ * Displays a previously saved note.
  *
  * @package     mod_notetaker
  * @copyright   2020 Jo Beaver <myemail@example.com>
@@ -24,10 +24,9 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
-use mod_notetaker\lib\local;
 
 $cmid = required_param('id', PARAM_INT); // Course module id.
-$modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
+$noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 
 if ($cmid) {
     $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST); // ID of the cm from all modules in course.
@@ -45,12 +44,7 @@ require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-require_capability('mod/notetaker:view', $context);
-
-// Completion and trigger events.
-notetaker_view($notetaker, $course, $cm, $context);
-
-$url = new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/notetaker/viewnote.php', ['id' => $cm->id, 'note' => $noteid]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -59,40 +53,6 @@ $PAGE->set_context($context);
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->heading(format_string($notetaker->name));
-
-// Get note records.
-$results = local::get_notes($modid);
-
-$note = [];
-
-foreach ($results as $result) {   
-    
-    if ($result->timemodified != null) {
-        $lastmodified = $result->timemodified;
-        } else {
-        $lastmodified = $result->timecreated;
-    } 
-    /*TODO make this remove the element from the array and then in the template display section 
-    if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */ 
-
-    $note[] = [
-        'id' => $result->id,
-        'modid' => $result->modid,
-        'name' => $result->name,
-        'notecontent' => $result->notetext,
-        'lastmodified' => $lastmodified,        
-	    'publicpost' => $result->publicpost
-    ];
-}
-
-$data = (object) [
-    'id' => $cmid,
-    'note' => array_values($note),
-    'backbuttonlink' => new moodle_url('/course/view.php'),
-];
-
-echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
+echo "Just some placeholder text for now";
 
 echo $OUTPUT->footer();
-
