@@ -26,6 +26,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
 $cmid = required_param('id', PARAM_INT); // Course module id.
+$modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
 $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 
 if ($cmid) {
@@ -53,6 +54,24 @@ $PAGE->set_context($context);
 
 echo $OUTPUT->header();
 
-echo "Just some placeholder text for now";
+// Get note record.
+$result = $DB->get_record('notetaker_notes', ['modid' => $modid, 'id' => $noteid]);
+
+$note = [];
+$note[] = [
+    'id' => $result->id,
+    'modid' => $result->modid,
+    'name' => $result->name,
+    'notecontent' => $result->notetext,        
+    'publicpost' => $result->publicpost
+];
+
+$data = (object) [
+    'id' => $cmid,
+    'note' => array_values($note),
+    'backbuttonlink' => new moodle_url('/course/view.php'),
+];
+
+echo $OUTPUT->render_from_template('mod_notetaker/viewnote', $data);
 
 echo $OUTPUT->footer();
