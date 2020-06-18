@@ -30,11 +30,12 @@
 }}
 
 <div class="mod_viewnote">
-    <div class="container-fluid">
-        {{#note}}        
+    {{#note}}   
+        <h2>{{name}}</h2>
+        <div>     
             {{{notecontent}}}
-        {{/note}} 
-    </div>
+        </div>
+    {{/note}}
     <div>
         <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/local/newplugin/create.php?id={{id}}"><i class="icon fa fa-edit"></i></a>
         <a title="{{#str}} delete {{/str}}" href="?delete={{id}}"><i class="icon fa fa-trash"></i></a>
