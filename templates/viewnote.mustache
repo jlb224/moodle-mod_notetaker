@@ -37,9 +37,11 @@
         </div>
     {{/note}}
     <div>
-        <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/local/newplugin/create.php?id={{id}}"><i class="icon fa fa-edit"></i></a>
-        <a title="{{#str}} delete {{/str}}" href="?delete={{id}}"><i class="icon fa fa-trash"></i></a>
+        <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}&note={{noteid}}"><i class="icon fa fa-edit"></i></a>
+        <a title="{{#str}} delete {{/str}}" href="?delete={{id}}&id={{id}}&note={{noteid}}"><i class="icon fa fa-trash"></i></a>
     </div>
+    <p>ID: {{id}}</p>
+    <p>NOTEID:{{noteid}}</p>
 </div>
 
 

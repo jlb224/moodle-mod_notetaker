@@ -24,22 +24,15 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
+use mod_notetaker\lib\local;
 
-$cmid = required_param('id', PARAM_INT); // Course module id.
+$cmid = optional_param('id', 0, PARAM_INT); // Course module id.
 $modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
 $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 
-if ($cmid) {
-    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST); // ID of the cm from all modules in course.
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST); // ID of the notetaker from all NT in course.
-} else if ($modid) {
-    $notetaker = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
-} else {
-    print_error(get_string('missingidandcmid', 'mod_notetaker'));
-}
+$cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+$notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 
 require_login($course, true, $cm);
 
@@ -52,6 +45,24 @@ $PAGE->set_title(format_string($notetaker->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
+// Delete note.
+$delete = optional_param('delete', 0, PARAM_BOOL);
+$confirm = optional_param('confirm', 0, PARAM_BOOL);
+
+if ($delete) {
+    if (!$confirm) {
+	    echo $OUTPUT->header();
+    	$message = get_string('confirmdelete', 'mod_notetaker');
+    	$continue = '?delete='.$delete.'&id='.$cmid.'&note='.$noteid.'&confirm=1';
+   	    // Print a message along with choices for continue / cancel.
+        echo $OUTPUT->confirm($message, $continue, $url);   
+        echo $OUTPUT->footer();      
+    } else {        
+        local::delete($modid, $noteid);
+        redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
+    }     
+}
+
 echo $OUTPUT->header();
 
 // Get note record.
@@ -59,8 +70,6 @@ $result = $DB->get_record('notetaker_notes', ['modid' => $modid, 'id' => $noteid
 
 $note = [];
 $note[] = [
-    'id' => $result->id,
-    'modid' => $result->modid,
     'name' => $result->name,
     'notecontent' => $result->notetext,        
     'publicpost' => $result->publicpost
@@ -68,6 +77,7 @@ $note[] = [
 
 $data = (object) [
     'id' => $cmid,
+    'noteid' => $noteid,
     'note' => array_values($note),
     'backbuttonlink' => new moodle_url('/course/view.php'),
 ];

@@ -39,6 +39,7 @@ $string['allowpublicposts_help'] = "If yes, the user can choose to make their po
 $string['attachment_filemanager'] = "Add text";
 $string['attachment_filemanager_help'] = "Add text";
 $string['category'] = "Category";
+$string['confirmdelete'] = "Are you sure you want to delete?";
 $string['edit'] = "Edit";
 $string['indexintro'] = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique iure atque dolorum! Facilis in temporibus hic voluptatem itaque error placeat minus quia repellat laboriosam, incidunt saepe dicta suscipit ab nulla.";
 $string['lastmodified'] = "Last modified: ";

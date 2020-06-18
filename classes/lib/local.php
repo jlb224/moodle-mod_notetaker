@@ -28,6 +28,11 @@ defined('MOODLE_INTERNAL') || die;
 
 class local {     
     
+    /**
+     * Gets the notes associated with a module instance from the database. 
+     * Converts time to human readable format.
+     * @param $modid ID of the module instance. 
+     */
     public static function get_notes($modid) {
         global $DB;
         
@@ -44,8 +49,13 @@ class local {
         return $results;
     }
 
-    // public static function delete(int $row_id) {
-    //     global $DB;
-    //     $DB->delete_records('notetaker_notes', ['id' => $row_id]);
-    // }    
+    /**
+     * Deletes a note from the database.
+     * @param $modid ID of the module instance.
+     * @param $noteid ID of the note.
+     */
+    public static function delete($modid, $noteid) {
+        global $DB;
+        $DB->delete_records('notetaker_notes', ['modid' => $modid, 'id' => $noteid]);
+    }
 }
