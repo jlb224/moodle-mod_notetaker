@@ -62,22 +62,16 @@ $mform = new addnote_form(null, [
 
 if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
-
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notetext = $fromform->notecontent_editor['text']; 
-    $fromform->noteformat = $fromform->notecontent_editor['format']; 
+    $fromform->notetext = $fromform->notecontent_editor['text'];
+    $fromform->noteformat = $fromform->notecontent_editor['format'];
     $fromform->modid = $cm->id;
-    $fromform->timecreated = time();    
-    $DB->insert_record('notetaker_notes', $fromform);
-
-    // if ($fromform->id) {        
-    //     $recordid = $fromform->id;
-    //     // 
-    // } else {   
-    //     $fromform->timemodified = time();     
-    //     $recordid = $DB->insert_record('notetaker_notes', $fromform);
-    // }  
-
+    $fromform->timecreated = time();
+    if ($fromform->id) {
+        $DB->update_record('notetaker_notes', $fromform);
+    } else {
+        $DB->insert_record('notetaker_notes', $fromform);
+    }
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
 } 
 
