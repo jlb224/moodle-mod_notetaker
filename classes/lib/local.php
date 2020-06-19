@@ -33,10 +33,10 @@ class local {
      * Converts time to human readable format.
      * @param $modid ID of the module instance. 
      */
-    public static function get_notes($modid) {
+    public static function get_notes($cmid) {
         global $DB;
         
-        $results = $DB->get_records('notetaker_notes', ['modid' => $modid]);        
+        $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);        
 
         foreach ($results as $result) {  
             if ($result->timemodified != NULL) {                
@@ -54,8 +54,8 @@ class local {
      * @param $modid ID of the module instance.
      * @param $noteid ID of the note.
      */
-    public static function delete($modid, $noteid) {
+    public static function delete($cmid, $noteid) {
         global $DB;
-        $DB->delete_records('notetaker_notes', ['modid' => $modid, 'id' => $noteid]);
+        $DB->delete_records('notetaker_notes', ['modid' => $cmid, 'id' => $noteid]);
     }
 }

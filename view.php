@@ -27,14 +27,14 @@ require_once(__DIR__.'/lib.php');
 use mod_notetaker\lib\local;
 
 $cmid = required_param('id', PARAM_INT); // Course module id.
-$modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
+$n  = optional_param('n', 0, PARAM_INT); // Module instance id.
 
 if ($cmid) {
-    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST); // ID of the cm from all modules in course.
+    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST); // ID of the notetaker from all modules in course.
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST); // ID of the notetaker from all NT in course.
-} else if ($modid) {
-    $notetaker = $DB->get_record('notetaker', array('id' => $modid), '*', MUST_EXIST);
+} else if ($n) {
+    $notetaker = $DB->get_record('notetaker', array('id' => $n), '*', MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
 } else {
@@ -62,7 +62,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($notetaker->name));
 
 // Get note records.
-$results = local::get_notes($modid);
+$results = local::get_notes($cmid);
 
 $note = [];
 
@@ -77,8 +77,8 @@ foreach ($results as $result) {
     if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */ 
 
     $note[] = [
-        'id' => $result->id,
-        'modid' => $result->modid,
+        'noteid' => $result->id, // Noteid.
+        'id' => $result->modid, // cmid.
         'name' => $result->name,
         'notecontent' => $result->notetext,
         'lastmodified' => $lastmodified,        
@@ -88,8 +88,7 @@ foreach ($results as $result) {
 
 $data = (object) [
     'id' => $cmid,
-    'note' => array_values($note),
-    'backbuttonlink' => new moodle_url('/course/view.php'),
+    'note' => array_values($note)
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);

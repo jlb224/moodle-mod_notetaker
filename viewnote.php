@@ -27,7 +27,6 @@ require_once(__DIR__.'/lib.php');
 use mod_notetaker\lib\local;
 
 $cmid = optional_param('id', 0, PARAM_INT); // Course module id.
-$modid  = optional_param('id', 0, PARAM_INT); // Module instance id.
 $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
@@ -38,7 +37,7 @@ require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$url = new moodle_url('/mod/notetaker/viewnote.php', ['id' => $cm->id, 'note' => $noteid]);
+$url = new moodle_url('/mod/notetaker/viewnote.php', ['id' => $cmid, 'note' => $noteid]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -58,7 +57,7 @@ if ($delete) {
         echo $OUTPUT->confirm($message, $continue, $url);   
         echo $OUTPUT->footer();      
     } else {        
-        local::delete($modid, $noteid);
+        local::delete($cmid, $noteid);
         redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
     }     
 }
@@ -66,7 +65,7 @@ if ($delete) {
 echo $OUTPUT->header();
 
 // Get note record.
-$result = $DB->get_record('notetaker_notes', ['modid' => $modid, 'id' => $noteid]);
+$result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
 
 $note = [];
 $note[] = [
@@ -78,8 +77,7 @@ $note[] = [
 $data = (object) [
     'id' => $cmid,
     'noteid' => $noteid,
-    'note' => array_values($note),
-    'backbuttonlink' => new moodle_url('/course/view.php'),
+    'note' => array_values($note)
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/viewnote', $data);

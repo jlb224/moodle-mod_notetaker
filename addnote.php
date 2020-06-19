@@ -32,6 +32,7 @@ $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+$noteid  = optional_param('note', 0, PARAM_INT);
 
 require_login($course, true, $cm);
 
@@ -58,22 +59,30 @@ $mform = new addnote_form(null, [
     'id' => $cm->id, 
     'editoroptions'=>$editoroptions
     ]
-);
+); 
 
-if ($mform->is_cancelled()) {
+// Get the note from the database.
+if ($noteid != 0) {
+    $record = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+    $mform->set_data($record);
+}
+
+if ($mform->is_cancelled()) {    
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
+
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notetext = $fromform->notecontent_editor['text'];
-    $fromform->noteformat = $fromform->notecontent_editor['format'];
+    $fromform->notetext = $fromform->notecontent_editor['text']; 
+    $fromform->noteformat = $fromform->notecontent_editor['format']; 
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
-    if ($fromform->id) {
-        $DB->update_record('notetaker_notes', $fromform);
-    } else {
-        $DB->insert_record('notetaker_notes', $fromform);
-    }
+
+    if ($fromform->id != 0) {
+        $recordid = $DB->update_record('notetaker_notes', $fromform);
+    }  else {        
+        $recordid = $DB->insert_record('notetaker_notes', $fromform); 
+    }    
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
-} 
+}
 
 echo $OUTPUT->header();
 
