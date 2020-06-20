@@ -40,7 +40,7 @@ class addnote_form extends \moodleform
         $mform->addElement('html', $addintro);
 
         // Store the cm->id.
-        $mform->addElement('hidden', 'id', $this->_customdata['id']);
+        $mform->addElement('hidden', 'id', $this->_customdata['id']);       
         $mform->setType('id', PARAM_INT);
 
         // Adding the standard "name" field.

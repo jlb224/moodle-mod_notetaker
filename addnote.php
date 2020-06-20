@@ -56,7 +56,7 @@ $editoroptions = [
 ];
 
 $mform = new addnote_form(null, [
-    'id' => $cm->id, 
+    'id' => $cm->id,
     'editoroptions'=>$editoroptions
     ]
 ); 
@@ -75,8 +75,8 @@ if ($mform->is_cancelled()) {
     $fromform->noteformat = $fromform->notecontent_editor['format']; 
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
-
-    if ($fromform->id != 0) {
+    
+    if ($noteid != 0){
         $recordid = $DB->update_record('notetaker_notes', $fromform);
     }  else {        
         $recordid = $DB->insert_record('notetaker_notes', $fromform); 
