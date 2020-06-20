@@ -31,7 +31,7 @@ class local {
     /**
      * Gets the notes associated with a module instance from the database. 
      * Converts time to human readable format.
-     * @param $modid ID of the module instance. 
+     * @param $cmid ID of the module instance. 
      */
     public static function get_notes($cmid) {
         global $DB;
@@ -51,7 +51,7 @@ class local {
 
     /**
      * Deletes a note from the database.
-     * @param $modid ID of the module instance.
+     * @param $cmid ID of the module instance.
      * @param $noteid ID of the note.
      */
     public static function delete($cmid, $noteid) {
