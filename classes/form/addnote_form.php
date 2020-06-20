@@ -52,7 +52,8 @@ class addnote_form extends \moodleform
         $mform->addElement('editor', 'notecontent_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
         $mform->setType('notecontent_editor', PARAM_RAW);
 
-        // TODO Adding the category selector.        
+        // Adding the tag selector.
+        $mform->addElement('tags', 'tags', get_string('tags'), array('component' => 'mod_notetaker', 'itemtype' => 'notetaker_notes'));
 
         // Adding the "make post public" field..
         $mform->addElement('selectyesno', 'publicpost', get_string('publicpost', 'mod_notetaker'));

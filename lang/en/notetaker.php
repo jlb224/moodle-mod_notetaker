@@ -53,5 +53,7 @@ $string['notetaker:view'] = 'View notes';
 $string['publicpost'] = "Make post public";
 $string['publicpost_help'] = "If yes, the post will be visible to other participants in this course. If No, the post will only be visible to you.";
 $string['pluginadministration'] = "Plugin administration";
+$string['tagarea_notetaker_notes'] = 'Notetaker notes';
 $string['view'] = "View";
-$string['viewintro'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur qui tempora quo facilis nostrum, aspernatur pariatur quasi vel, illum libero, molestiae fugiat nesciunt. Cupiditate alias quasi nemo tempora, quos a.";
+$string['viewintro'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur qui tempora quo facilis nostrum, aspernatur pariatur quasi vel, illum libero, 
+molestiae fugiat nesciunt. Cupiditate alias quasi nemo tempora, quos a.";

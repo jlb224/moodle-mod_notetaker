@@ -43,8 +43,13 @@ class local {
                 $result->timemodified = userdate($result->timemodified, '%d %B %Y'); 
             } else {
                 $result->timecreated = userdate($result->timecreated, '%d %B %Y');                
-            }          
-                            
+            }
+
+            // Convert card text to teaser length (150 characters).
+            if(isset($result->notetext)) {
+                $result->notetext = strlen($result->notetext) > 150 ? substr($result->notetext, 0, 147).'...': $result->notetext;
+                $result->notetext = format_text($result->notetext, FORMAT_HTML);
+            }
         }
         return $results;
     }

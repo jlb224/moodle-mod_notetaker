@@ -57,7 +57,7 @@ $editoroptions = [
 
 $mform = new addnote_form(null, [
     'id' => $cm->id,
-    'editoroptions'=>$editoroptions
+    'editoroptions'=> $editoroptions
     ]
 ); 
 
