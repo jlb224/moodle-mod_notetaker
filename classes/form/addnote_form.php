@@ -49,8 +49,8 @@ class addnote_form extends \moodleform
         
         // Adding the editor.
         $editoroptions = $this->_customdata['editoroptions'];
-        $mform->addElement('editor', 'notecontent_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
-        $mform->setType('notecontent_editor', PARAM_RAW);
+        $mform->addElement('editor', 'notefield_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
+        $mform->setType('notefield_editor', PARAM_RAW);
 
         // Adding the tag selector.
         $mform->addElement('tags', 'tags', get_string('tags'), array('component' => 'mod_notetaker', 'itemtype' => 'notetaker_notes'));

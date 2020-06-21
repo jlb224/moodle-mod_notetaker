@@ -75,23 +75,30 @@ foreach ($results as $result) {
     } 
     /*TODO make this remove the element from the array and then in the template display section 
     if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */ 
-
+    
+    // foreach($result->tags as $tag) {
+    //     // echo $tag . "<br>";
+    //     $tags[$result->id] = $tag;
+    //     echo $tags[$result->id];
+    //     // print_r($tags);
+    // }
+  
     $note[] = [
         'noteid' => $result->id, // Noteid.
         'id' => $result->modid, // cmid.
         'name' => $result->name,
-        'notecontent' => $result->notetext,
+        'notecontent' => $result->notefield,
         'lastmodified' => $lastmodified,        
-	    'publicpost' => $result->publicpost
+        'publicpost' => $result->publicpost    
     ];
 }
 
 $data = (object) [
     'id' => $cmid,
-    'note' => array_values($note)
+    'note' => array_values($note),
+    // 'tags' => $tag
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
 
 echo $OUTPUT->footer();
-

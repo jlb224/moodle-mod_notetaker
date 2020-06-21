@@ -55,32 +55,48 @@ $editoroptions = [
     'enable_filemanagement' => true
 ];
 
+$record = new stdClass;
+
+// Get previous note from the database.
+if ($noteid != 0) {
+    $record = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+    // Prepare the notecontent editor.
+    $record = file_prepare_standard_editor($record, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $record->id);
+    $record->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $cmid);
+} else {
+    $record = file_prepare_standard_editor($record, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', null);
+}
+
+//TODO change the editor + DB names [note_editor + note, noteformat ]
+
+// Create form and set initial data.
 $mform = new addnote_form(null, [
     'id' => $cm->id,
     'editoroptions'=> $editoroptions
     ]
-); 
+);
 
-// Get the note from the database.
-if ($noteid != 0) {
-    $record = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
-    $mform->set_data($record);
-}
+$mform->set_data($record);
 
-if ($mform->is_cancelled()) {    
+if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
 
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notetext = $fromform->notecontent_editor['text']; 
-    $fromform->noteformat = $fromform->notecontent_editor['format']; 
+    $fromform->notetext = $fromform->notefield_editor['text'];
+    $fromform->noteformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
-    
+
+    if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
+        core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
+    }
+
     if ($noteid != 0){
         $recordid = $DB->update_record('notetaker_notes', $fromform);
-    }  else {        
-        $recordid = $DB->insert_record('notetaker_notes', $fromform); 
-    }    
+    }  else {
+        $recordid = $DB->insert_record('notetaker_notes', $fromform);
+    }
+
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
 }
 
@@ -91,4 +107,3 @@ echo $OUTPUT->heading(format_string(get_string('addnote', 'mod_notetaker')));
 $mform->display();
 
 echo $OUTPUT->footer();
-

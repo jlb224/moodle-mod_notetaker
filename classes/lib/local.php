@@ -24,25 +24,29 @@
 
 namespace mod_notetaker\lib;
 
+use core_tag_tag;
+
+require_once($CFG->dirroot . '/tag/lib.php');
+
 defined('MOODLE_INTERNAL') || die;
 
-class local {     
-    
+class local {
+
     /**
-     * Gets the notes associated with a module instance from the database. 
+     * Gets the notes associated with a module instance from the database.
      * Converts time to human readable format.
-     * @param $cmid ID of the module instance. 
+     * @param $cmid ID of the module instance.
      */
     public static function get_notes($cmid) {
         global $DB;
-        
-        $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);        
 
-        foreach ($results as $result) {  
-            if ($result->timemodified != NULL) {                
-                $result->timemodified = userdate($result->timemodified, '%d %B %Y'); 
+        $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
+
+        foreach ($results as $result) {
+            if ($result->timemodified != NULL) {
+                $result->timemodified = userdate($result->timemodified, '%d %B %Y');
             } else {
-                $result->timecreated = userdate($result->timecreated, '%d %B %Y');                
+                $result->timecreated = userdate($result->timecreated, '%d %B %Y');
             }
 
             // Convert card text to teaser length (150 characters).
@@ -50,6 +54,9 @@ class local {
                 $result->notetext = strlen($result->notetext) > 150 ? substr($result->notetext, 0, 147).'...': $result->notetext;
                 $result->notetext = format_text($result->notetext, FORMAT_HTML);
             }
+
+            // Get the tags for this notetaker instance.
+            $result->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $cmid);
         }
         return $results;
     }

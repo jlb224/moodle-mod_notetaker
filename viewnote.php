@@ -54,12 +54,12 @@ if ($delete) {
     	$message = get_string('confirmdelete', 'mod_notetaker');
     	$continue = '?delete='.$delete.'&id='.$cmid.'&note='.$noteid.'&confirm=1';
    	    // Print a message along with choices for continue / cancel.
-        echo $OUTPUT->confirm($message, $continue, $url);   
-        echo $OUTPUT->footer();      
-    } else {        
+        echo $OUTPUT->confirm($message, $continue, $url);
+        echo $OUTPUT->footer();
+    } else {
         local::delete($cmid, $noteid);
         redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
-    }     
+    }
 }
 
 echo $OUTPUT->header();
@@ -70,7 +70,7 @@ $result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $notei
 $note = [];
 $note[] = [
     'name' => $result->name,
-    'notecontent' => $result->notetext,        
+    'notecontent' => $result->notefield,
     'publicpost' => $result->publicpost
 ];
 
