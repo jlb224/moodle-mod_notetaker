@@ -67,10 +67,8 @@ if ($noteid != 0) {
     $record = file_prepare_standard_editor($record, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', null);
 }
 
-//TODO change the editor + DB names [note_editor + note, noteformat ]
-
 // Create form and set initial data.
-$mform = new addnote_form(null, [
+$mform = new addnote_form (null, [
     'id' => $cm->id,
     'editoroptions'=> $editoroptions
     ]

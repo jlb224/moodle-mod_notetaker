@@ -22,11 +22,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_notetaker\form;
+
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot.'/lib/formslib.php');
 
-class mod_addnote_mod_form extends moodleform_mod
+class addnote_form extends \moodleform
 {
     public function definition() {
 
