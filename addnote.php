@@ -62,6 +62,7 @@ if ($noteid != 0) {
     $record = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
     // Prepare the notecontent editor.
     $record = file_prepare_standard_editor($record, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $record->id);
+    // $record->notefield = format_text($record->notefield, FORMAT_HTML); TODO Make editor content be format html
     $record->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $cmid);
 } else {
     $record = file_prepare_standard_editor($record, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', null);
@@ -80,7 +81,7 @@ if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]));
 
 } else if ($fromform = $mform->get_data()) {
-    $fromform->notetext = $fromform->notefield_editor['text'];
+    $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->noteformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();

@@ -50,9 +50,9 @@ class local {
             }
 
             // Convert card text to teaser length (150 characters).
-            if(isset($result->notetext)) {
-                $result->notetext = strlen($result->notetext) > 150 ? substr($result->notetext, 0, 147).'...': $result->notetext;
-                $result->notetext = format_text($result->notetext, FORMAT_HTML);
+            if(isset($result->notefield)) {
+                $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...': $result->notefield;
+                $result->notefield = format_text($result->notefield, FORMAT_HTML);
             }
 
             // Get the tags for this notetaker instance.

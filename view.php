@@ -66,37 +66,29 @@ $results = local::get_notes($cmid);
 
 $note = [];
 
-foreach ($results as $result) {   
-    
+foreach ($results as $result) {
+
     if ($result->timemodified != null) {
         $lastmodified = $result->timemodified;
         } else {
         $lastmodified = $result->timecreated;
-    } 
-    /*TODO make this remove the element from the array and then in the template display section 
-    if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */ 
-    
-    // foreach($result->tags as $tag) {
-    //     // echo $tag . "<br>";
-    //     $tags[$result->id] = $tag;
-    //     echo $tags[$result->id];
-    //     // print_r($tags);
-    // }
-  
+    }
+    /*TODO make this remove the element from the array and then in the template display section
+    if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */
+
     $note[] = [
         'noteid' => $result->id, // Noteid.
         'id' => $result->modid, // cmid.
         'name' => $result->name,
         'notecontent' => $result->notefield,
-        'lastmodified' => $lastmodified,        
-        'publicpost' => $result->publicpost    
+        'lastmodified' => $lastmodified,
+        'publicpost' => $result->publicpost
     ];
 }
 
 $data = (object) [
     'id' => $cmid,
-    'note' => array_values($note),
-    // 'tags' => $tag
+    'note' => array_values($note)
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
