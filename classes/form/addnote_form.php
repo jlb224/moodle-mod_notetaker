@@ -28,25 +28,25 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class addnote_form extends \moodleform 
+class addnote_form extends \moodleform
 {
     public function definition() {
 
         $mform = $this->_form;
 
         $addintro = '<p>' . get_string('addintro', 'mod_notetaker') . '</p>';
-        
+
         // Intoduction.
         $mform->addElement('html', $addintro);
 
         // Store the cm->id.
-        $mform->addElement('hidden', 'id', $this->_customdata['id']);       
+        $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('name', 'mod_notetaker'), array('size' => '64'));
         $mform->setType('name', PARAM_CLEANHTML);
-        
+
         // Adding the editor.
         $editoroptions = $this->_customdata['editoroptions'];
         $mform->addElement('editor', 'notefield_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
@@ -62,5 +62,5 @@ class addnote_form extends \moodleform
 
         // Action buttons.
         $this->add_action_buttons();
-    } 
+    }
 }
