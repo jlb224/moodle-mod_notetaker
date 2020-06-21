@@ -193,10 +193,11 @@ function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     if ($filearea !== 'notefield') {
         return false;
     }
-    $notefieldid = array_shift($args); // Designed to prevent caching problems only.
     $fs = get_file_storage();
-    $relativepath = implode('/', $args);
-    $fullpath = "/$context->id/mod_notetaker/$filearea/$notefieldid/$relativepath";
+    $itemid = 0;
+    $itemid = array_shift($args);
+    $filename = array_pop($args);
+    $fullpath = "/$context->id/mod_notetaker/$filearea/$itemid/$filename";
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         return false;
     }
