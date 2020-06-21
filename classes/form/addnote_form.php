@@ -22,13 +22,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_notetaker\form;
-
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
-class addnote_form extends \moodleform
+class mod_addnote_mod_form extends moodleform_mod
 {
     public function definition() {
 
@@ -62,5 +60,32 @@ class addnote_form extends \moodleform
 
         // Action buttons.
         $this->add_action_buttons();
+    }
+
+    /**
+     * Any data processing needed before the form is displayed.
+     * @param array $defaultvalues
+     */
+    public function data_preprocessing(&$defaultvalues) {
+        global $DB, $COURSE;
+
+        $context = null;
+        $context = $editoroptions->context;
+        if ($this->current && $this->current->coursemodule) {
+            $cm = get_coursemodule_from_instance('notetaker', $this->current->id, 0, false, MUST_EXIST);
+            $context = context_module::instance($cm->id);
+        }
+        if (!$context) {
+            $context = context_course::instance($this->current->course ?? $COURSE->id);
+        }
+
+        // Process notefield editor.
+        if (!empty($defaultvalues['notefield'])) {
+            $draftitemid = file_get_submitted_draft_itemid('notefield');
+            $defaultvalues['notefieldeditor'] = [
+                'text' => file_prepare_draft_area($draftitemid, $context->id,'mod_notetaker', 'notefield', false, null, $defaultvalues['notefield']),
+                'format' => $defaultvalues['notefieldformat']
+            ];
+        }
     }
 }
