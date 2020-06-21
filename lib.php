@@ -169,3 +169,37 @@ function notetaker_view ($notetaker, $course, $cm, $context) {
     $completion = new completion_info($course);
     $completion->set_module_viewed($cm);
 }
+
+/**
+ * Serves files.
+ *
+ * @package     mod_notetaker
+ * @category files
+ * @param stdClass $course course object
+ * @param stdClass $cm course module
+ * @param context $context context object
+ * @param string $filearea file area
+ * @param array $args extra arguments
+ * @param bool $forcedownload whether or not to force download
+ * @param array $options additional options affecting the file serving
+ * @return bool false if file not found, does not return if found - just send the file
+ */
+function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+
+    if ($context->contextlevel != CONTEXT_MODULE) {
+        return false;
+    }
+    require_course_login($course, true, $cm);
+    if ($filearea !== 'notefield') {
+        return false;
+    }
+    $optionsid = array_shift($args); // Designed to prevent caching problems only.
+    $fs = get_file_storage();
+    $relativepath = implode('/', $args); // Or $filename = array_pop ($args).
+    $fullpath = "/$context->id/mod_notetaker/$filearea/$optionsid/$relativepath";
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        return false;
+    }
+    // Send the file.
+    send_stored_file($file, 86400, 0, true, $options);
+}
