@@ -25,7 +25,32 @@
 defined('MOODLE_INTERNAL') || die;
 
 $capabilities = array(
-    'mod/notetaker:view' => array(
+    'mod/notetaker:managenotes' => [
+        'captype' => 'write',
+        'riskbitmaskt' => 'RISK_PERSONAL',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ],
+
+    'mod/notetaker:write' => [
+
+        'riskbitmask' => RISK_SPAM,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ],
+
+    'mod/notetaker:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -35,9 +60,9 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
-    ),
+    ],
 
-    'mod/notetaker:addinstance' => array(
+    'mod/notetaker:addinstance' => [
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -47,5 +72,5 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         ),
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    )
+    ]
 );
