@@ -30,8 +30,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once($CFG->libdir.'/formslib.php');
 
-// $cmid = required_param('id', PARAM_INT);
-$cmid = 3;
+$cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
@@ -75,9 +74,9 @@ $mform = new addnote_form (null, [
 
 if ($mform->is_cancelled()) {
     if ($noteid != 0) {
-        redirect("viewnote.php?id=3&note=$noteid");
+        redirect("viewnote.php?id=$cm->id&note=$noteid");
     } else {
-        redirect("view.php?id=3");
+        redirect("view.php?id=$cm->id");
     }
 
 } else if ($fromform = $mform->get_data()) { // Are we getting data from the form?
