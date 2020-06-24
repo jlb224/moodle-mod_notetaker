@@ -24,22 +24,26 @@
 
 use mod_notetaker\form\addnote_form;
 use mod_notetaker\lib\addnote_lib;
-use mod_notetaker\lib\local;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once($CFG->libdir.'/formslib.php');
 
-$cmid = required_param('id', PARAM_INT);
+$cmid = required_param('cmid', PARAM_INT);
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
-$noteid  = optional_param('note', 0, PARAM_INT);
+
+if(!empty($_POST['noteid'])) {
+	$noteid = (int) $_POST['noteid'];
+} else {
+	$noteid = optional_param('note', 0, PARAM_INT);
+}
 
 require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
-$url = new moodle_url('/mod/notetaker/addnote.php', ['id' => $cm->id]);
+$url = new moodle_url('/mod/notetaker/addnote.php', ['cmid' => $cm->id]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -60,47 +64,42 @@ if ($noteid != 0) {
 
 list($editoroptions) = addnote_lib::get_editor_options($course, $context);
 
-// Prepare the notecontent editor.
+// Prepare the notefield editor.
 $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $entry->id);
 $entry->notefieldformat = FORMAT_HTML;
 $entry->cmid = $cm->id;
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
-    'id' => $cm->id,
-    'editoroptions'=> $editoroptions
+    'cmid' => $cm->id,
+    'editoroptions'=> $editoroptions,
+    'id' => $noteid
     ]
 );
 
 if ($mform->is_cancelled()) {
     if ($noteid != 0) {
-        redirect("viewnote.php?id=$cm->id&note=$noteid");
-    } else {
+        redirect("viewnote.php?cmid=$cm->id&note=$noteid");
+    } else if ($noteid = 0) {
         redirect("view.php?id=$cm->id");
     }
 
 } else if ($fromform = $mform->get_data()) { // Are we getting data from the form?
-
-    if (empty($noteid)){ // Is noteid 0 or null?
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
-    $isnewnote = true;
 
-} else {
-    $isnewnote = false; // Why is this being skipped?
-}
+    if ($fromform->id != 0){ // If it is existing note.
+        $isnewnote = false;
+        $DB->update_record('notetaker_notes', $fromform);
+    } else {
+        $isnewnote = true;
+        $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
+    }
+
     $fromform->notefield_editor = '';
     $fromform->notefieldformat = FORMAT_HTML;
-
-    if ($isnewnote) {
-        // Add new entry.
-        $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
-    } else {
-        // Update existing entry.
-        $DB->update_record('notetaker_notes', $fromform);
-    }
 
     // Save and relink embedded images and save attachments.
     if (!empty($fromform->notefield_editor)) {
@@ -116,7 +115,7 @@ if ($mform->is_cancelled()) {
     if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
     }
-    redirect("viewnote.php?id=$cm->id&note=$fromform->id");
+    redirect("viewnote.php?cmid=$cm->id&note=$fromform->id");
 }
 
 if (!empty($noteid)) {

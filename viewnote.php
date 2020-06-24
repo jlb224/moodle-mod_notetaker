@@ -26,7 +26,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 use mod_notetaker\lib\local;
 
-$cmid = optional_param('id', 0, PARAM_INT); // Course module id.
+$cmid = required_param('cmid', PARAM_INT); // Course module id.
 $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
@@ -37,7 +37,7 @@ require_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$url = new moodle_url('/mod/notetaker/viewnote.php', ['id' => $cmid, 'note' => $noteid]);
+$url = new moodle_url('/mod/notetaker/viewnote.php', ['cmid' => $cmid, 'note' => $noteid]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -52,13 +52,13 @@ if ($delete) {
     if (!$confirm) {
 	    echo $OUTPUT->header();
     	$message = get_string('confirmdelete', 'mod_notetaker');
-    	$continue = '?delete='.$delete.'&id='.$cmid.'&note='.$noteid.'&confirm=1';
+    	$continue = '?delete='.$delete.'&cmid='.$cmid.'&note='.$noteid.'&confirm=1';
    	    // Print a message along with choices for continue / cancel.
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {
         local::delete($cmid, $noteid);
-        redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
+        redirect(new moodle_url('/mod/notetaker/view.php', ['cmid' => $cm->id]), get_string('success'), 5);
     }
 }
 
@@ -76,6 +76,7 @@ $note[] = [
 
 $data = (object) [
     'id' => $cmid,
+    'cmid' => $cmid,
     'noteid' => $noteid,
     'note' => array_values($note)
 ];

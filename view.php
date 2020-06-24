@@ -50,7 +50,7 @@ require_capability('mod/notetaker:view', $context);
 // Completion and trigger events.
 notetaker_view($notetaker, $course, $cm, $context);
 
-$url = new moodle_url('/mod/notetaker/view.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/notetaker/view.php', array('cmid' => $cm->id));
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -78,7 +78,7 @@ foreach ($results as $result) {
 
     $note[] = [
         'noteid' => $result->id, // Noteid.
-        'id' => $result->modid, // cmid.
+        'cmid' => $result->modid, // cmid.
         'name' => $result->name,
         'notecontent' => $result->notefield,
         'lastmodified' => $lastmodified,
@@ -87,7 +87,7 @@ foreach ($results as $result) {
 }
 
 $data = (object) [
-    'id' => $cmid,
+    'cmid' => $cmid,
     'note' => array_values($note)
 ];
 

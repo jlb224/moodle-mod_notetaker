@@ -33,7 +33,7 @@
     <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
     <div class="py-3">
-        <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?id={{id}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
+        <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
     </div>
 
     <div class="card-columns">
@@ -45,7 +45,7 @@
                 <p class="card-text">
                 {{{notecontent}}}
                 </p>
-                <a href="{{config.wwwroot}}/mod/notetaker/viewnote.php?id={{id}}&note={{noteid}}" class="btn btn-outline-primary stretched-link" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
+                <a href="{{config.wwwroot}}/mod/notetaker/viewnote.php?cmid={{cmid}}&note={{noteid}}" class="btn btn-outline-primary stretched-link" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
             </div>
             <div class="card-footer text-muted">
                 <small>{{#str}} lastmodified, mod_notetaker {{/str}}{{lastmodified}}</small>
