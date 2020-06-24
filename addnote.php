@@ -79,9 +79,9 @@ $mform = new addnote_form (null, [
 
 if ($mform->is_cancelled()) {
     if ($noteid != 0) {
-        redirect("viewnote.php?cmid=$cm->id&note=$noteid");
-    } else if ($noteid = 0) {
-        redirect("view.php?id=$cm->id");
+        redirect("viewnote.php?cmid=$cmid&note=$noteid");
+    } else if (empty($noteid)) {
+        redirect("view.php?id=$cmid");
     }
 
 } else if ($fromform = $mform->get_data()) { // Are we getting data from the form?
