@@ -34,11 +34,12 @@ $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 
-if(!empty($_POST['noteid'])) {
-	$noteid = (int) $_POST['noteid'];
+if(!empty($_POST['id'])) {
+	$noteid = (int) $_POST['id'];
 } else {
 	$noteid = optional_param('note', 0, PARAM_INT);
 }
+// TODO on Cancel of existing note the noteid is in the $_POST as id
 
 require_login($course, true, $cm);
 
@@ -54,6 +55,7 @@ $hassiteconfig = has_capability('moodle/site:config', context_system::instance()
 
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+    $entry->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
 } else {
     // New entry.
     if ($hassiteconfig || has_capability('mod/notetaker:write', $context)) {
@@ -101,16 +103,16 @@ if ($mform->is_cancelled()) {
     $fromform->notefield_editor = '';
     $fromform->notefieldformat = FORMAT_HTML;
 
-    // Save and relink embedded images and save attachments.
+    // Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $fromform->id);
     }
 
-    // Store the updated values.
-    $DB->update_record('notetaker_notes', $fromform);
+    // // Store the updated values.
+    // $DB->update_record('notetaker_notes', $fromform);
 
-    // Refetch complete entry.
-    $fromform = $DB->get_record('notetaker_notes', array('id' => $fromform->id));
+    // // Refetch complete entry.
+    // $fromform = $DB->get_record('notetaker_notes', array('id' => $fromform->id));
 
     if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
@@ -121,7 +123,7 @@ if ($mform->is_cancelled()) {
 if (!empty($noteid)) {
     $PAGE->navbar->add(get_string('edit'));
 
- // Save and relink embedded images and save attachments.
+ // Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $fromform->id);
     }
@@ -130,9 +132,6 @@ if (!empty($noteid)) {
 echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string(get_string('addnote', 'mod_notetaker')));
-
-$fromform = new StdClass();
-$fromform->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
 
 $mform->set_data($entry);
 

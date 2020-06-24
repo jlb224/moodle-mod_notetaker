@@ -51,7 +51,8 @@ $confirm = optional_param('confirm', 0, PARAM_BOOL);
 if ($delete) {
     if (!$confirm) {
 	    echo $OUTPUT->header();
-    	$message = get_string('confirmdelete', 'mod_notetaker');
+        $message = get_string('confirmdelete', 'mod_notetaker');
+        // TODO this is no longer working.
     	$continue = '?delete='.$delete.'&cmid='.$cmid.'&note='.$noteid.'&confirm=1';
    	    // Print a message along with choices for continue / cancel.
         echo $OUTPUT->confirm($message, $continue, $url);
