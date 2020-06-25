@@ -76,13 +76,23 @@ foreach ($results as $result) {
     /*TODO make this remove the element from the array and then in the template display section
     if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */
 
+    $tags = [$result->tags];
+    $ntags = [];
+    foreach ($tags as $tag) {
+        foreach ($tag as $key => $value){
+            // $ntags = [$key => $value];
+            $ntags[$key] = $value;
+        }
+    } // Gets only last item.
+
     $note[] = [
         'noteid' => $result->id, // Noteid.
         'cmid' => $result->modid, // cmid.
         'name' => $result->name,
         'notecontent' => $result->notefield,
         'lastmodified' => $lastmodified,
-        'publicpost' => $result->publicpost
+        'publicpost' => $result->publicpost,
+        'tag' => array_values($ntags)
     ];
 }
 

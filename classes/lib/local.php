@@ -56,7 +56,7 @@ class local {
             }
 
             // Get the tags for this notetaker instance.
-            $result->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $cmid);
+            $result->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $result->id);
         }
         return $results;
     }
