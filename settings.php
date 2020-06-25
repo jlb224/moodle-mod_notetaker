@@ -26,5 +26,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-   // TODO: Define the plugin settings page.
+    // TODO: Define the plugin settings page.
 }

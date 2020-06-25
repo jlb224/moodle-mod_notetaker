@@ -66,23 +66,23 @@ $results = local::get_notes($modid);
 
 $note = [];
 
-foreach ($results as $result) {   
-    
+foreach ($results as $result) {
+
     if ($result->timemodified != null) {
         $lastmodified = $result->timemodified;
-        } else {
+    } else {
         $lastmodified = $result->timecreated;
-    } 
-    /*TODO make this remove the element from the array and then in the template display section 
-    if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */ 
+    }
+    /*TODO make this remove the element from the array and then in the template display section
+    if present using Created: or Modified: unset() https://stackoverflow.com/questions/369602/deleting-an-element-from-an-array-in-php */
 
     $note[] = [
         'id' => $result->id,
         'modid' => $result->modid,
         'name' => $result->name,
         'notecontent' => $result->notetext,
-        'lastmodified' => $lastmodified,        
-	    'publicpost' => $result->publicpost
+        'lastmodified' => $lastmodified,
+        'publicpost' => $result->publicpost
     ];
 }
 

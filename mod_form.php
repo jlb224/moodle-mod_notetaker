@@ -50,7 +50,7 @@ class mod_notetaker_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        
+
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
             $this->standard_intro_elements();
@@ -58,7 +58,7 @@ class mod_notetaker_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the "appearance" fieldset, where the public / private setting is shown. 
+        // Adding the "appearance" fieldset, where the public / private setting is shown.
         $mform->addElement('header', 'notetakerappearance', get_string('notetakerappearance', 'mod_notetaker'));
         $mform->addElement('selectyesno', 'publicposts', get_string('allowpublicposts', 'mod_notetaker'));
         $mform->addHelpButton('publicposts', 'allowpublicposts', 'mod_notetaker');

@@ -44,19 +44,19 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $editoroptions = [
-    'subdirs'=>0,
-    'maxbytes'=>$course->maxbytes,
-    'maxfiles'=>EDITOR_UNLIMITED_FILES,
-    'changeformat'=>0,
-    'context'=>$context,
-    'noclean'=>0,
-    'trusttext'=>0,
+    'subdirs' => 0,
+    'maxbytes' => $course->maxbytes,
+    'maxfiles' => EDITOR_UNLIMITED_FILES,
+    'changeformat' => 0,
+    'context' => $context,
+    'noclean' => 0,
+    'trusttext' => 0,
     'enable_filemanagement' => true
 ];
 
 $mform = new addnote_form(null, [
-    'id' => $cm->id, 
-    'editoroptions'=>$editoroptions
+    'id' => $cm->id,
+    'editoroptions' => $editoroptions
     ]
 );
 
@@ -73,7 +73,7 @@ if ($mform->is_cancelled()) {
         $DB->insert_record('notetaker_notes', $fromform);
     }
     redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
-} 
+}
 
 echo $OUTPUT->header();
 
