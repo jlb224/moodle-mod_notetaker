@@ -71,6 +71,9 @@ $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $cont
 $entry->notefieldformat = FORMAT_HTML;
 $entry->cmid = $cm->id;
 
+$draftid = file_get_submitted_draft_itemid('notefield');
+$currenttext = file_prepare_draft_area($draftid, $context->id, 'mod_notetaker', 'notefield', $entry->id);
+
 // Create form and set initial data.
 $mform = new addnote_form (null, [
     'cmid' => $cm->id,
@@ -86,7 +89,7 @@ if ($mform->is_cancelled()) {
         redirect("view.php?id=$cmid");
     }
 
-} else if ($fromform = $mform->get_data()) { // Are we getting data from the form?
+} else if ($fromform = $mform->get_data()) { // If we are getting data from the form?
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
@@ -103,20 +106,23 @@ if ($mform->is_cancelled()) {
     $fromform->notefield_editor = '';
     $fromform->notefieldformat = FORMAT_HTML;
 
-    // Save and relink embedded images.
+    // Get submitted editor data.
     if (!empty($fromform->notefield_editor)) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
+    // Save the draft files to the correct place in permanent storage.
+        file_save_draft_area_files($draftid, $context->id, 'mod_notetaker', 'notefield', $fromform->id);
+        $fromform->notefield_editor = file_rewrite_pluginfile_urls($fromform->notefield_editor, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $fromform->id);
     }
-
-    // // Store the updated values.
-    // $DB->update_record('notetaker_notes', $fromform);
-
-    // // Refetch complete entry.
-    // $fromform = $DB->get_record('notetaker_notes', array('id' => $fromform->id));
 
     if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
     }
+    // Store the updated values.
+    $DB->update_record('notetaker_notes', $fromform);
+
+    // // Refetch complete entry.
+    // $fromform = $DB->get_record('notetaker_notes', array('id' => $fromform->id));
+
     redirect("viewnote.php?cmid=$cm->id&note=$fromform->id");
 }
 
