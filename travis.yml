@@ -20,17 +20,17 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-php:
- - 7.2
+matrix:
+  include:
+     - php: 7.3
+        env:
+          - MOODLE_BRANCH=master
+          - DB=mysqli
 
-env:
-  global:
-    - MOODLE_BRANCH=MOODLE_38_STABLE
-
- matrix:
-    - DB=pgsql
-    - DB=mysqli
-    - MOODLE_BRANCH=master
+     - php: 7.3
+        env:
+          - MOODLE_BRANCH=MOODLE_38_STABLE
+          - DB=pgsql
 
 before install:
   - phpenv config-rm xdebug.ini
