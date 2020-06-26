@@ -66,7 +66,7 @@ if ($noteid != 0) {
 
 list($editoroptions) = addnote_lib::get_editor_options($course, $context);
 
-// Prepare the notefield editor.
+// Prepare the notefield editor. notefield is added here.
 $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
 $entry->notefieldformat = FORMAT_HTML;
 $entry->cmid = $cm->id;
@@ -95,21 +95,9 @@ if ($mform->is_cancelled()) {
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
 
-    if ($fromform->id != 0){ // If it is existing note.
-        $isnewnote = false;
-        $DB->update_record('notetaker_notes', $fromform);
-    } else {
-        $isnewnote = true;
-        $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
-    }
-
-    $fromform->notefield_editor = '';
-    $fromform->notefieldformat = FORMAT_HTML;
-
-    // Get submitted editor data.
-    if (!empty($fromform->notefield_editor)) {
+     // Process submitted editor data.
+     if (!empty($fromform->notefield_editor['text'])) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
-    // Save the draft files to the correct place in permanent storage.
         file_save_draft_area_files($draftid, $context->id, 'mod_notetaker', 'notefield', $fromform->id);
         $fromform->notefield_editor = file_rewrite_pluginfile_urls($fromform->notefield_editor, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $fromform->id);
     }
@@ -117,11 +105,14 @@ if ($mform->is_cancelled()) {
     if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
     }
-    // Store the updated values.
-    $DB->update_record('notetaker_notes', $fromform);
 
-    // // Refetch complete entry.
-    // $fromform = $DB->get_record('notetaker_notes', array('id' => $fromform->id));
+    if ($fromform->id != 0){ // If it is existing note.
+        $isnewnote = false;
+        $DB->update_record('notetaker_notes', $fromform);
+    } else {
+        $isnewnote = true;
+        $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
+    }
 
     redirect("viewnote.php?cmid=$cm->id&note=$fromform->id");
 }
