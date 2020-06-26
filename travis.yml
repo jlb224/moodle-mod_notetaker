@@ -5,7 +5,11 @@ language: php
 
 # Installs the updated version of PostgreSQL and extra APT packages.
 addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
+  apt:
+    packages:
+      - openjdk-8-jre-headless
+      - chromium-chromedriver
 
 # Ensure DB services are running.
 services:
@@ -37,17 +41,13 @@ env:
  matrix:
     - DB=pgsql
     - DB=mysqli
-    - IGNORE_PATHS=ignore
-    - IGNORE_NAMES=ignore_name.php
-    - MUSTACHE_IGNORE_NAMES=broken.mustache
-    - MOODLE_BRANCH=master
 
 before install:
   # This disables XDebug which should speed up the build.
   - phpenv config-rm xdebug.ini
   # This installs NodeJS which is used by Grunt, etc.
-  - nvm install 8.9
-  - nvm use 8.9
+  - nvm install 14.2.0
+  - nvm use 14.2.0
   # Currently we are inside a clone of the repository.  We move up two
   # directories to build the project.
   - cd ../..
@@ -56,8 +56,9 @@ before install:
 # Install this project into a directory called "ci".
   - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+  - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//') JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
-  # Finally, the standard install step.
+  # The standard install step.
 install:
     # Run the default install. The overview of what this does:
     #    - Clone the Moodle project into a directory called moodle.
@@ -103,5 +104,5 @@ script:
   - moodle-plugin-ci grunt || [ "$MOODLE_BRANCH" != 'master' -a "$MOODLE_BRANCH" != 'MOODLE_38_STABLE' ]
   # This step runs the PHPUnit tests of your plugin.  If your plugin has
   # PHPUnit tests, then it is highly recommended that you keep this step.
-  - moodle-plugin-ci phpunit --coverage-text
-  - moodle-plugin-ci behat --profile $PROFILE
+  # - moodle-plugin-ci phpunit --coverage-text
+  # - moodle-plugin-ci behat --profile $PROFILE
