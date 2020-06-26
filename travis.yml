@@ -1,20 +1,21 @@
-sudo: required
-
 # Language of the project.
 language: php
 
-# Installs the updated version of PostgreSQL and extra APT packages.
-addons:
-  postgresql: "9.6"
-  apt:
-    packages:
-      - openjdk-8-jre-headless
-      - chromium-chromedriver
+dist: bionic
+sudo: required
 
 # Ensure DB services are running.
 services:
   - mysql
   - postgresql
+
+# Installs the updated version of PostgreSQL and extra APT packages.
+addons:
+  firefox: "47.0.1"
+  apt:
+    packages:
+      - openjdk-8-jre-headless
+      - chromium-chromedriver
 
 # Cache NPM's and Composer's caches to speed up build times.
 cache:
@@ -25,10 +26,8 @@ cache:
 # Determines which versions of PHP to test against.  Each version
 # listed here will create a separate build and run the tests against that
 # version of PHP.
-# We only run the highest and lowest supported versions to reduce the load on travis-ci.org.
 php:
  - 7.2
- - 7.0
 
  # This section sets up the environment variables for the build.
 env:
@@ -41,6 +40,7 @@ env:
  matrix:
     - DB=pgsql
     - DB=mysqli
+    - MOODLE_BRANCH=master
 
 before install:
   # This disables XDebug which should speed up the build.
@@ -51,12 +51,9 @@ before install:
   # Currently we are inside a clone of the repository.  We move up two
   # directories to build the project.
   - cd ../..
-  - composer selfupdate
-  - composer clear-cache
 # Install this project into a directory called "ci".
-  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-  - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//') JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
   # The standard install step.
 install:
@@ -82,7 +79,7 @@ script:
   # This step runs the PHP Mess Detector on your plugin. This helps to find
   # potential problems with your code which can result in
   # refactoring opportunities.
-  - moodle-plugin-ci phpmd
+  - moodle-plugin-ci phpmd || true
   # This step runs the Moodle Code Checker to make sure that your plugin
   # conforms to the Moodle coding standards.
   # To fail on warnings use --max-warnings 0
@@ -101,8 +98,8 @@ script:
   # specific tasks by passing them as options,
   # EG: moodle-plugin-ci grunt -t task1 -t task2
   # To fail on eslint warnings use --max-lint-warnings 0
-  - moodle-plugin-ci grunt || [ "$MOODLE_BRANCH" != 'master' -a "$MOODLE_BRANCH" != 'MOODLE_38_STABLE' ]
+  - moodle-plugin-ci grunt
   # This step runs the PHPUnit tests of your plugin.  If your plugin has
   # PHPUnit tests, then it is highly recommended that you keep this step.
   # - moodle-plugin-ci phpunit --coverage-text
-  # - moodle-plugin-ci behat --profile $PROFILE
+  # - moodle-plugin-ci behat --profile chrome
