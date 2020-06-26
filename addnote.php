@@ -67,7 +67,7 @@ if ($noteid != 0) {
 list($editoroptions) = addnote_lib::get_editor_options($course, $context);
 
 // Prepare the notefield editor.
-$entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $entry->id);
+$entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
 $entry->notefieldformat = FORMAT_HTML;
 $entry->cmid = $cm->id;
 
@@ -105,7 +105,7 @@ if ($mform->is_cancelled()) {
 
     // Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
-        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $fromform->id);
+        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
     }
 
     // // Store the updated values.
@@ -125,7 +125,7 @@ if (!empty($noteid)) {
 
  // Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
-        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notetaker_notes', $fromform->id);
+        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
     }
 }
 
