@@ -53,8 +53,8 @@ if ($delete) {
 	    echo $OUTPUT->header();
         $message = get_string('confirmdelete', 'mod_notetaker');
         // TODO this is no longer working.
-    	$continue = '?delete='.$delete.'&cmid='.$cmid.'&note='.$noteid.'&confirm=1';
-   	    // Print a message along with choices for continue / cancel.
+        $continue = '?delete='.$delete.'&cmid='.$cmid.'&note='.$noteid.'&confirm=1';
+        // Print a message along with choices for continue / cancel.
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {

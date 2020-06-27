@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die;
 $tagareas = array(
     array(
         'itemtype' => 'notetaker_notes',  // Name of the database table (without prefix).
-        'component' => 'mod_notetaker', 
+        'component' => 'mod_notetaker',
         'callback' => 'mod_notetaker_get_tagged_pages',
         'callbackfile' => '/mod/notetaker/classes/local.php',
     ),

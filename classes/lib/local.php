@@ -26,9 +26,9 @@ namespace mod_notetaker\lib;
 
 use core_tag_tag;
 
-require_once($CFG->dirroot . '/tag/lib.php');
-
 defined('MOODLE_INTERNAL') || die;
+
+require_once($CFG->dirroot . '/tag/lib.php');
 
 class local {
 
@@ -43,15 +43,15 @@ class local {
         $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
 
         foreach ($results as $result) {
-            if ($result->timemodified != NULL) {
+            if ($result->timemodified != null) {
                 $result->timemodified = userdate($result->timemodified, '%d %B %Y');
             } else {
                 $result->timecreated = userdate($result->timecreated, '%d %B %Y');
             }
 
             // Convert card text to teaser length (150 characters).
-            if(isset($result->notefield)) {
-                $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...': $result->notefield;
+            if (isset($result->notefield)) {
+                $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...' : $result->notefield;
                 $result->notefield = format_text($result->notefield, FORMAT_HTML);
             }
 

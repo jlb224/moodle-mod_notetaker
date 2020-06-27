@@ -56,5 +56,5 @@ $string['pluginadministration'] = "Plugin administration";
 $string['cardtag'] = "Card tag";
 $string['tagarea_notetaker_notes'] = 'Notetaker notes';
 $string['view'] = "View";
-$string['viewintro'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur qui tempora quo facilis nostrum, aspernatur pariatur quasi vel, illum libero, 
+$string['viewintro'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur qui tempora quo facilis nostrum, aspernatur pariatur quasi vel, illum libero,
 molestiae fugiat nesciunt. Cupiditate alias quasi nemo tempora, quos a.";

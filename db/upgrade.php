@@ -203,6 +203,5 @@ function xmldb_notetaker_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2020062100, 'notetaker');
     }
 
-
     return true;
 }

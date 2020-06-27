@@ -70,7 +70,7 @@ foreach ($results as $result) {
 
     if ($result->timemodified != null) {
         $lastmodified = $result->timemodified;
-        } else {
+    } else {
         $lastmodified = $result->timecreated;
     }
     /*TODO make this remove the element from the array and then in the template display section
@@ -79,11 +79,10 @@ foreach ($results as $result) {
     $tags = [$result->tags];
     $ntags = [];
     foreach ($tags as $tag) {
-        foreach ($tag as $key => $value){
-            // $ntags = [$key => $value];
+        foreach ($tag as $key => $value) {
             $ntags[$key] = $value;
         }
-    } // Gets only last item.
+    }
 
     $note[] = [
         'noteid' => $result->id, // Noteid.

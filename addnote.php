@@ -34,10 +34,10 @@ $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 
-if(!empty($_POST['id'])) {
-	$noteid = (int) $_POST['id'];
+if (!empty($_POST['id'])) {
+    $noteid = (int) $_POST['id'];
 } else {
-	$noteid = optional_param('note', 0, PARAM_INT);
+    $noteid = optional_param('note', 0, PARAM_INT);
 }
 // TODO on Cancel of existing note the noteid is in the $_POST as id
 
@@ -77,7 +77,7 @@ $currenttext = file_prepare_draft_area($draftid, $context->id, 'mod_notetaker', 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
     'cmid' => $cm->id,
-    'editoroptions'=> $editoroptions,
+    'editoroptions' => $editoroptions,
     'id' => $noteid
     ]
 );
@@ -96,7 +96,7 @@ if ($mform->is_cancelled()) {
     $fromform->timecreated = time();
 
      // Process submitted editor data.
-     if (!empty($fromform->notefield_editor['text'])) {
+    if (!empty($fromform->notefield_editor['text'])) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
         file_save_draft_area_files($draftid, $context->id, 'mod_notetaker', 'notefield', $fromform->id);
         $fromform->notefield_editor = file_rewrite_pluginfile_urls($fromform->notefield_editor, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $fromform->id);
@@ -106,7 +106,7 @@ if ($mform->is_cancelled()) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
     }
 
-    if ($fromform->id != 0){ // If it is existing note.
+    if ($fromform->id != 0) { // If it is existing note.
         $isnewnote = false;
         $DB->update_record('notetaker_notes', $fromform);
     } else {
@@ -120,7 +120,7 @@ if ($mform->is_cancelled()) {
 if (!empty($noteid)) {
     $PAGE->navbar->add(get_string('edit'));
 
- // Save and relink embedded images.
+// Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
     }

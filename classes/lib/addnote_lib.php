@@ -24,11 +24,9 @@
 
 namespace mod_notetaker\lib;
 
-use core_tag_tag;
+defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/tag/lib.php');
-
-defined('MOODLE_INTERNAL') || die;
 
 class addnote_lib {
 
@@ -42,13 +40,13 @@ class addnote_lib {
     public static function get_editor_options($course, $context) {
 
         $editoroptions = [
-        'subdirs'=> 0,
-        'maxbytes'=> $course->maxbytes,
-        'maxfiles'=> EDITOR_UNLIMITED_FILES,
-        'changeformat'=> 0,
-        'context'=> $context,
-        'noclean'=> 0,
-        'trusttext'=> 0,
+        'subdirs' => 0,
+        'maxbytes' => $course->maxbytes,
+        'maxfiles' => EDITOR_UNLIMITED_FILES,
+        'changeformat' => 0,
+        'context' => $context,
+        'noclean' => 0,
+        'trusttext' => 0,
         'enable_filemanagement' => true
         ];
 
