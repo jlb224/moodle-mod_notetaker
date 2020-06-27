@@ -37,7 +37,7 @@ class local {
      * Converts time to human readable format.
      * @param $cmid ID of the module instance.
      */
-    public static function get_notes($cmid) {
+    public static function get_notes($cmid, $context) {
         global $DB;
 
         $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
@@ -49,8 +49,9 @@ class local {
                 $result->timecreated = userdate($result->timecreated, '%d %B %Y');
             }
 
-            // Convert card text to teaser length (150 characters).
+            // Process urls and convert card text to teaser length (150 characters).
             if (isset($result->notefield)) {
+                $result->notefield = file_rewrite_pluginfile_urls($result->notefield, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
                 $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...' : $result->notefield;
                 $result->notefield = format_text($result->notefield, FORMAT_HTML);
             }

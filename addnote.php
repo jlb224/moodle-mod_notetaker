@@ -53,9 +53,19 @@ $PAGE->set_context($context);
 
 $hassiteconfig = has_capability('moodle/site:config', context_system::instance());
 
+list($editoroptions) = addnote_lib::get_editor_options($course, $context);
+
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
     $entry->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
+
+    // Prepare the notefield editor
+    // $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
+    // $entry->notefieldformat = FORMAT_HTML;
+    // $draftid_editor = file_get_submitted_draft_itemid('notefield');
+    // file_prepare_draft_area($draftid_editor, $context->id, 'mod_notetaker', 'notefield', $entry->id);
+    // $entry->notefield = $draftid_editor;
+
 } else {
     // New entry.
     if ($hassiteconfig || has_capability('mod/notetaker:write', $context)) {
@@ -64,15 +74,13 @@ if ($noteid != 0) {
     }
 }
 
-list($editoroptions) = addnote_lib::get_editor_options($course, $context);
-
-// Prepare the notefield editor. notefield is added here.
-$entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
-$entry->notefieldformat = FORMAT_HTML;
 $entry->cmid = $cm->id;
-
-$draftid = file_get_submitted_draft_itemid('notefield');
-$currenttext = file_prepare_draft_area($draftid, $context->id, 'mod_notetaker', 'notefield', $entry->id);
+    // Prepare the notefield editor
+    $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
+    $entry->notefieldformat = FORMAT_HTML;
+    $draftid_editor = file_get_submitted_draft_itemid('notefield');
+    file_prepare_draft_area($draftid_editor, $context->id, 'mod_notetaker', 'notefield', $entry->id);
+    $entry->notefield = $draftid_editor;
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
@@ -89,18 +97,11 @@ if ($mform->is_cancelled()) {
         redirect("view.php?id=$cmid");
     }
 
-} else if ($fromform = $mform->get_data()) { // If we are getting data from the form?
+} else if ($fromform = $mform->get_data()) {
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
-
-     // Process submitted editor data.
-    if (!empty($fromform->notefield_editor['text'])) {
-        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
-        file_save_draft_area_files($draftid, $context->id, 'mod_notetaker', 'notefield', $fromform->id);
-        $fromform->notefield_editor = file_rewrite_pluginfile_urls($fromform->notefield_editor, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $fromform->id);
-    }
 
     if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes') && isset($fromform->tags)) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
@@ -114,16 +115,28 @@ if ($mform->is_cancelled()) {
         $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
     }
 
+    // Save and relink embedded images.
+    if (!empty($fromform->notefield_editor)) {
+        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
+        // Only has $draftid_editor if its an existing note.
+        file_save_draft_area_files($draftid_editor, $context->id, 'mod_notetaker', 'notefield', $fromform->id, $editoroptions, $fromform->notefield);
+        $DB->update_record('notetaker_notes', $fromform);
+    }
+
+    // $fromform->notefield_editor = file_rewrite_pluginfile_urls($resource->intro,
+    // 'pluginfile.php',
+    // $contextmodule->id,
+    // 'mod_notetaker',
+    // 'notetaker',
+    // null
+// );
+
     redirect("viewnote.php?cmid=$cm->id&note=$fromform->id");
 }
 
 if (!empty($noteid)) {
     $PAGE->navbar->add(get_string('edit'));
 
-// Save and relink embedded images.
-    if (!empty($fromform->notefield_editor)) {
-        $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
-    }
 }
 
 echo $OUTPUT->header();

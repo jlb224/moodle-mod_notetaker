@@ -62,7 +62,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($notetaker->name));
 
 // Get note records.
-$results = local::get_notes($cmid);
+$results = local::get_notes($cmid, $context);
 
 $note = [];
 
