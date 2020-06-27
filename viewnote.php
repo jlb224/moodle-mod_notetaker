@@ -67,6 +67,7 @@ echo $OUTPUT->header();
 
 // Get note record.
 $result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+$result->notefield = file_rewrite_pluginfile_urls($result->notefield, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 
 $note = [];
 $note[] = [

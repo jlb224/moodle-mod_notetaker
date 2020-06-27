@@ -189,18 +189,30 @@ function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
-    require_course_login($course, true, $cm);
+
     if ($filearea !== 'notefield') {
         return false;
     }
-    $fs = get_file_storage();
-    $itemid = 0;
+
+    require_course_login($course, true, $cm);
+
     $itemid = array_shift($args);
+
     $filename = array_pop($args);
-    $fullpath = "/$context->id/mod_notetaker/$filearea/$itemid/$filename";
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
-        return false;
+    if (!$args) {
+        $filepath = '/'; // $args is empty => the path is '/'
+    } else {
+        $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
     }
+
+    $fs = get_file_storage();
+
+    $file = $fs->get_file($context->id, 'mod_notetaker', 'notefield', $itemid, $filepath, $filename);
+
+    if (!$file) {
+        return false; // The file does not exist.
+    }
+
     // Send the file.
     send_stored_file($file, 86400, 0, true, $options);
 }
