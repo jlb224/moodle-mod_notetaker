@@ -53,4 +53,20 @@ class addnote_lib {
         return array($editoroptions);
     }
 
+    /**
+     * Return the value of publicposts from mod instance settings.
+     * If allowed posts can be public to other course participants.
+     *
+     * @param  stdClass $notetakerid  notetaker object
+     * @return int 1 for allow, or 0 for not allowed
+     */
+    public static function get_publicposts_value($notetakerid) {
+        global $DB;
+
+        $publicposts = $DB->get_record('notetaker', ['id' => $notetakerid]);
+        $publicposts = $publicposts->publicposts;
+
+        return $publicposts;
+    }
+
 }

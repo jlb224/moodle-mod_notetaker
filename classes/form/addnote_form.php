@@ -47,6 +47,10 @@ class addnote_form extends \moodleform
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 
+        // Store the publicposts setting from mod_form.
+        $mform->addElement('hidden', 'publicposts', $this->_customdata['publicposts']);
+        $mform->setType('id', PARAM_BOOL);
+
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('name', 'mod_notetaker'), array('size' => '64'));
         $mform->setType('name', PARAM_CLEANHTML);
@@ -59,9 +63,12 @@ class addnote_form extends \moodleform
         // Adding the tag selector.
         $mform->addElement('tags', 'tags', get_string('tags'), array('component' => 'mod_notetaker', 'itemtype' => 'notetaker_notes'));
 
-        // Adding the "make post public" field..
+        // Adding the "make post public" field.
         $mform->addElement('selectyesno', 'publicpost', get_string('publicpost', 'mod_notetaker'));
+        // Hide unless feature is enabled in instance settings.
+        $mform->hideIf('publicpost', 'publicposts', 'eq', 0);
         $mform->setType('publicpost', PARAM_INT);
+        $mform->setType('publicposts', PARAM_INT);
         $mform->addHelpButton('publicpost', 'publicpost', 'mod_notetaker');
 
         // Action buttons.

@@ -75,18 +75,24 @@ if ($noteid != 0) {
 }
 
 $entry->cmid = $cm->id;
-    // Prepare the notefield editor
-    $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
-    $entry->notefieldformat = FORMAT_HTML;
-    $draftid_editor = file_get_submitted_draft_itemid('notefield');
-    file_prepare_draft_area($draftid_editor, $context->id, 'mod_notetaker', 'notefield', $entry->id);
-    $entry->notefield = $draftid_editor;
+
+// Prepare the notefield editor
+$entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
+$entry->notefieldformat = FORMAT_HTML;
+$draftid_editor = file_get_submitted_draft_itemid('notefield');
+file_prepare_draft_area($draftid_editor, $context->id, 'mod_notetaker', 'notefield', $entry->id);
+$entry->notefield = $draftid_editor;
+
+// See if publicposts are enabled for this instance
+$notetakerid = $notetaker->id;
+$publicposts = addnote_lib::get_publicposts_value($notetakerid);
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
     'cmid' => $cm->id,
     'editoroptions' => $editoroptions,
-    'id' => $noteid
+    'id' => $noteid,
+    'publicposts' => $publicposts
     ]
 );
 

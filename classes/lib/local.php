@@ -36,6 +36,7 @@ class local {
      * Gets the notes associated with a module instance from the database.
      * Converts time to human readable format.
      * @param $cmid ID of the module instance.
+     * @param $context current context.
      */
     public static function get_notes($cmid, $context) {
         global $DB;
