@@ -55,18 +55,13 @@ $hassiteconfig = has_capability('moodle/site:config', context_system::instance()
 
 list($editoroptions) = addnote_lib::get_editor_options($course, $context);
 
-
-
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
 
    // Prepare the notefield editor.
-    $draftitemid = file_get_submitted_draft_itemid('notefield');
     $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
     $entry->notefieldformat = FORMAT_HTML;
-    // $currenttext = file_prepare_draft_area($draftitemid, $context->id, 'mod_notetaker', 'notefield', $entry->id);
-    // $entry->notefield = array('text'=>$currenttext, 'format'=>$entry->notefieldformat, 'itemid'=>$draftitemid);
-    // $entry->notefield = $draftitemid;
+
     $entry->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
 
 } else {
@@ -115,9 +110,7 @@ if ($mform->is_cancelled()) {
 
     // Save and relink embedded images.
     if (!empty($fromform->notefield_editor)) {
-        // $fromform->itemid = $fromform->notefield_editor['itemid'];
         $fromform = file_postupdate_standard_editor($fromform, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $fromform->id);
-        // $fromform->notefield = file_save_draft_area_files($draftitemid, $context->id, 'mod_notetaker', 'notefield', $fromform->id, $editoroptions, $fromform->notefield);
         $DB->update_record('notetaker_notes', $fromform);
     }
 
