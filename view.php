@@ -84,6 +84,17 @@ foreach ($results as $result) {
         }
     }
 
+    $nimages = [$result->extractedimages];
+    $imagesrc = [];
+    foreach ($nimages as $nimage) { // Each note has array of images.
+        foreach ($nimage as $image) { // Each array contains x images.
+            foreach ($image as $key => $value) {
+                $imagesrc[$key] = $value;
+            }
+        }
+    }
+    // $imagesrc = file_rewrite_pluginfile_urls($imagesrc, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
+
     $note[] = [
         'noteid' => $result->id, // Noteid.
         'cmid' => $result->modid, // cmid.
@@ -91,7 +102,8 @@ foreach ($results as $result) {
         'notecontent' => $result->notefield,
         'lastmodified' => $lastmodified,
         'publicpost' => $result->publicpost,
-        'tag' => array_values($ntags)
+        'tag' => array_values($ntags),
+        'images' => array_values($imagesrc)
     ];
 }
 

@@ -42,6 +42,9 @@
             <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{#str}} category, mod_notetaker {{/str}}</h6>
+                {{#images}}
+                    <img src={{.}} />
+                {{/images}}
                 <p class="card-text">
                 {{{notecontent}}}
                 </p>

@@ -25,6 +25,7 @@
 namespace mod_notetaker\lib;
 
 use core_tag_tag;
+use DOMDocument;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -53,8 +54,29 @@ class local {
             // Process urls and convert card text to teaser length (150 characters).
             if (isset($result->notefield)) {
                 $result->notefield = file_rewrite_pluginfile_urls($result->notefield, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
-                $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...' : $result->notefield;
-                $result->notefield = format_text($result->notefield, FORMAT_HTML);
+                // $result->notefield = strlen($result->notefield) > 150 ? substr($result->notefield, 0, 147).'...' : $result->notefield;
+                // $result->notefield = format_text($result->notefield, FORMAT_HTML);
+
+                // Extract the images.
+                $str = $result->notefield;
+                $htmldom = new DOMDocument;
+                libxml_use_internal_errors(true); // Required for HTML5.
+                $htmldom->loadHTML($str);
+                libxml_clear_errors(); // Required for HTML5.
+                $imagetags = $htmldom->getElementsByTagName('img');
+                $extractedimages = [];
+
+                foreach ($imagetags as $imagetag) {
+                    $imgsrc = $imagetag->getAttribute('src');
+                    $alttext = $imagetag->getAttribute('alt');
+                    $titletext = $imagetag->getAttribute('title');
+                    $extractedimages[] = array(
+                        'src' => $imgsrc,
+                        // 'alt' => $alttext,
+                        // 'title' => $titletext
+                    );
+                }
+                $result->extractedimages = $extractedimages;
             }
 
             // Get the tags for this notetaker instance.
