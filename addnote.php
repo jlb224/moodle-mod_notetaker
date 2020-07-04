@@ -60,7 +60,6 @@ if ($noteid != 0) {
 
    // Prepare the notefield editor.
     $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
-    $entry->notefieldformat = FORMAT_HTML;
 
     $entry->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
 
@@ -73,6 +72,7 @@ if ($noteid != 0) {
 }
 
 $entry->cmid = $cm->id;
+$entry->notefieldformat = FORMAT_HTML;
 
 // See if publicposts are enabled for this instance
 $notetakerid = $notetaker->id;

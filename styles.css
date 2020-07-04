@@ -1,0 +1,14 @@
+.card-thumbnail {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    width: 30%;
+    height: 0;
+    padding-top: calc(0.66 * 30%);
+    background-size: cover;
+}
+
+.card-badge {
+    padding: .35em .5em;
+    font-size: 80%;
+}

@@ -47,6 +47,7 @@ class addnote_lib {
         'context' => $context,
         'noclean' => 0,
         'trusttext' => 0,
+        'autosave' => false,
         'enable_filemanagement' => true
         ];
 

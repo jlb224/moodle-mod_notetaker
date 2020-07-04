@@ -42,14 +42,16 @@
             <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{#str}} category, mod_notetaker {{/str}}</h6>
-                {{#images}}
-                    <img src={{.}} />
-                {{/images}}
+                <div>
+                    {{#images}}
+                        <span style="background-image: url({{.}});" class="card-thumbnail"></span>
+                    {{/images}}
+                </div>
                 <p class="card-text">
-                {{{notecontent}}}
+                    {{{cardtext}}}
                 </p>
                 {{#tag}}
-            <div class="badge badge-primary"><span class="sr-only">{{#str}} cardtag, mod_notetaker {{/str}}</span>{{.}}</div>
+                    <div class="badge badge-primary card-badge"><span class="sr-only">{{#str}} cardtag, mod_notetaker {{/str}}</span>{{.}}</div>
                 {{/tag}}
                 <div class="text-right">
                     <a href="{{config.wwwroot}}/mod/notetaker/viewnote.php?cmid={{cmid}}&note={{noteid}}" class="btn btn-outline-primary stretched-link" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
