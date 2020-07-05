@@ -99,6 +99,7 @@ if ($mform->is_cancelled()) {
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
     $fromform->timecreated = time();
+    $fromform->userid = $USER->id;
 
     if ($fromform->id != 0) { // If it is existing note.
         $isnewnote = false;

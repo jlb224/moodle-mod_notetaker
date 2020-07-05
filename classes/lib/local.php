@@ -39,10 +39,26 @@ class local {
      * @param $cmid ID of the module instance.
      * @param $context current context.
      */
-    public static function get_notes($cmid, $context) {
+    public static function get_notes($cmid, $context, $userid, $allowpublicposts) {
         global $DB;
 
-        $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
+        if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+            // User can only see own notes.
+            $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
+        } else {
+            // User sees all own private notes plus all public notes made by anybody.
+            $sql = "SELECT *
+                    FROM {notetaker_notes}
+                    WHERE modid = $cmid AND publicpost = 1
+                    UNION
+                    SELECT *
+                    FROM {notetaker_notes}
+                    WHERE modid = $cmid AND publicpost = 0 AND userid = :userid";
+            $params = [
+                'userid' => $userid
+            ];
+            $results = $DB->get_records_sql($sql, $params);
+        }
 
         foreach ($results as $result) {
             if ($result->timemodified != null) {
