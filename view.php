@@ -18,11 +18,10 @@
  * Prints an instance of mod_notetaker.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 use mod_notetaker\lib\local;
-use mod_notetaker\lib\view_lib;
 use mod_notetaker\form\searchnotes_form;
 
 require(__DIR__.'/../../config.php');
@@ -112,8 +111,8 @@ foreach ($results as $result) {
     }
 
     $note[] = [
-        'noteid' => $result->id, // Noteid.
-        'cmid' => $result->modid, // cmid.
+        'noteid' => $result->id,
+        'cmid' => $result->modid,
         'name' => $result->name,
         'lastmodified' => $lastmodified,
         'publicpost' => $result->publicpost,

@@ -18,7 +18,7 @@
  * Local lib - main library of static functions.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,6 +32,46 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot . '/tag/lib.php');
 
 class local {
+
+    /**
+     * Return the editor options for a note entry
+     *
+     * @param  stdClass $course  course object
+     * @param  stdClass $context context object
+     * @return array array containing the editor options
+     */
+    public static function get_editor_options($course, $context) {
+
+        $editoroptions = [
+        'subdirs' => 0,
+        'maxbytes' => $course->maxbytes,
+        'maxfiles' => EDITOR_UNLIMITED_FILES,
+        'changeformat' => 0,
+        'context' => $context,
+        'noclean' => 0,
+        'trusttext' => 0,
+        'autosave' => false,
+        'enable_filemanagement' => true
+        ];
+
+        return array($editoroptions);
+    }
+
+    /**
+     * Return the value of publicposts from mod instance settings.
+     * If allowed posts can be public to other course participants.
+     *
+     * @param  stdClass $notetakerid  notetaker object
+     * @return int 1 for allow, or 0 for not allowed
+     */
+    public static function get_publicposts_value($notetakerid) {
+        global $DB;
+
+        $publicposts = $DB->get_record('notetaker', ['id' => $notetakerid]);
+        $publicposts = $publicposts->publicposts;
+
+        return $publicposts;
+    }
 
     /**
      * Gets the notes associated with a module instance from the database.
@@ -76,14 +116,17 @@ class local {
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);
             } else {
                 // User sees all own private notes plus all public notes made by anybody.
-                // $select = $likename .
-                // 'AND modid = $cmid AND publicpost = 1
-                // UNION
-                // SELECT *
-                // FROM {notetaker_notes}
-                // WHERE modid = $cmid AND publicpost = 0 AND userid = :userid';
-                $select = $likename . 'AND userid = :userid AND modid = :modid'; // Just for testing.
-                $results = $DB->get_records_select('notetaker_notes', $select, $params);
+                $sql = "SELECT *
+                        FROM {notetaker_notes}
+                        WHERE modid = $cmid AND publicpost = 0 AND userid = :userid
+                        UNION
+                        SELECT *
+                        FROM {notetaker_notes}
+                        WHERE modid = $cmid AND publicpost = 1
+                        AND $likename";
+                $results = $DB->get_records_sql($sql, $params);
+                // $select = $likename . 'AND userid = :userid AND modid = :modid'; // Just for testing.
+                // $results = $DB->get_records_select('notetaker_notes', $select, $params);
             }
         }
 

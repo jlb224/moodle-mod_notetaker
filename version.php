@@ -18,7 +18,7 @@
  * Plugin version and other meta-data are defined here.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

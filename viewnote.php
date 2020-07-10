@@ -18,13 +18,13 @@
  * Displays a previously saved note.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+use mod_notetaker\lib\local;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
-use mod_notetaker\lib\local;
 
 $cmid = required_param('cmid', PARAM_INT); // Course module id.
 $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
@@ -52,7 +52,6 @@ if ($delete) {
     if (!$confirm) {
         echo $OUTPUT->header();
         $message = get_string('confirmdelete', 'mod_notetaker');
-        // TODO this is no longer working.
         $continue = '?delete='.$delete.'&cmid='.$cmid.'&note='.$noteid.'&confirm=1';
         // Print a message along with choices for continue / cancel.
         echo $OUTPUT->confirm($message, $continue, $url);

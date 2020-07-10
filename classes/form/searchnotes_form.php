@@ -16,10 +16,9 @@
 
 /**
  * The mod_notetaker search note form.
- * Copied mainly from Global search search form definition by Prateek Sachan {@link http://prateeksachan.com}
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

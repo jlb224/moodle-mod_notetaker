@@ -18,12 +18,12 @@
  * Adds a new note to the instance of mod_notetaker.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 use mod_notetaker\form\addnote_form;
-use mod_notetaker\lib\addnote_lib;
+use mod_notetaker\lib\local;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
@@ -39,7 +39,6 @@ if (!empty($_POST['id'])) {
 } else {
     $noteid = optional_param('note', 0, PARAM_INT);
 }
-// TODO on Cancel of existing note the noteid is in the $_POST as id.
 
 require_login($course, true, $cm);
 
@@ -53,7 +52,7 @@ $PAGE->set_context($context);
 
 $hassiteconfig = has_capability('moodle/site:config', context_system::instance());
 
-list($editoroptions) = addnote_lib::get_editor_options($course, $context);
+list($editoroptions) = local::get_editor_options($course, $context);
 
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
@@ -76,7 +75,7 @@ $entry->notefieldformat = FORMAT_HTML;
 
 // See if publicposts are enabled for this instance.
 $notetakerid = $notetaker->id;
-$publicposts = addnote_lib::get_publicposts_value($notetakerid);
+$publicposts = local::get_publicposts_value($notetakerid);
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [

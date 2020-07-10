@@ -18,7 +18,7 @@
  * Display information about all the mod_notetaker modules in the requested course.
  *
  * @package     mod_notetaker
- * @copyright   2020 Jo Beaver <myemail@example.com>
+ * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,14 +55,12 @@ echo $OUTPUT->header();
 $modulenameplural = get_string('modulenameplural', 'mod_notetaker');
 echo $OUTPUT->heading($modulenameplural);
 
-// TODO only get users own. Except if public.
 $notetakers = get_all_instances_in_course('notetaker', $course);
 
 if (empty($notetakers)) {
     notice(get_string('nonewmodules', 'mod_notetaker'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
-// TODO move display into a mustache template.
 $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
