@@ -32,11 +32,13 @@
 <div class="mod_view">
     <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
+    {{{search_html}}}
+
     <div class="py-3 text-right">
         <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
     </div>
 
-    <div class="card-columns">
+    <div class="card-columns" id="m-notes">
         {{#note}}
         <div class="card border-secondary mb-3">
             <div class="card-body">

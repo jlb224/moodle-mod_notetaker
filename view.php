@@ -21,10 +21,12 @@
  * @copyright   2020 Jo Beaver <myemail@example.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+use mod_notetaker\lib\local;
+use mod_notetaker\lib\view_lib;
+use mod_notetaker\form\searchnotes_form;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
-use mod_notetaker\lib\local;
 
 $cmid = required_param('id', PARAM_INT); // Course module id.
 $n  = optional_param('n', 0, PARAM_INT); // Module instance id.
@@ -50,7 +52,7 @@ require_capability('mod/notetaker:view', $context);
 // Completion and trigger events.
 notetaker_view($notetaker, $course, $cm, $context);
 
-$url = new moodle_url('/mod/notetaker/view.php', array('cmid' => $cm->id));
+$url = new moodle_url('/mod/notetaker/view.php', array('id' => $cmid));
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -58,14 +60,30 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 $PAGE->requires->css('/mod/notetaker/styles.css');
 
+// Create form and set initial data.
+$mform = new searchnotes_form(null, [
+    'id' => $cmid
+    ]
+);
+
+$search = "";
+if ($fromform = $mform->get_data()) {
+    $search = $fromform->q;
+}
+
+// Get notes.
+$userid = $USER->id;
+$allowpublicposts = $DB->get_field('notetaker', 'publicposts', ['course' => $course->id, 'id' => $notetaker->id]);
+$results = local::get_notes($cmid, $context, $userid, $allowpublicposts, $search);
+
 echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
 
-// Get note records.
-$userid = $USER->id;
-$allowpublicposts = $DB->get_field('notetaker', 'publicposts', ['course' => $course->id, 'id' => $notetaker->id]);
-$results = local::get_notes($cmid, $context, $userid, $allowpublicposts);
+ob_start();
+$mform->display();
+$mform_html = ob_get_contents();
+ob_end_clean();
 
 $note = [];
 
@@ -110,7 +128,8 @@ foreach ($results as $result) {
 
 $data = (object) [
     'cmid' => $cmid,
-    'note' => array_values($note)
+    'note' => array_values($note),
+    'search_html' => $mform_html
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);

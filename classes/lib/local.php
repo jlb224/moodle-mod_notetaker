@@ -39,25 +39,52 @@ class local {
      * @param $cmid ID of the module instance.
      * @param $context current context.
      */
-    public static function get_notes($cmid, $context, $userid, $allowpublicposts) {
+    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null) {
         global $DB;
 
-        if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
-            // User can only see own notes.
-            $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
+        $params = [];
+        $modid = $cmid;
+
+        if (empty($search)) {
+
+            if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+                // User can only see own notes.
+                $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
+            } else {
+                // User sees all own private notes plus all public notes made by anybody.
+                $sql = "SELECT *
+                        FROM {notetaker_notes}
+                        WHERE modid = $cmid AND publicpost = 1
+                        UNION
+                        SELECT *
+                        FROM {notetaker_notes}
+                        WHERE modid = $cmid AND publicpost = 0 AND userid = :userid";
+                $params = [
+                    'userid' => $userid
+                ];
+                $results = $DB->get_records_sql($sql, $params);
+            }
+
         } else {
-            // User sees all own private notes plus all public notes made by anybody.
-            $sql = "SELECT *
-                    FROM {notetaker_notes}
-                    WHERE modid = $cmid AND publicpost = 1
-                    UNION
-                    SELECT *
-                    FROM {notetaker_notes}
-                    WHERE modid = $cmid AND publicpost = 0 AND userid = :userid";
-            $params = [
-                'userid' => $userid
-            ];
-            $results = $DB->get_records_sql($sql, $params);
+            $likename = $DB->sql_like('name', ':name', false);
+            $name = '%'.$DB->sql_like_escape($search).'%';
+            $params = ['userid' => $userid, 'modid' => $modid, 'name' => $name];
+
+            if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+                // User can only see own notes.
+                $select = $likename . 'AND userid = :userid AND modid = :modid';
+                $results = $DB->get_records_select('notetaker_notes', $select, $params);
+            } else {
+                // User sees all own private notes plus all public notes made by anybody.
+                // $select = $likename .
+                // 'AND modid = $cmid AND publicpost = 1
+                // UNION
+                // SELECT *
+                // FROM {notetaker_notes}
+                // WHERE modid = $cmid AND publicpost = 0 AND userid = :userid';
+                $select = $likename . 'AND userid = :userid AND modid = :modid'; // Just for testing.
+                $results = $DB->get_records_select('notetaker_notes', $select, $params);
+            }
         }
 
         foreach ($results as $result) {
