@@ -36,7 +36,7 @@ class searchnotes_form extends \moodleform
         $mform = $this->_form;
         $mform->disable_form_change_checker();
 
-        // // Store the cmid.
+        // Store the cmid.
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 

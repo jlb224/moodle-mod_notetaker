@@ -200,9 +200,9 @@ function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     $filename = array_pop($args);
     if (!$args) {
-        $filepath = '/'; // $args is empty => the path is '/'
+        $filepath = '/'; // Here $args is empty => the path is '/'.
     } else {
-        $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
+        $filepath = '/'.implode('/', $args).'/'; // Here $args contains elements of the filepath.
     }
 
     $fs = get_file_storage();

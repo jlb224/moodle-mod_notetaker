@@ -82,7 +82,7 @@ echo $OUTPUT->heading(format_string($notetaker->name));
 
 ob_start();
 $mform->display();
-$mform_html = ob_get_contents();
+$mformhtml = ob_get_contents();
 ob_end_clean();
 
 $note = [];
@@ -123,13 +123,10 @@ foreach ($results as $result) {
     ];
 }
 
-// print_object($note);
-// die();
-
 $data = (object) [
     'cmid' => $cmid,
     'note' => array_values($note),
-    'search_html' => $mform_html
+    'search_html' => $mformhtml
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);

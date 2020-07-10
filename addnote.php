@@ -39,7 +39,7 @@ if (!empty($_POST['id'])) {
 } else {
     $noteid = optional_param('note', 0, PARAM_INT);
 }
-// TODO on Cancel of existing note the noteid is in the $_POST as id
+// TODO on Cancel of existing note the noteid is in the $_POST as id.
 
 require_login($course, true, $cm);
 
@@ -58,7 +58,7 @@ list($editoroptions) = addnote_lib::get_editor_options($course, $context);
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
 
-   // Prepare the notefield editor.
+    // Prepare the notefield editor.
     $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
 
     $entry->tags = core_tag_tag::get_item_tags_array('mod_notetaker', 'notetaker_notes', $noteid);
@@ -74,7 +74,7 @@ if ($noteid != 0) {
 $entry->cmid = $cm->id;
 $entry->notefieldformat = FORMAT_HTML;
 
-// See if publicposts are enabled for this instance
+// See if publicposts are enabled for this instance.
 $notetakerid = $notetaker->id;
 $publicposts = addnote_lib::get_publicposts_value($notetakerid);
 

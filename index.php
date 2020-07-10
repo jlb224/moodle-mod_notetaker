@@ -55,7 +55,7 @@ echo $OUTPUT->header();
 $modulenameplural = get_string('modulenameplural', 'mod_notetaker');
 echo $OUTPUT->heading($modulenameplural);
 
-// TODO only get users own. Except if public
+// TODO only get users own. Except if public.
 $notetakers = get_all_instances_in_course('notetaker', $course);
 
 if (empty($notetakers)) {
@@ -97,8 +97,5 @@ foreach ($notetakers as $notetaker) {
 }
 
 echo html_writer::table($table);
-
-// $data = ['name' => 'Test'];
-// echo $OUTPUT->render_from_template('mod_notetaker/index', ['rows' => $data]);
 
 echo $OUTPUT->footer();
