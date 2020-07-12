@@ -68,11 +68,17 @@
                     <div class="badge badge-primary card-badge"><span class="sr-only">{{#str}} cardtag, mod_notetaker {{/str}}</span>{{.}}</div>
                 {{/tag}}
                 <div class="text-right">
-                    <a href="{{config.wwwroot}}/mod/notetaker/viewnote.php?cmid={{cmid}}&note={{noteid}}" class="btn btn-outline-primary stretched-link" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
+                    <a href="{{config.wwwroot}}/mod/notetaker/viewnote.php?cmid={{cmid}}&note={{noteid}}" class="btn btn-outline-primary" role="button">{{#str}} view, mod_notetaker {{/str}}</a>
                 </div>
             </div>
             <div class="card-footer text-muted">
                 <small>{{#str}} lastmodified, mod_notetaker {{/str}}{{lastmodified}}</small>
+                {{#publicpost}}
+                    <span class="float-right" title="{{#str}} ispublicpost, mod_notetaker {{/str}}"><i class="fa fa-unlock" aria-hidden="true"></i></span>
+                {{/publicpost}}
+                {{^publicpost}}
+                    <span class="float-right" title="{{#str}} isnotpublicpost, mod_notetaker {{/str}}"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                {{/publicpost}}
             </div>
         </div>
         {{/note}}

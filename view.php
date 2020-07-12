@@ -131,6 +131,8 @@ $data = (object) [
     'search_html' => $mformhtml,
     'intro' => $intro
 ];
+// print_object($data);
+// die();
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
 
