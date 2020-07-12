@@ -53,11 +53,13 @@ class addnote_form extends \moodleform
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('name', 'mod_notetaker'), array('size' => '64'));
+        $mform->addRule('name', get_string('required'), 'required');
         $mform->setType('name', PARAM_CLEANHTML);
 
         // Adding the editor.
         $editoroptions = $this->_customdata['editoroptions'];
         $mform->addElement('editor', 'notefield_editor', get_string('notecontent', 'mod_notetaker'), null, $editoroptions);
+        $mform->addRule('notefield_editor', get_string('required'), 'required');
         $mform->setType('notefield_editor', PARAM_RAW);
 
         // Adding the tag selector.

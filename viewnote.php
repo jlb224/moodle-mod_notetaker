@@ -58,7 +58,7 @@ if ($delete) {
         echo $OUTPUT->footer();
     } else {
         local::delete($cmid, $noteid);
-        redirect(new moodle_url('/mod/notetaker/view.php', ['cmid' => $cm->id]), get_string('success'), 5);
+        redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
     }
 }
 

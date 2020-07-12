@@ -102,6 +102,7 @@ if ($mform->is_cancelled()) {
 
     if ($fromform->id != 0) { // If it is existing note.
         $isnewnote = false;
+        $fromform->id = $noteid;
         $DB->update_record('notetaker_notes', $fromform);
     } else {
         $isnewnote = true;
