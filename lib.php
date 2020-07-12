@@ -190,7 +190,7 @@ function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
         return false;
     }
 
-    if ($filearea !== 'notefield') {
+    if ($filearea !== 'notefield' || $filearea !== 'intro') {
         return false;
     }
 

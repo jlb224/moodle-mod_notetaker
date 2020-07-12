@@ -70,6 +70,9 @@ if ($fromform = $mform->get_data()) {
     $search = $fromform->q;
 }
 
+// Get the notetaker description.
+$intro = local::get_notetaker_desc($course, $notetaker, $context);
+
 // Get notes.
 $userid = $USER->id;
 $allowpublicposts = $DB->get_field('notetaker', 'publicposts', ['course' => $course->id, 'id' => $notetaker->id]);
@@ -125,7 +128,8 @@ foreach ($results as $result) {
 $data = (object) [
     'cmid' => $cmid,
     'note' => array_values($note),
-    'search_html' => $mformhtml
+    'search_html' => $mformhtml,
+    'intro' => $intro
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);

@@ -34,11 +34,6 @@ class addnote_form extends \moodleform
 
         $mform = $this->_form;
 
-        $addintro = '<p>' . get_string('addintro', 'mod_notetaker') . '</p>';
-
-        // Intoduction.
-        $mform->addElement('html', $addintro);
-
         // Store the cmid.
         $mform->addElement('hidden', 'cmid', $this->_customdata['cmid']);
         $mform->setType('cmid', PARAM_INT);

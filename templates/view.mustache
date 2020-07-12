@@ -26,6 +26,7 @@
     * None
 
     Context variables required for this template:
+    * intro: takes the text from the notetaker description
     * search_html: the search input field and submit button.
     * cmid: the course module id.
     * name: the note name.
@@ -36,9 +37,14 @@
 }}
 
 <div class="mod_view">
-    <p>{{#str}} viewintro, mod_notetaker {{/str}}</p>
 
-    {{{search_html}}}
+    <div>
+        {{{intro}}}
+    </div>
+
+    <div>
+        {{{search_html}}}
+    </div>
 
     <div class="py-3 text-right">
         <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>

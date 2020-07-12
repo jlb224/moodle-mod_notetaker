@@ -28,11 +28,12 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = "Notetaker";
 $string['modulename'] = "Notetaker";
 $string['modulenameplural'] = "Notes";
-$string['modulename_help'] = "A notetaker is a course resource where students can add notes";
+$string['modulename_help'] = "A notetaker is a course resource where students can add notes. 
+If the notetaker instance is set to allow public notes, the course participant can choose whether their notes should be private and only visible to themselves, 
+or to make them public and share them with other course participants.";
 
 // Plugin strings.
 $string['add'] = "Add";
-$string['addintro'] = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique iure atque dolorum! Facilis in temporibus hic voluptatem itaque error placeat minus quia repellat laboriosam, incidunt saepe dicta suscipit ab nulla.";
 $string['addnote'] = "Add note";
 $string['allowpublicposts'] = "Allow public posts";
 $string['allowpublicposts_help'] = "If yes, the user can choose to make their posts visible to other participants";
@@ -41,7 +42,6 @@ $string['attachment_filemanager_help'] = "Add text";
 $string['category'] = "Category";
 $string['confirmdelete'] = "Are you sure you want to delete?";
 $string['edit'] = "Edit";
-$string['indexintro'] = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique iure atque dolorum! Facilis in temporibus hic voluptatem itaque error placeat minus quia repellat laboriosam, incidunt saepe dicta suscipit ab nulla.";
 $string['lastmodified'] = "Last modified: ";
 $string['missingidandcmid'] = "Error: Missing ID and CMID.";
 $string['name'] = "Name";
@@ -56,5 +56,3 @@ $string['pluginadministration'] = "Plugin administration";
 $string['cardtag'] = "Card tag";
 $string['tagarea_notetaker_notes'] = 'Notetaker notes';
 $string['view'] = "View";
-$string['viewintro'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur qui tempora quo facilis nostrum, aspernatur pariatur quasi vel, illum libero,
-molestiae fugiat nesciunt. Cupiditate alias quasi nemo tempora, quos a.";

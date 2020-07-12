@@ -183,4 +183,20 @@ class local {
         global $DB;
         $DB->delete_records('notetaker_notes', ['modid' => $cmid, 'id' => $noteid]);
     }
+
+    /**
+     * Gets the description from the notetaker instance.
+     *
+     * @param stdClass $course course object
+     * @param stdClass $notetaker notetaker object
+     * @param stdClass $context context object
+     */
+    public static function get_notetaker_desc ($course, $notetaker, $context) {
+        global $DB;
+
+        $intro = $DB->get_field('notetaker', 'intro', ['course' => $course->id, 'id' => $notetaker->id]);
+        $intro = file_rewrite_pluginfile_urls($intro, 'pluginfile.php', $context->id, 'mod_notetaker', 'intro', null);
+
+        return $intro;
+    }
 }

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin upgrade steps are defined here.
+ * Execute mod_notetaker upgrade from the given old version.
  *
  * @package     mod_notetaker
  * @category    upgrade
@@ -25,12 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Execute mod_notetaker upgrade from the given old version.
- *
- * @param int $oldversion
- * @return bool
- */
 function xmldb_notetaker_upgrade($oldversion) {
     global $DB;
 
