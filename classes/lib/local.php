@@ -80,7 +80,7 @@ class local {
      * @param $context current context.
      */
     public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null) {
-        global $DB;
+        global $DB, $USER;
 
         $params = [];
         $modid = $cmid;

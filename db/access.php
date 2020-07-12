@@ -25,25 +25,36 @@
 defined('MOODLE_INTERNAL') || die;
 
 $capabilities = array(
-    'mod/notetaker:managenotes' => [
+
+    'mod/notetaker:addinstance' => [
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
-        'riskbitmaskt' => 'RISK_PERSONAL',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:manageactivities'
+    ],
+
+    'mod/notetaker:addnote' => [
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
+            'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
     ],
 
-    'mod/notetaker:write' => [
-
-        'riskbitmask' => RISK_SPAM,
-
+    'mod/notetaker:managenotes' => [
         'captype' => 'write',
+        'riskbitmaskt' => 'RISK_PERSONAL',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
-            'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
@@ -60,17 +71,5 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
-    ],
-
-    'mod/notetaker:addinstance' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ]
 );

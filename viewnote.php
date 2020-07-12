@@ -69,6 +69,13 @@ $result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $notei
 $messagetext = $result->notefield;
 $messagetext = file_rewrite_pluginfile_urls($messagetext, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 
+$result->noteowner = "";
+if ($result->userid == $USER->id) {
+    $result->noteowner = true;
+} else {
+    $result->noteowner = false;
+}
+
 $note = [];
 $note[] = [
     'name' => $result->name,
@@ -80,7 +87,8 @@ $data = (object) [
     'id' => $cmid,
     'cmid' => $cmid,
     'noteid' => $noteid,
-    'note' => array_values($note)
+    'note' => array_values($note),
+    'noteowner' => $result->noteowner
 ];
 
 echo $OUTPUT->render_from_template('mod_notetaker/viewnote', $data);

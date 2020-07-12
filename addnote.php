@@ -64,7 +64,7 @@ if ($noteid != 0) {
 
 } else {
     // New entry.
-    if ($hassiteconfig || has_capability('mod/notetaker:write', $context)) {
+    if ($hassiteconfig || has_capability('mod/notetaker:addnote', $context)) {
         $entry = new stdClass();
         $entry->id = null;
     }
