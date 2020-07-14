@@ -56,13 +56,14 @@
             <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{#str}} category, mod_notetaker {{/str}}</h6>
-                <div>
+                <div class="d-flex flex-nowrap">
                     {{#images}}
-                        <span style="background-image: url({{.}});" class="card-thumbnail"></span>
+                        <span style="background-image: url({{imageurl}});" class="card-thumbnail">
+                        {{#lastitem}}
+                            <span class="extracount">{{extracount}}</span>
+                        {{/lastitem}}</span>
                     {{/images}}
-                    {{#truncateimages}}
-                        <span class="image-count">{{imagecount}}</span>
-                    {{/truncateimages}}
+
                 </div>
                 <p class="card-text">
                     {{{cardtext}}}

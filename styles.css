@@ -2,17 +2,26 @@
 .card-thumbnail {
     border: 1px solid #ddd;
     border-radius: 4px;
-    display: inline-block;
+    display: flex;
     width: 30%;
     height: 0;
     padding-top: calc(0.66 * 30%);
     background-size: cover;
+    justify-content: center;
 }
 
 .card-badge {
     padding: .35em .5em;
     font-size: 80%;
 }
+
+.extracount {
+    /* color: white; */
+    color: red;
+    align-self: center;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
 
 /* View notes search field */
 #note-search {

@@ -107,7 +107,8 @@ foreach ($results as $result) {
 
     $nimages = [$result->extractedimages];
     $imagesrc = [];
-    $imagecount = "";
+    $extracount = "";
+    $lastitems = [];
     $i = 0;
     foreach ($nimages as $nimage) {
         foreach ($nimage as $key => $value) {
@@ -121,9 +122,14 @@ foreach ($results as $result) {
         }
     }
 
+    foreach($imagesrc as $key => $val){
+        $lastitems[] = (object)["imageurl" => $value, "lastitem" => false];
+    }
+    end($lastitems)->lastitem = true;
+
+    // Get the count of additional images.
     if ($result->imagecount > 3) {
-        $imagecount = '+'.$result->imagecount;
-        $truncateimages = 1;
+        $extracount = '+'.$result->imagecount - 3;
     }
 
     $note[] = [
@@ -133,10 +139,9 @@ foreach ($results as $result) {
         'lastmodified' => $lastmodified,
         'publicpost' => $result->publicpost,
         'tag' => array_values($ntags),
-        'images' => array_values($imagesrc),
+        'images' => $lastitems,
         'cardtext' => $result->cardtext,
-        'imagecount' => $imagecount,
-        'truncateimages' => $truncateimages
+        'extracount' => $extracount
     ];
 }
 
