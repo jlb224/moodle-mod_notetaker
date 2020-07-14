@@ -129,7 +129,7 @@ foreach ($results as $result) {
 
     // Get the count of additional images.
     if ($result->imagecount > 3) {
-        $extracount = '+'.$result->imagecount - 3;
+        $extracount = '+'. ($result->imagecount - 3);
     }
 
     $note[] = [
