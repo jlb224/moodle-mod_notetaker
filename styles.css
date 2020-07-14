@@ -1,3 +1,4 @@
+/* View notes */
 .card-thumbnail {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -13,7 +14,28 @@
     font-size: 80%;
 }
 
-/* #searchnotes_form .fitem {
-    width: 50%;
-    display: inline-block;
-} */
+/* View notes search field */
+#note-search {
+    margin-top: 2.5em;
+}
+
+#fitem_id_submitbutton {
+    display: inline;
+    margin-left: 0;
+}
+
+#fitem_id_q {
+    display: inline;
+}
+
+#fitem_id_q > div.col-md-9.form-inline.felement {
+    max-width: 100%;
+    padding-right: 0;
+}
+
+@media (min-width: 768px) {
+
+    #fitem_id_q > div.col-md-9.form-inline.felement {
+        max-width: 100%;
+    }
+}

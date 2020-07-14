@@ -42,12 +42,12 @@
         {{{intro}}}
     </div>
 
-    <div>
+    <div id="note-search" >
         {{{search_html}}}
     </div>
 
     <div class="py-3 text-right">
-        <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} add, mod_notetaker {{/str}}</a>
+        <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} addnote, mod_notetaker {{/str}}</a>
     </div>
 
     <div class="card-columns" id="m-notes">
@@ -60,6 +60,9 @@
                     {{#images}}
                         <span style="background-image: url({{.}});" class="card-thumbnail"></span>
                     {{/images}}
+                    {{#truncateimages}}
+                        <span class="image-count">{{imagecount}}</span>
+                    {{/truncateimages}}
                 </div>
                 <p class="card-text">
                     {{{cardtext}}}

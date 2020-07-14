@@ -75,6 +75,7 @@ class local {
 
     /**
      * Gets the notes associated with a module instance from the database.
+     *
      * Converts time to human readable format.
      * @param $cmid ID of the module instance.
      * @param $context current context.
@@ -94,13 +95,10 @@ class local {
                 // User sees all own private notes plus all public notes made by anybody.
                 $sql = "SELECT *
                         FROM {notetaker_notes}
-                        WHERE modid = $cmid AND publicpost = 1
-                        UNION
-                        SELECT *
-                        FROM {notetaker_notes}
-                        WHERE modid = $cmid AND publicpost = 0 AND userid = :userid";
+                        WHERE modid = :modid AND (publicpost = 1 OR userid = :userid)";
                 $params = [
-                    'userid' => $userid
+                    'userid' => $userid,
+                    'modid' => $modid
                 ];
                 $results = $DB->get_records_sql($sql, $params);
             }
@@ -118,15 +116,9 @@ class local {
                 // User sees all own private notes plus all public notes made by anybody.
                 $sql = "SELECT *
                         FROM {notetaker_notes}
-                        WHERE modid = $cmid AND publicpost = 0 AND userid = :userid
-                        UNION
-                        SELECT *
-                        FROM {notetaker_notes}
-                        WHERE modid = $cmid AND publicpost = 1
+                        WHERE modid = :modid AND (publicpost = 1 OR userid = :userid)
                         AND $likename";
                 $results = $DB->get_records_sql($sql, $params);
-                // $select = $likename . 'AND userid = :userid AND modid = :modid'; // Just for testing.
-                // $results = $DB->get_records_select('notetaker_notes', $select, $params);
             }
         }
 
@@ -156,6 +148,7 @@ class local {
                     $extractedimages[] = $imgsrc;
                 }
                 $result->extractedimages = $extractedimages;
+                $result->imagecount = count($extractedimages);
 
                 // Extract the text.
                 $ptags = $htmldom->getElementsByTagName('p'); // Problem here is that Atto sometimes saves text in divs and not p tags.
@@ -176,6 +169,7 @@ class local {
 
     /**
      * Deletes a note from the database.
+     *
      * @param $cmid ID of the module instance.
      * @param $noteid ID of the note.
      */

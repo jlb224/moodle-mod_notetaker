@@ -107,10 +107,23 @@ foreach ($results as $result) {
 
     $nimages = [$result->extractedimages];
     $imagesrc = [];
+    $imagecount = "";
+    $i = 0;
     foreach ($nimages as $nimage) {
         foreach ($nimage as $key => $value) {
             $imagesrc[$key] = $value;
+            if ($i < 2) {
+                $imagesrc[$key] = $value;
+                $i++;
+            } else {
+            break;
+            }
         }
+    }
+
+    if ($result->imagecount > 3) {
+        $imagecount = '+'.$result->imagecount;
+        $truncateimages = 1;
     }
 
     $note[] = [
@@ -121,7 +134,9 @@ foreach ($results as $result) {
         'publicpost' => $result->publicpost,
         'tag' => array_values($ntags),
         'images' => array_values($imagesrc),
-        'cardtext' => $result->cardtext
+        'cardtext' => $result->cardtext,
+        'imagecount' => $imagecount,
+        'truncateimages' => $truncateimages
     ];
 }
 

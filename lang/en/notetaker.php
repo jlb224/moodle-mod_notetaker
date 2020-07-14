@@ -33,12 +33,9 @@ If the notetaker instance is set to allow public notes, the course participant c
 or to make them public and share them with other course participants.";
 
 // Plugin strings.
-$string['add'] = "Add";
 $string['addnote'] = "Add note";
 $string['allowpublicposts'] = "Allow public notes";
 $string['allowpublicposts_help'] = "If yes, the user can choose to make their notes visible to other participants";
-$string['attachment_filemanager'] = "Add text";
-$string['attachment_filemanager_help'] = "Add text";
 $string['category'] = "Category";
 $string['confirmdelete'] = "Are you sure you want to delete?";
 $string['edit'] = "Edit";

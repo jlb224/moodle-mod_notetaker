@@ -39,16 +39,17 @@ class searchnotes_form extends \moodleform
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('html', '<div class="input-group">');
+        $mform->addElement('html', '<span class="input-group">');
 
         $mform->addElement('text', 'q');
         $mform->setType('q', PARAM_TEXT);
 
-        $mform->addElement('html', '<div class="input-group-append">');
+        $mform->addElement('html', '<span class="input-group-append">');
         $this->add_action_buttons(false, get_string('search', 'search'));
-        $mform->addElement('html', '</div>');
-
-        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '<a role="button" href="#" class="btn btn-link">'. get_string('remove'));
+        $mform->addElement('html', '</a>');
+        $mform->addElement('html', '</span>');
+        $mform->addElement('html', '</span>');
     }
 }
 
