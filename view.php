@@ -112,8 +112,7 @@ foreach ($results as $result) {
     $i = 0;
     foreach ($nimages as $nimage) {
         foreach ($nimage as $key => $value) {
-            $imagesrc[$key] = $value;
-            if ($i < 2) {
+            if ($i < 3) {
                 $imagesrc[$key] = $value;
                 $i++;
             } else {
@@ -122,7 +121,7 @@ foreach ($results as $result) {
         }
     }
 
-    foreach($imagesrc as $key => $val){
+    foreach($imagesrc as $key => $value){
         $lastitems[] = (object)["imageurl" => $value, "lastitem" => false];
     }
     end($lastitems)->lastitem = true;
@@ -151,8 +150,6 @@ $data = (object) [
     'search_html' => $mformhtml,
     'intro' => $intro
 ];
-// print_object($data);
-// die();
 
 echo $OUTPUT->render_from_template('mod_notetaker/view', $data);
 
