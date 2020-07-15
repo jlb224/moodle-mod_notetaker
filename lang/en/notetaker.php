@@ -36,6 +36,7 @@ or to make them public and share them with other course participants.";
 $string['addnote'] = "Add note";
 $string['allowpublicposts'] = "Allow public notes";
 $string['allowpublicposts_help'] = "If yes, the user can choose to make their notes visible to other participants";
+$string['backtonotes'] = "Return to notes";
 $string['category'] = "Category";
 $string['confirmdelete'] = "Are you sure you want to delete?";
 $string['edit'] = "Edit";

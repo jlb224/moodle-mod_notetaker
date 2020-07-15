@@ -46,7 +46,7 @@ class searchnotes_form extends \moodleform
 
         $mform->addElement('html', '<span class="input-group-append">');
         $this->add_action_buttons(false, get_string('search', 'search'));
-        $mform->addElement('html', '<a role="button" href="#" class="btn btn-link">'. get_string('remove'));
+        $mform->addElement('html', '<a role="button" href="#" class="btn btn-link">'. get_string('clear'));
         $mform->addElement('html', '</a>');
         $mform->addElement('html', '</span>');
         $mform->addElement('html', '</span>');

@@ -33,6 +33,9 @@
 }}
 
 <div class="mod_viewnote">
+    <span class="py-3 float-right">
+        <a href="{{config.wwwroot}}/mod/notetaker/view.php?id={{cmid}}" class="btn btn-light">{{#str}} backtonotes, mod_notetaker {{/str}}</a>
+    </span>
     {{#note}}
         <h2>{{name}}</h2>
         <div>
@@ -40,7 +43,7 @@
         </div>
     {{/note}}
     {{#noteowner}}
-        <div>
+        <div class="mt-4">
             <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}&note={{noteid}}"><i class="icon fa fa-edit"></i></a>
             <a title="{{#str}} delete {{/str}}" href="?delete={{id}}&cmid={{cmid}}&note={{noteid}}"><i class="icon fa fa-trash"></i></a>
         </div>

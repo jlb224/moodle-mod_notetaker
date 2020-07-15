@@ -42,7 +42,7 @@ if (!empty($_POST['id'])) {
 
 require_login($course, true, $cm);
 
-$context = context_module::instance($cm->id);
+$context = context_module::instance($cmid);
 $url = new moodle_url('/mod/notetaker/addnote.php', ['cmid' => $cm->id]);
 
 $PAGE->set_url($url);
@@ -70,7 +70,7 @@ if ($noteid != 0) {
     }
 }
 
-$entry->cmid = $cm->id;
+$entry->cmid = $cmid;
 $entry->notefieldformat = FORMAT_HTML;
 
 // See if publicposts are enabled for this instance.
@@ -97,15 +97,16 @@ if ($mform->is_cancelled()) {
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
     $fromform->modid = $cm->id;
-    $fromform->timecreated = time();
     $fromform->userid = $USER->id;
 
     if ($fromform->id != 0) { // If it is existing note.
         $isnewnote = false;
         $fromform->id = $noteid;
+        $fromform->timemodified = time();
         $DB->update_record('notetaker_notes', $fromform);
     } else {
         $isnewnote = true;
+        $fromform->timecreated = time();
         $fromform->id = $DB->insert_record('notetaker_notes', $fromform);
     }
 

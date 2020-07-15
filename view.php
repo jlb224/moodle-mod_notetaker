@@ -124,7 +124,10 @@ foreach ($results as $result) {
     foreach($imagesrc as $key => $value){
         $lastitems[] = (object)["imageurl" => $value, "lastitem" => false];
     }
-    end($lastitems)->lastitem = true;
+
+    if(isset($imagesrc)){
+        end($lastitems)->lastitem = true; // This generates error if no images.
+    }
 
     // Get the count of additional images.
     if ($result->imagecount > 3) {
