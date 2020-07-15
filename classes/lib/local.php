@@ -80,15 +80,16 @@ class local {
      * @param $cmid ID of the module instance.
      * @param $context current context.
      */
-    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null) {
+    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig) {
         global $DB, $USER;
 
         $params = [];
         $modid = $cmid;
 
         if (empty($search)) {
-
-            if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+            if ($hassiteconfig) {
+                $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
+            } elseif ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
                 $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
             } else {
@@ -108,7 +109,11 @@ class local {
             $name = '%'.$DB->sql_like_escape($search).'%';
             $params = ['userid' => $userid, 'modid' => $modid, 'name' => $name];
 
-            if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+            if ($hassiteconfig) {
+                $select = $likename . 'AND modid = :modid';
+                $results = $DB->get_records_select('notetaker_notes', $select, $params);
+
+            } elseif ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
                 $select = $likename . 'AND userid = :userid AND modid = :modid';
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);

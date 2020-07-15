@@ -76,7 +76,8 @@ $intro = local::get_notetaker_desc($course, $notetaker, $context);
 // Get notes.
 $userid = $USER->id;
 $allowpublicposts = $DB->get_field('notetaker', 'publicposts', ['course' => $course->id, 'id' => $notetaker->id]);
-$results = local::get_notes($cmid, $context, $userid, $allowpublicposts, $search);
+$hassiteconfig = has_capability('moodle/site:config', context_system::instance());
+$results = local::get_notes($cmid, $context, $userid, $allowpublicposts, $search, $hassiteconfig);
 
 echo $OUTPUT->header();
 

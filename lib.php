@@ -112,7 +112,7 @@ function notetaker_delete_instance($id) {
     $cm = get_coursemodule_from_instance('notetaker', $id);
 
     $DB->delete_records('notetaker', array('id' => $id));
-    $DB->delete_records('notetaker_notes', ['modid' => $cm->id]);
+    // $DB->delete_records('notetaker_notes', ['modid' => $cm->id]);
 
     return true;
 }
