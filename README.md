@@ -5,15 +5,16 @@ This is a Moodle plugin that allows a student to create notes within a course.
 If the notetaker instance is set to allow public notes, the student can choose whether their notes should be private and only visible to themselves, or to make them public and share them with other course participants.
 Students are permitted to view all their own private notes plus all public notes made by anybody.
 The teacher can monitor all notes including those set to private.
+
 Note: This is the Moodle 3.7+ version.
 
 Each note can be tagged. Notes can be searched by name.
 
 ## Installation ##
-Copy this plugin to the mod\notetaker folder on the server
-Login as administrator
-Go to Site Administrator > Notifications
-Install the plugin
+1. Copy this plugin to the mod\notetaker folder on the server
+1. Login as administrator
+1. Go to Site Administrator > Notifications
+1. Install the plugin
 
 ## Usage ##
 Click on 'Add an activity' and choose 'Notetaker'.
