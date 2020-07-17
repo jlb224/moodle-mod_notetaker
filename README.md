@@ -1,9 +1,10 @@
 # Notetaker module #
 
 ## Introduction ##
-This is a Moodle plugin that allows a student to create notes within a course._
-If the notetaker instance is set to allow public notes, the student can choose whether their notes should be private and only visible to themselves, or to make them public and share them with other course participants._
-Students are permitted to view all their own private notes plus all public notes made by anybody._
+This is a Moodle plugin that allows a student to create notes within a course.
+
+If the notetaker instance is set to allow public notes, the student can choose whether their notes should be private and only visible to themselves, or to make them public and share them with other course participants.
+Students are permitted to view all their own private notes plus all public notes made by anybody.
 The teacher can monitor all notes including those set to private.
 
 Note: This is the Moodle 3.7+ version.
@@ -17,9 +18,9 @@ Each note can be tagged. Notes can be searched by name.
 1. Install the plugin
 
 ## Usage ##
-Click on 'Add an activity' and choose 'Notetaker'._
-Enter all the usual information._
-Description will display at the top of the view note page._
+Click on 'Add an activity' and choose 'Notetaker'.
+Enter all the usual information.
+Description will display at the top of the view note page.
 You can optionally allow public notes.
 
 Students can now log in, click on the notetaker, and begin to add notes.
