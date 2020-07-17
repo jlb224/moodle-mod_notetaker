@@ -1,12 +1,41 @@
 # Notetaker #
 
-TODO Describe the plugin shortly here.
+Notetaker module
+================
 
-TODO Provide more detailed description here.
+==Introduction==
+This is a Moodle plugin that allows a student to create notes within a course.
+If the notetaker instance is set to allow public notes, the student can choose whether their notes should be private and only visible to themselves, or to make them public and share them with other course participants.
+Students are permitted to view all their own private notes plus all public notes made by anybody.
+The teacher can monitor all notes including those set to private.
+Note: This is the Moodle 3.7+ version.
+
+Each note can be tagged. Notes can be searched by name.
+
+==Installation==
+Copy this plugin to the mod\notetaker folder on the server
+Login as administrator
+Go to Site Administrator > Notifications
+Install the plugin
+
+==Usage==
+Click on 'Add an activity' and choose 'Notetaker'.
+Enter all the usual information.
+Description will display at the top of the view note page.
+You can optionally allow public notes.
+
+Students can now log in, click on the notetaker, and begin to add notes.
+
+==Further information==
+Report a bug, or suggest an improvement: https://github.com/jlb224/notetaker/issues
+
+==Contact details==
+Any questions or suggested improvements to:
+Jo Beaver - bvredesign@gmail.com
 
 ## License ##
 
-2020 Jo Beaver <myemail@example.com>
+2020 Jo Beaver <bvredesign@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
