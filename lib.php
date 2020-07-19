@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
 /**
  * Return if the plugin supports $feature.
  *
@@ -62,18 +64,16 @@ function notetaker_supports($feature) {
  * in mod_form.php) this function will create a new instance and return the id
  * number of the instance.
  *
- * @param object $moduleinstance An object from the form.
- * @param mod_notetaker_mod_form $mform The form.
- * @return int The id of the newly inserted record.
+ * @param object $notetaker An object from the form
+ * @return int The id of the newly inserted record
  */
-function notetaker_add_instance($moduleinstance, $mform = null) {
+function notetaker_add_instance($notetaker) {
     global $DB;
 
-    $moduleinstance->timecreated = time();
+    $notetaker->timecreated = time();
+    $notetaker->id = $DB->insert_record('notetaker', $notetaker);
 
-    $id = $DB->insert_record('notetaker', $moduleinstance);
-
-    return $id;
+    return $notetaker->id;
 }
 
 /**
@@ -92,11 +92,17 @@ function notetaker_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
+    // Check if updates to instance are updated in DB.
+
     return $DB->update_record('notetaker', $moduleinstance);
 }
 
 /**
  * Removes an instance of the mod_notetaker from the database.
+ *
+ * Given an ID of an instance of this module,
+ * this function will permanently delete the instance
+ * and any data that depends on it.
  *
  * @param int $id Id of the module instance.
  * @return bool True if successful, false on failure.
@@ -104,10 +110,15 @@ function notetaker_update_instance($moduleinstance, $mform = null) {
 function notetaker_delete_instance($id) {
     global $DB;
 
+    if (!$notetaker= $DB->get_record('checklist', array('id' => $id))) {
+        return false;
+    }
     $exists = $DB->get_record('notetaker', array('id' => $id));
     if (!$exists) {
         return false;
     }
+
+    // Fix up this function. Make it work!
 
     $cm = get_coursemodule_from_instance('notetaker', $id);
 
@@ -125,7 +136,8 @@ function notetaker_delete_instance($id) {
  *       crud = 'r' and edulevel = LEVEL_PARTICIPATING will
  *       be considered as view action.
  *
- * @package     mod_notetaker
+ *       // REMOVE?
+ *
  * @return array
  */
 function notetaker_get_view_actions() {
@@ -140,7 +152,6 @@ function notetaker_get_view_actions() {
  *       crud = ('c' || 'u' || 'd') and edulevel = LEVEL_PARTICIPATING
  *       will be considered as post action.
  *
- * @package     mod_notetaker
  * @return array
  */
 function notetaker_get_post_actions() {
@@ -150,7 +161,6 @@ function notetaker_get_post_actions() {
 /**
  * Mark the activity completed (if required) and trigger the course_module_viewed event.
  *
- * @package     mod_notetaker
  * @param  stdClass $notetaker   notetaker object
  * @param  stdClass $course     course object
  * @param  stdClass $cm         course module object
@@ -176,8 +186,6 @@ function notetaker_view ($notetaker, $course, $cm, $context) {
 /**
  * Serves files.
  *
- * @package     mod_notetaker
- * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module
  * @param context $context context object
