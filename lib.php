@@ -82,19 +82,16 @@ function notetaker_add_instance($notetaker) {
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object $moduleinstance An object from the form in mod_form.php.
- * @param mod_notetaker_mod_form $mform The form.
+ * @param object $notetaker An object from the form in mod_form.php.
  * @return bool True if successful, false otherwise.
  */
-function notetaker_update_instance($moduleinstance, $mform = null) {
+function notetaker_update_instance($notetaker) {
     global $DB;
 
-    $moduleinstance->timemodified = time();
-    $moduleinstance->id = $moduleinstance->instance;
+    $notetaker->timemodified = time();
+    $notetaker->id = $notetaker->instance;
 
-    // Check if updates to instance are updated in DB.
-
-    return $DB->update_record('notetaker', $moduleinstance);
+    return $DB->update_record('notetaker', $notetaker);
 }
 
 /**
