@@ -82,8 +82,8 @@ function notetaker_add_instance($notetaker) {
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object $notetaker An object from the form in mod_form.php.
- * @return bool True if successful, false otherwise.
+ * @param object $notetaker An object from the form in mod_form.php
+ * @return bool True if successful, false otherwise
  */
 function notetaker_update_instance($notetaker) {
     global $DB;
@@ -101,58 +101,24 @@ function notetaker_update_instance($notetaker) {
  * this function will permanently delete the instance
  * and any data that depends on it.
  *
- * @param int $id Id of the module instance.
- * @return bool True if successful, false on failure.
+ * @param int $id Id of the module instance
+ * @return bool True if successful, false on failure
  */
 function notetaker_delete_instance($id) {
     global $DB;
 
-    if (!$notetaker= $DB->get_record('checklist', array('id' => $id))) {
-        return false;
-    }
-    $exists = $DB->get_record('notetaker', array('id' => $id));
-    if (!$exists) {
+    if (!$notetaker= $DB->get_record('notetaker', array('id' => $id))) {
         return false;
     }
 
-    // Fix up this function. Make it work!
+    // This doesnt work. Need to fix IDs used throughout the plugin.
 
     $cm = get_coursemodule_from_instance('notetaker', $id);
 
-    $DB->delete_records('notetaker', array('id' => $id));
+    $DB->delete_records('notetaker', array('id' => $notetaker->id));
     // $DB->delete_records('notetaker_notes', ['modid' => $cm->id]);
 
     return true;
-}
-
-/**
- * List the actions that correspond to a view of this module.
- * This is used by the participation report.
- *
- * Note: This is not used by new logging system. Event with
- *       crud = 'r' and edulevel = LEVEL_PARTICIPATING will
- *       be considered as view action.
- *
- *       // REMOVE?
- *
- * @return array
- */
-function notetaker_get_view_actions() {
-    return array('view', 'view all');
-}
-
-/**
- * List the actions that correspond to a post of this module.
- * This is used by the participation report.
- *
- * Note: This is not used by new logging system. Event with
- *       crud = ('c' || 'u' || 'd') and edulevel = LEVEL_PARTICIPATING
- *       will be considered as post action.
- *
- * @return array
- */
-function notetaker_get_post_actions() {
-    return array('update', 'add');
 }
 
 /**
