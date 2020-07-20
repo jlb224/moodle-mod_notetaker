@@ -115,10 +115,7 @@ function notetaker_delete_instance($id) {
         \core_completion\api::update_completion_date_event($cm->id, 'notetaker', $id, null);
 
         $DB->delete_records('notetaker', array('id' => $notetaker->id));
-
-        // Delete instance is working. Now to get delete notes working.
-        // Is modid in notetaker_notes $cm->id?
-        // $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
+        $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
 
     return true;
 }
