@@ -105,18 +105,20 @@ function notetaker_update_instance($notetaker) {
  * @return bool True if successful, false on failure
  */
 function notetaker_delete_instance($id) {
-    global $DB;
+    global $DB, $CFG;
 
-    if (!$notetaker= $DB->get_record('notetaker', array('id' => $id))) {
-        return false;
-    }
+        if (!$notetaker= $DB->get_record('notetaker', array('id' => $id))) {
+            return false;
+        }
 
-    // This doesnt work. Need to fix IDs used throughout the plugin.
+        $cm = get_coursemodule_from_instance('notetaker', $id);
+        \core_completion\api::update_completion_date_event($cm->id, 'notetaker', $id, null);
 
-    $cm = get_coursemodule_from_instance('notetaker', $id);
+        $DB->delete_records('notetaker', array('id' => $notetaker->id));
 
-    $DB->delete_records('notetaker', array('id' => $notetaker->id));
-    // $DB->delete_records('notetaker_notes', ['modid' => $cm->id]);
+        // Delete instance is working. Now to get delete notes working.
+        // Is modid in notetaker_notes $cm->id?
+        // $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
 
     return true;
 }
