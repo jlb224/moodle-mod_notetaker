@@ -139,6 +139,7 @@ foreach ($results as $result) {
         'noteid' => $result->id,
         'cmid' => $result->modid,
         'name' => $result->name,
+        'author' => $result->author,
         'lastmodified' => $lastmodified,
         'publicpost' => $result->publicpost,
         'tag' => array_values($ntags),

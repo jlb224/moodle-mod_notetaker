@@ -164,6 +164,12 @@ class local {
                     $cardtext = format_text($cardtext, FORMAT_HTML);
                 }
                 $result->cardtext = $cardtext;
+
+                // Get note author.
+                $author = $result->userid;
+                list($sql, $params) = $DB->get_in_or_equal($author);
+                $authorname = $DB->get_record_select('user', 'id ' . $sql, $params);
+                $result->author = $authorname->firstname . " " . $authorname->lastname;
             }
 
             // Get the tags for this notetaker instance.

@@ -49,12 +49,12 @@
         <a href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}" class="btn btn-primary">{{#str}} addnote, mod_notetaker {{/str}}</a>
     </div>
 
-    <div class="card-columns" id="m-notes">
+    <div class="card-columns">
         {{#note}}
         <div class="card border-secondary mb-3">
             <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{#str}} category, mod_notetaker {{/str}}</h6>
+                <p class="card-subtitle mb-2 text-muted">{{#str}} authoredby, mod_notetaker {{/str}} {{author}}</p>
                 <div class="d-flex flex-nowrap">
                     {{#images}}
                         <span style="background-image: url({{imageurl}});" class="card-thumbnail m-1">
