@@ -81,7 +81,7 @@ class local {
      * @param $context current context.
      */
     public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig) {
-        global $DB, $USER;
+        global $DB;
 
         $params = [];
         $modid = $cmid;

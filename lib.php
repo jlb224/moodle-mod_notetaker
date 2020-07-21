@@ -105,7 +105,7 @@ function notetaker_update_instance($notetaker) {
  * @return bool True if successful, false on failure
  */
 function notetaker_delete_instance($id) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!$notetaker = $DB->get_record('notetaker', array('id' => $id))) {
         return false;
@@ -157,7 +157,7 @@ function notetaker_view ($notetaker, $course, $cm, $context) {
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function notetaker_pluginfile($course, $cm, $context, $filearea, $args, array $options = array()) {
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
