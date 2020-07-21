@@ -89,7 +89,7 @@ class local {
         if (empty($search)) {
             if ($hassiteconfig) {
                 $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
-            } elseif ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+            } else if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
                 $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
             } else {
@@ -113,7 +113,7 @@ class local {
                 $select = $likename . 'AND modid = :modid';
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);
 
-            } elseif ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
+            } else if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
                 $select = $likename . 'AND userid = :userid AND modid = :modid';
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);

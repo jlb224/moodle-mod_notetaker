@@ -117,16 +117,16 @@ foreach ($results as $result) {
                 $imagesrc[$key] = $value;
                 $i++;
             } else {
-            break;
+                break;
             }
         }
     }
 
-    foreach($imagesrc as $key => $value){
+    foreach ($imagesrc as $key => $value) {
         $lastitems[] = (object)["imageurl" => $value, "lastitem" => false];
     }
 
-    if(count($imagesrc) > 2){
+    if (count($imagesrc) > 2) {
         end($lastitems)->lastitem = true;
     }
 

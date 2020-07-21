@@ -107,15 +107,15 @@ function notetaker_update_instance($notetaker) {
 function notetaker_delete_instance($id) {
     global $DB, $CFG;
 
-        if (!$notetaker= $DB->get_record('notetaker', array('id' => $id))) {
-            return false;
-        }
+    if (!$notetaker = $DB->get_record('notetaker', array('id' => $id))) {
+        return false;
+    }
 
-        $cm = get_coursemodule_from_instance('notetaker', $id);
-        \core_completion\api::update_completion_date_event($cm->id, 'notetaker', $id, null);
+    $cm = get_coursemodule_from_instance('notetaker', $id);
+    \core_completion\api::update_completion_date_event($cm->id, 'notetaker', $id, null);
 
-        $DB->delete_records('notetaker', array('id' => $notetaker->id));
-        $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
+    $DB->delete_records('notetaker', array('id' => $notetaker->id));
+    $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
 
     return true;
 }

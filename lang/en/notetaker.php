@@ -28,9 +28,9 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = "Notetaker";
 $string['modulename'] = "Notetaker";
 $string['modulenameplural'] = "Notes";
-$string['modulename_help'] = "A notetaker is a course resource where students can add notes. 
-If the notetaker instance is set to allow public notes, the course participant can choose whether their notes should be private and only visible to themselves, 
-or to make them public and share them with other course participants.";
+$string['modulename_help'] = "A notetaker is a course resource where students can add notes. If the notetaker
+ instance is set to allow public notes, the course participant can choose whether their notes should be private
+ and only visible to themselves, or to make them public and share them with other course participants.";
 
 // Plugin strings.
 $string['addnote'] = "Add note";
