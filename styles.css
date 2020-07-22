@@ -1,5 +1,6 @@
-/* View notes */
-
+/*
+* View notes page.
+*/
 #page-mod-notetaker-view .card {
     border: 1px solid rgba(0,0,0,.125);
     background-color: white;
@@ -27,9 +28,9 @@
 #page-mod-notetaker-view .extracount {
     color: white;
     align-self: center;
-    font-size: calc(1rem + (12 - 1) * ((100vw - 300px) / (2400 - 300)));
+    font-size: calc( 1rem + ( 12 - 1 ) * (( 100vw - 300px ) / ( 2400 - 300 )));
     font-weight: 700;
-    margin-bottom: calc(0.66 * 90%);
+    margin-bottom: calc( 0.66 * 90% );
 }
 
 #page-mod-notetaker-view .card-badge {
@@ -42,7 +43,7 @@
     margin-top: 2.5em;
 }
 
-/* Make button appear in a row */
+/* Make search button appear in a row */
 #page-mod-notetaker-view #fitem_id_submitbutton {
     display: inline;
 }
@@ -53,7 +54,7 @@
     margin-left:15px;
 }
 
-/* Make field appear in a row */
+/* Make search field appear in a row */
 #page-mod-notetaker-view #fitem_id_q {
     display: inline;
 }
