@@ -11,7 +11,7 @@
 #page-mod-notetaker-view .card-title {
     font-size: 1.171875rem;
     font-weight: 300;
-    line-height: 1.2
+    line-height: 1.2;
 }
 
 #page-mod-notetaker-view .card-thumbnail {
@@ -51,7 +51,7 @@
 /* Resolve alignment */
 #page-mod-notetaker-view .fitem #id_submitbutton {
     margin-top: 0;
-    margin-left:15px;
+    margin-left: 15px;
 }
 
 /* Make search field appear in a row */
