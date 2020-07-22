@@ -2,7 +2,7 @@
 * View notes page.
 */
 #page-mod-notetaker-view .card {
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
     background-color: white;
     border-radius: 3px;
     word-wrap: break-word;
@@ -28,9 +28,9 @@
 #page-mod-notetaker-view .extracount {
     color: white;
     align-self: center;
-    font-size: calc( 1rem + ( 12 - 1 ) * (( 100vw - 300px ) / ( 2400 - 300 )));
+    font-size: calc(1rem + (12 - 1) * ((100vw - 300px) / (2400 - 300)));
     font-weight: 700;
-    margin-bottom: calc( 0.66 * 90% );
+    margin-bottom: calc(0.66 * 90%);
 }
 
 #page-mod-notetaker-view .card-badge {
