@@ -80,14 +80,14 @@ class local {
      * @param $cmid ID of the module instance.
      * @param $context current context.
      */
-    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig) {
+    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig, $hasviewall) {
         global $DB;
 
         $params = [];
         $modid = $cmid;
 
         if (empty($search)) {
-            if ($hassiteconfig) {
+            if ($hassiteconfig || $hasviewall) {
                 $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
             } else if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.

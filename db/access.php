@@ -50,7 +50,7 @@ $capabilities = array(
         )
     ],
 
-    'mod/notetaker:managenotes' => [
+    'mod/notetaker:viewallnotes' => [
         'captype' => 'write',
         'riskbitmaskt' => 'RISK_PERSONAL',
         'contextlevel' => CONTEXT_MODULE,
