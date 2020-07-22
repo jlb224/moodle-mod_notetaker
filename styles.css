@@ -59,6 +59,11 @@
     display: inline;
 }
 
+/* Clear button */
+/* #page-mod-notetaker-view input.btn.btn-link {
+    color: black;
+} */
+
 #page-mod-notetaker-view #fitem_id_q > div.col-md-9.form-inline.felement {
     max-width: 100%;
     padding-right: 0;

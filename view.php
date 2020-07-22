@@ -80,6 +80,8 @@ $hassiteconfig = has_capability('moodle/site:config', context_system::instance()
 $hasviewall = has_capability('mod/notetaker:viewallnotes', $context);
 $results = local::get_notes($cmid, $context, $userid, $allowpublicposts, $search, $hassiteconfig, $hasviewall);
 
+$PAGE->requires->js_call_amd('mod_notetaker/clearsearch', 'init');
+
 echo $OUTPUT->header();
 
 echo $OUTPUT->heading(format_string($notetaker->name));
