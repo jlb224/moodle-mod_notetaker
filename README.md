@@ -11,6 +11,8 @@ Note: This is the Moodle 3.7+ version.
 
 Each note can be tagged. Notes can be searched by name.
 
+[![Build Status](https://travis-ci.org/jlb224/notetaker.svg?branch=master)](https://travis-ci.org/jlb224/notetaker)
+
 ## Installation ##
 1. Copy this plugin to the mod\notetaker folder on the server
 1. Login as administrator
