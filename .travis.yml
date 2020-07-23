@@ -19,14 +19,14 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-matrix:
+jobs:
   include:
-      - php: 7.3
+    - php: 7.3
       env:
         - MOODLE_BRANCH=master
         - DB=mysqli
 
-      - php: 7.4
+    - php: 7.4
       env:
         - MOODLE_BRANCH=MOODLE_39_STABLE
         - DB=pgsql
