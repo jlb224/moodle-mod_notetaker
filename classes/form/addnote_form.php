@@ -38,7 +38,7 @@ class addnote_form extends \moodleform
         $mform->addElement('hidden', 'cmid', $this->_customdata['cmid']);
         $mform->setType('cmid', PARAM_INT);
 
-        // Store the noteid.
+        // // Store the noteid.
         $mform->addElement('hidden', 'id', $this->_customdata['id']);
         $mform->setType('id', PARAM_INT);
 

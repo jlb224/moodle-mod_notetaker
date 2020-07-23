@@ -34,6 +34,10 @@ $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
 
+/*
+* Same form is used to add and edit note.
+* On add, note id is 0 until inserted in DB. On edit, we need the id from the post.
+*/
 if (!empty($_POST['id'])) {
     $noteid = (int) $_POST['id'];
 } else {
