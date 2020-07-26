@@ -51,26 +51,26 @@ class provider implements
      * @param collection $collection The collection used to store the metadata
      * @return collection The updated collection of metadata items
      */
-        public static function get_metadata(collection $collection) : collection {
-            $collection->add_database_table(
-                'notetaker_notes',
-            [
-                'id' => 'privacy:metadata:notetaker_notes:id',
-                'modid' => 'privacy:metadata:notetaker_notes:modid',
-                'name' => 'privacy:metadata:notetaker_notes:name',
-                'notefield' => 'privacy:metadata:notetaker_notes:notefield',
-                'timecreated' => 'privacy:metadata:notetaker_notes:timecreated',
-                'timemodified' => 'privacy:metadata:notetaker_notes:timemodified',
-                'userid' => 'privacy:metadata:notetaker_notes:userid',
-                'publicpost' => 'privacy:metadata:notetaker_notes:publicpost'
-            ],
-            'privacy:metadata:notetaker_notes'
-            );
+    public static function get_metadata(collection $collection) : collection {
+        $collection->add_database_table(
+            'notetaker_notes',
+        [
+            'id' => 'privacy:metadata:notetaker_notes:id',
+            'modid' => 'privacy:metadata:notetaker_notes:modid',
+            'name' => 'privacy:metadata:notetaker_notes:name',
+            'notefield' => 'privacy:metadata:notetaker_notes:notefield',
+            'timecreated' => 'privacy:metadata:notetaker_notes:timecreated',
+            'timemodified' => 'privacy:metadata:notetaker_notes:timemodified',
+            'userid' => 'privacy:metadata:notetaker_notes:userid',
+            'publicpost' => 'privacy:metadata:notetaker_notes:publicpost'
+        ],
+        'privacy:metadata:notetaker_notes'
+        );
 
-            $collection->add_subsystem_link('core_tag', [], 'privacy:metadata:core_tag');
+        $collection->add_subsystem_link('core_tag', [], 'privacy:metadata:core_tag');
 
-            return $collection;
-        }
+        return $collection;
+    }
 
     // Not sure if I need this.
     private static $modid;
@@ -223,7 +223,7 @@ class provider implements
         }
     }
 
-     /**
+    /**
      * Export the supplied personal data for a single notetaker activity, along with any generic data or area files.
      *
      * @param array $items The data to export for the notetaker
