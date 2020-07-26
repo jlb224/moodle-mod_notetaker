@@ -64,7 +64,7 @@ class provider implements
             'userid' => 'privacy:metadata:notetaker_notes:userid',
             'publicpost' => 'privacy:metadata:notetaker_notes:publicpost'
         ],
-        'privacy:metadata:notetaker_notes'
+            'privacy:metadata:notetaker_notes'
         );
 
         $collection->add_subsystem_link('core_tag', [], 'privacy:metadata:core_tag');
