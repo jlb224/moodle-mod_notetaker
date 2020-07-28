@@ -165,12 +165,8 @@ class provider implements
         $user = $contextlist->get_user();
         list($contextsql, $contextparams) = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
 
-        $params = [
-            'userid' => $user->id,
-            'contextlevel' => CONTEXT_MODULE
-        ] + $contextparams;
-
-        $sql = "SELECT cm.id AS cmid,
+        $sql = "SELECT nn.id as noteid,
+                       cm.id AS cmid,
                        nn.name,
                        nn.notefield,
                        nn.timecreated,
@@ -187,27 +183,31 @@ class provider implements
 
                 ORDER BY cm.id, nn.id";
 
+        $params = [
+            'userid' => $user->id,
+            'contextlevel' => CONTEXT_MODULE
+        ] + $contextparams;
+
         $lastcmid = null;
         $itemdata = [];
+
         $items = $DB->get_recordset_sql($sql, $params);
 
         foreach ($items as $item) {
 
-            $name = format_string($item->name);
-            $path = array_merge([get_string('name', 'mod_notetaker'), $name . " ({$item->id})"]);
-
             if ($lastcmid !== $item->cmid) {
                 if ($itemdata) {
-                    $context = \context_module::instance($lastcmid);
                     self::export_notetaker_data_for_user($itemdata, $lastcmid, $user);
-                    $itemdata = [];
                 }
+                $itemdata = [];
+                $lastcmid = $item->cmid;
             }
-            $lastcmid = $item->cmid;
-            $context = \context_module::instance($lastcmid);
 
             // Export associated tags.
-            \core_tag\privacy\provider::export_item_tags($user->id, $context, $path, 'mod_notetaker', 'notetaker_notes', $item->id, $item->userid != $user->id);
+            $name = format_string($item->name);
+            $context = \context_module::instance($lastcmid);
+            $path = array_merge([get_string('name', 'mod_notetaker'), $name . " ({$item->noteid})"]);
+            \core_tag\privacy\provider::export_item_tags($user->id, $context, $path, 'mod_notetaker', 'notetaker_notes', $item->noteid, $item->userid != $user->id);
 
             $itemdata[] = (object)[
                 'name'       => $item->name,
@@ -307,9 +307,9 @@ class provider implements
             \core_tag\privacy\provider::delete_item_tags_select($context, 'mod_notetaker', 'notetaker_notes', $insql, $inparams);
 
             // Delete all user related notes.
-            $itemids = $DB->get_fieldset_select('notetaker_notes', 'id', 'notetakerid = ?', [$cm->instance]);
+            $itemids = $DB->get_fieldset_select('notetaker_notes', 'id', 'notetakerid = ?', [$instanceid]);
             if ($itemids) {
-                $params = ['instanceid' => $cm->instance, 'userid' => $userid];
+                $params = ['instanceid' => $instanceid, 'userid' => $userid];
                 $DB->delete_records_select('notetaker_notes', 'notetakerid = :instanceid AND userid = :userid', $params);
             }
         }
