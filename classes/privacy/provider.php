@@ -32,9 +32,6 @@ use core_privacy\local\request\helper;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 
-use core_privacy\local\request\deletion_criteria;
-use core_privacy\local\request\transform;
-
 defined('MOODLE_INTERNAL') || die();
 
 class provider implements
@@ -72,7 +69,6 @@ class provider implements
         return $collection;
     }
 
-    // Not sure if I need this.
     private static $modid;
     private static function get_modid() {
         global $DB;
@@ -93,7 +89,7 @@ class provider implements
 
         $modid = self::get_modid();
         if (!$modid) {
-            return $contextlist; // Notetaker module not installed.
+            return $contextlist;
         }
 
         // Notes created by user.
