@@ -157,13 +157,13 @@ function notetaker_view ($notetaker, $course, $cm, $context) {
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function notetaker_pluginfile($course, $cm, $context, $filearea, $args, array $options = array()) {
+function notetaker_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
 
-    if ($filearea !== 'notefield' || $filearea !== 'intro') {
+    if ($filearea !== 'notefield' && $filearea !== 'intro') {
         return false;
     }
 
