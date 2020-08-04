@@ -64,10 +64,6 @@ class backup_notetaker_activity_task extends backup_activity_task {
         $search="/(".$base."\/mod\/notetaker\/view.php\?id\=)([0-9]+)/";
         $content= preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
 
-        // Link to notetaker view by id.
-        $search = "/(".$base."\/mod\/notetaker\/view.php\?checklist\=)([0-9]+)/";
-        $content = preg_replace($search, '$@NOTETAKERVIEWBYNOTETAKERID*$2@$', $content);
-
         return $content;
     }
 }
