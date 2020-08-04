@@ -52,6 +52,22 @@ class backup_notetaker_activity_task extends backup_activity_task {
      * order to get transportable (encoded) links.
      */
     static public function encode_content_links($content) {
+        global $CFG;
+
+        $base = preg_quote($CFG->wwwroot,"/");
+
+        // Link to the list of notetakers
+        $search="/(".$base."\/mod\/notetaker\/index.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@NOTETAKERINDEX*$2@$', $content);
+
+        // Link to notetaker view by moduleid
+        $search="/(".$base."\/mod\/notetaker\/view.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
+
+        // Link to notetaker view by id.
+        $search = "/(".$base."\/mod\/notetaker\/view.php\?checklist\=)([0-9]+)/";
+        $content = preg_replace($search, '$@NOTETAKERVIEWBYNOTETAKERID*$2@$', $content);
+
         return $content;
     }
 }
