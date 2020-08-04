@@ -23,8 +23,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_stepslib.php'); // Because it exists (must)
-require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_settingslib.php'); // Because it exists (optional)
+require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_stepslib.php'); // Because it exists (must).
+require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_settingslib.php'); // Because it exists (optional).
 
 /**
  * Notetaker backup task that provides all the settings and steps to perform one
@@ -54,15 +54,15 @@ class backup_notetaker_activity_task extends backup_activity_task {
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, "/");
 
-        // Link to the list of notetakers
-        $search="/(".$base."\/mod\/notetaker\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@NOTETAKERINDEX*$2@$', $content);
+        // Link to the list of notetakers.
+        $search = "/(".$base."\/mod\/notetaker\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@NOTETAKERINDEX*$2@$', $content);
 
-        // Link to notetaker view by moduleid
-        $search="/(".$base."\/mod\/notetaker\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
+        // Link to notetaker view by moduleid.
+        $search = "/(".$base."\/mod\/notetaker\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
 
         return $content;
     }
