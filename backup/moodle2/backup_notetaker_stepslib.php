@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,6 +24,6 @@
 defined('MOODLE_INTERNAL') || die();
 
  /**
- * Define all the backup steps that will be used by the backup_notetaker_activity_task
+ * Define all the backup steps that will be used by the backup_notetaker_activity_task.
  */
 
