@@ -24,8 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Notetaker restore task that provides all the settings and steps to perform one
- * complete restore of the activity.
+ * Notetaker restore task
  */
 
 require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/restore_notetaker_stepslib.php'); // Because it exists (must).
