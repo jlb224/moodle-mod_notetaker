@@ -39,10 +39,10 @@ class backup_notetaker_activity_structure_step extends backup_activity_structure
 
         // Define each element separated.
         $notetaker = new backup_nested_element('notetaker', array('id'), array(
-            'name', 'intro', 'introformat', 'timecreated', 'timemodified', 'publicposts'));
+            'name', 'course', 'intro', 'introformat', 'timecreated', 'timemodified', 'publicposts'));
 
+        // The notetaker notes.
         $notes = new backup_nested_element('notes');
-
         $note = new backup_nested_element('note', array('id'), array(
             'name', 'notefield', 'notefieldformat', 'timecreated', 'timemodified',
             'userid', 'publicpost'));
@@ -62,7 +62,6 @@ class backup_notetaker_activity_structure_step extends backup_activity_structure
 
         // Define id annotations.
         $note->annotate_ids('user', 'userid');
-        $note->annotate_ids('course_modules', 'modid');
 
         // Define file annotations.
         $notetaker->annotate_files('mod_notetaker', 'intro', null); // This file area does not have an itemid.
