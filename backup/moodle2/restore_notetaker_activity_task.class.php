@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package moodlecore
- * @subpackage restore-moodle2
+ * @package mod_notetaker
+ * @subpackage backup-moodle2
  * @copyright 2020 Jo Beaver
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -68,27 +68,9 @@ class restore_notetaker_activity_task extends restore_activity_task {
 
         $rules[] = new restore_decode_rule('NOTETAKERINDEX', '/mod/notetaker/index.php?id=$1', 'course');
         $rules[] = new restore_decode_rule('NOTETAKERVIEWBYID', '/mod/notetaker/view.php?id=$1', 'course_module');
-
+        $rules[] = new restore_decode_rule('NOTETAKERVIEWNOTE', '/mod/notetaker/viewnote.php?cmid=$1&note=$2',
+                                           array('course', 'notetaker_note'));
         return $rules;
-    }
-
-    public function after_restore() {
-        global $DB;
-
-        // Find all the notes that have a 'modid' and match them up to the newly-restored activities.
-        $notes = $DB->get_records_select('notetaker_notes', 'notetakerid = ? AND modid > 0',
-                                         array($this->get_activityid()));
-
-        foreach ($notes as $note) {
-            $moduleid = restore_dbops::get_backup_ids_record($this->get_restoreid(), 'course_module', $note->modid);
-            if ($moduleid) {
-                // Match up the moduleid to the restored activity module.
-                $DB->set_field('notetaker_notes', 'modid', $moduleid->newitemid, array('id' => $note->id));
-            } else {
-                // Does not match up to a restored activity module => delete the item + associated user data.
-                $DB->delete_records('notetaker_notes', array('id' => $note->id));
-            }
-        }
     }
 
     /**

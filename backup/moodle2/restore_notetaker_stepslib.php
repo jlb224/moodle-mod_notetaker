@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package moodlecore
- * @subpackage restore-moodle2
+ * @package mod_notetaker
+ * @subpackage backup-moodle2
  * @copyright 2020 Jo Beaver
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,7 +24,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Structure step to restore one choice activity
+ * Define all the restore steps that will be used by the restore_notetaker_activity_task
+ */
+
+/**
+ * Structure step to restore one notetaker activity
  */
 class restore_notetaker_activity_structure_step extends restore_activity_structure_step {
 
@@ -34,7 +38,11 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         $paths[] = new restore_path_element('notetaker', '/activity/notetaker');
-        $paths[] = new restore_path_element('notetaker_notes', '/activity/notetaker/notes/note');
+
+        if ($userinfo) {
+            $paths[] = new restore_path_element('notetaker_note', '/activity/notetaker/notes/note');
+            $paths[] = new restore_path_element('notetaker_note_tag', '/activity/notetaker/notetags/tag');
+        }
 
         // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
@@ -47,34 +55,45 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
         $oldid = $data->id;
         $data->course = $this->get_courseid();
 
-        $data->timeopen = $this->apply_date_offset($data->timecreated);
-        $data->timeclose = $this->apply_date_offset($data->timemodified);
-
         // Insert the notetaker record.
         $newitemid = $DB->insert_record('notetaker', $data);
-        $this->set_mapping('notetaker', $oldid, $newitemid);
-        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_notetaker_notes($data) {
+    protected function process_notetaker_note($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
         $data->notetakerid = $this->get_new_parentid('notetaker');
-        if ($data->userid > 0) {
-            $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->userid = $this->get_mappingid('user', $data->userid);
+
+        // Insert the note.
+        $newitemid = $DB->insert_record('notetaker_notes', $data);
+        $this->set_mapping('notetaker_note', $oldid, $newitemid, true); // Childs and files by itemname.
+    }
+
+    protected function process_notetaker_note_tag($data) {
+        $data = (object)$data;
+
+        if (!core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes')) { // Tags disabled in server, nothing to process.
+            return;
         }
 
-        $newitemid = $DB->insert_record('notetaker_notes', $data);
-        $this->set_mapping('notetaker_notes', $oldid, $newitemid);
+        $tag = $data->rawname;
+        if (!$itemid = $this->get_mappingid('notetaker_note', $data->itemid)) {
+            // Some orphaned tag, we could not find the notetaker note for it - ignore.
+            return;
+        }
+
+        $context = context_module::instance($this->task->get_moduleid());
+        core_tag_tag::add_item_tag('mod_notetaker', 'notetaker_notes', $itemid, $context, $tag);
     }
 
     protected function after_execute() {
         // Add notetaker related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_notetaker', 'intro', null);
-        $this->add_related_files('mod_notetaker', 'notefield', null);
+        $this->add_related_files('mod_notetaker', 'notefield', 'notefield_note');
     }
 }

@@ -60,7 +60,7 @@ class backup_notetaker_activity_structure_step extends backup_activity_structure
         // Define sources.
         $notetaker->set_source_table('notetaker', array('id' => backup::VAR_ACTIVITYID));
 
-        // All the rest of elements only happen if we are including user info
+        // All the rest of elements only happen if we are including user info.
         if ($userinfo) {
             $note->set_source_table('notetaker_notes', array('notetakerid' => backup::VAR_PARENTID));
 
