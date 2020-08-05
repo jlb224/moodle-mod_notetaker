@@ -68,6 +68,7 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
 
         $data->notetakerid = $this->get_new_parentid('notetaker');
         $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->modid = $this->;
 
         // Insert the note.
         $newitemid = $DB->insert_record('notetaker_notes', $data);
@@ -92,8 +93,25 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
     }
 
     protected function after_execute() {
+        global $DB;
+
         // Add notetaker related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_notetaker', 'intro', null);
         $this->add_related_files('mod_notetaker', 'notefield', 'notefield_note');
+
+        /**
+         * After everything has been restored, we go in and find the the matching instance in course_modules
+         * and add the course_modules id to our table.
+         */
+        $courseid = $this->get_courseid();
+        $moduleid = $DB->get_field('modules', 'id', array('name'=>'notetaker'));
+
+        $cms = $DB->get_records('course_modules', array('course'=>$courseid, 'moduleid'=>$moduleid));
+
+        foreach ($cms as $cm) {
+            $notetaker = $DB->get_record('notetaker_notes', array('id'=>$cm->instance));
+            $notetaker->modid = $cm->id;
+            $DB->update_record('notetaker_notes', $notetaker);
+        }
     }
 }

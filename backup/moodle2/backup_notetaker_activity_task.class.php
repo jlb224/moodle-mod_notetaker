@@ -65,7 +65,7 @@ class backup_notetaker_activity_task extends backup_activity_task {
         $content = preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
 
         // Link to notetaker note.
-        $search="/(".$base."\/mod\/notetaker\/viewnote.php\?cmid=)([0-9]+)(&|&amp;)note=([0-9]+)/";
+        $search = "/(".$base."\/mod\/notetaker\/viewnote.php\?cmid=)([0-9]+)(&|&amp;)note=([0-9]+)/";
         $content = preg_replace($search, '$@NOTETAKERVIEWNOTE*$2*$4@$', $content);
 
         return $content;

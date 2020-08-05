@@ -45,7 +45,7 @@ class backup_notetaker_activity_structure_step extends backup_activity_structure
 
         $note = new backup_nested_element('note', array('id'), array(
             'name', 'notefield', 'notefieldformat', 'timecreated', 'timemodified',
-            'userid', 'publicpost', 'notetakerid'));
+            'userid', 'publicpost', 'notetakerid', 'modid'));
 
         $tags = new backup_nested_element('notetags');
         $tag = new backup_nested_element('tag', array('id'), array('itemid', 'rawname'));
