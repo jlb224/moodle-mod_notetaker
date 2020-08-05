@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package moodlecore
+ * @package mod_notetaker
  * @subpackage backup-moodle2
  * @copyright 2020 Jo Beaver
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,29 +27,29 @@ require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_ste
 require_once($CFG->dirroot . '/mod/notetaker/backup/moodle2/backup_notetaker_settingslib.php'); // Because it exists (optional).
 
 /**
- * Notetaker backup task that provides all the settings and steps to perform one
- * complete backup of the activity.
+ * Provides the steps to perform one complete backup of the notetaker instance.
  */
 class backup_notetaker_activity_task extends backup_activity_task {
 
     /**
-     * Define (add) particular settings this activity can have.
+     * Defines particular settings this activity can have.
      */
     protected function define_my_settings() {
         // No particular settings for this activity.
     }
 
     /**
-     * Define (add) particular steps this activity can have.
+     * Defines a backup step to store the instance data in the notetaker.xml file
      */
     protected function define_my_steps() {
-        // Notetaker only has one structure step.
         $this->add_step(new backup_notetaker_activity_structure_step('notetaker_structure', 'notetaker.xml'));
     }
 
     /**
-     * Code the transformations to perform in the activity in
-     * order to get transportable (encoded) links.
+     * Encodes URLs to the index.php and view.php scripts
+     *
+     * @param string $content some HTML text that eventually contains URLs to the activity instance scripts
+     * @return string the content with the URLs encoded
      */
     static public function encode_content_links($content) {
         global $CFG;
@@ -63,6 +63,10 @@ class backup_notetaker_activity_task extends backup_activity_task {
         // Link to notetaker view by moduleid.
         $search = "/(".$base."\/mod\/notetaker\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@NOTETAKERVIEWBYID*$2@$', $content);
+
+        // Link to notetaker note.
+        $search="/(".$base."\/mod\/notetaker\/viewnote.php\?cmid=)([0-9]+)(&|&amp;)note=([0-9]+)/";
+        $content = preg_replace($search, '$@NOTETAKERVIEWNOTE*$2*$4@$', $content);
 
         return $content;
     }

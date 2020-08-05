@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package moodlecore
+ * @package mod_notetaker
  * @subpackage backup-moodle2
  * @copyright 2020 Jo Beaver
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -41,23 +41,40 @@ class backup_notetaker_activity_structure_step extends backup_activity_structure
         $notetaker = new backup_nested_element('notetaker', array('id'), array(
             'name', 'course', 'intro', 'introformat', 'timecreated', 'timemodified', 'publicposts'));
 
-        // The notetaker notes.
         $notes = new backup_nested_element('notes');
+
         $note = new backup_nested_element('note', array('id'), array(
             'name', 'notefield', 'notefieldformat', 'timecreated', 'timemodified',
-            'userid', 'publicpost'));
+            'userid', 'publicpost', 'notetakerid'));
+
+        $tags = new backup_nested_element('notetags');
+        $tag = new backup_nested_element('tag', array('id'), array('itemid', 'rawname'));
 
         // Build the tree.
         $notetaker->add_child($notes);
         $notes->add_child($note);
 
+        $notetaker->add_child($tags);
+        $tags->add_child($tag);
+
         // Define sources.
         $notetaker->set_source_table('notetaker', array('id' => backup::VAR_ACTIVITYID));
 
+        // All the rest of elements only happen if we are including user info
         if ($userinfo) {
             $note->set_source_table('notetaker_notes', array('notetakerid' => backup::VAR_PARENTID));
-        } else {
-            $note->set_source_sql('SELECT * FROM {notetaker_notes} WHERE userid = 0 AND notetakerid = ?', array(backup::VAR_PARENTID));
+
+            if (core_tag_tag::is_enabled('mod_notetaker', 'notetaker_notes')) {
+                $tag->set_source_sql('SELECT t.id, ti.itemid, t.rawname
+                                        FROM {tag} t
+                                        JOIN {tag_instance} ti ON ti.tagid = t.id
+                                       WHERE ti.itemtype = ?
+                                         AND ti.component = ?
+                                         AND ti.contextid = ?', array(
+                    backup_helper::is_sqlparam('notetaker_notes'),
+                    backup_helper::is_sqlparam('mod_notetaker'),
+                    backup::VAR_CONTEXTID));
+            }
         }
 
         // Define id annotations.
