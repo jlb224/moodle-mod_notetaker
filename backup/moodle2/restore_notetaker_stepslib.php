@@ -22,6 +22,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+global $CFG;
 
 /**
  * Define all the restore steps that will be used by the restore_notetaker_activity_task
@@ -64,12 +65,18 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldid = $data->id; // NoteID
+        $oldmodid = $data->modid; // correctly contains old modid
+        // print_object($data);
+        // die();
+        // echo $oldmodid;
+        // die();
 
-        $data->notetakerid = $this->get_new_parentid('notetaker');
+        $data->notetakerid = $this->get_new_parentid('notetaker'); // correctly contains new Notetaker id.
         $data->userid = $this->get_mappingid('user', $data->userid);
-        $data->modid = $this->;
-
+        // $data->modid = $this->get_mappingid('modid', $oldmodid);
+        // print_object($data);
+        // die();
         // Insert the note.
         $newitemid = $DB->insert_record('notetaker_notes', $data);
         $this->set_mapping('notetaker_note', $oldid, $newitemid, true); // Childs and files by itemname.
@@ -98,20 +105,5 @@ class restore_notetaker_activity_structure_step extends restore_activity_structu
         // Add notetaker related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_notetaker', 'intro', null);
         $this->add_related_files('mod_notetaker', 'notefield', 'notefield_note');
-
-        /**
-         * After everything has been restored, we go in and find the the matching instance in course_modules
-         * and add the course_modules id to our table.
-         */
-        $courseid = $this->get_courseid();
-        $moduleid = $DB->get_field('modules', 'id', array('name'=>'notetaker'));
-
-        $cms = $DB->get_records('course_modules', array('course'=>$courseid, 'moduleid'=>$moduleid));
-
-        foreach ($cms as $cm) {
-            $notetaker = $DB->get_record('notetaker_notes', array('id'=>$cm->instance));
-            $notetaker->modid = $cm->id;
-            $DB->update_record('notetaker_notes', $notetaker);
-        }
     }
 }
