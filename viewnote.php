@@ -70,7 +70,7 @@ $messagetext = $result->notefield;
 $messagetext = file_rewrite_pluginfile_urls($messagetext, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 
 $result->noteowner = "";
-if ($result->userid == $USER->id) {
+if ($result->userid == $USER->id || has_capability('mod/notetaker:manageallnotes', $context)) {
     $result->noteowner = true;
 } else {
     $result->noteowner = false;
