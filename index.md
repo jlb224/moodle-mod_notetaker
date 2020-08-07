@@ -31,7 +31,7 @@ Follow the general [installing plugins](https://docs.moodle.org/39/en/Installing
 2. Click on the _Add note_ button.
 3. Enter note title and note content (required) and tags (optional).
 4. If _Allow public notes_ was set to Yes during activity configuration, _Make note public_ will be available. If set to Yes, the note will be visible to all course participants, otherwise the note will be private.
-5. Save changes
+5. Save changes.
 
 | Add note            |  
 |:-------------------------:|
@@ -52,15 +52,15 @@ Search notes            |  Manage note
 
 [![Build Status](https://travis-ci.org/jlb224/notetaker.svg?branch=master)](https://travis-ci.org/jlb224/notetaker)
 
-Report a bug, or suggest an improvement: https://github.com/jlb224/notetaker/issues
+Report a bug, or suggest an improvement: <https://github.com/jlb224/notetaker/issues>
 
 ## Contact details
 
-Any questions or suggested improvements to:Jo Beaver - bvredesign@gmail.com
+Any questions or suggested improvements to: Jo Beaver <bvredesign@gmail.com>
 
 ## License
 
-2020 Jo Beaver bvredesign@gmail.com
+2020 Jo Beaver <bvredesign@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it underthe terms of the GNU General Public License as published by the Free SoftwareFoundation, either version 3 of the License, or (at your option) any laterversion.
 
