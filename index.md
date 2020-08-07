@@ -50,10 +50,10 @@ Search notes            |  Manage note
 
 ### Video demo
 
+Watch the video for a demonstration of the Notetaker plugin in Moodle 3.8.
+
 <a href="https://youtu.be/tYqt--dvqRI" target="_blank"><img src="https://user-images.githubusercontent.com/26649166/89675974-b6d76780-d8e2-11ea-9cb6-452bad42ce3e.png" 
 alt="" width="470" height="240" border="10" /></a>
-
-
 
 ## Further information
 
