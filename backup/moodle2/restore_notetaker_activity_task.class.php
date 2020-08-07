@@ -108,26 +108,22 @@ class restore_notetaker_activity_task extends restore_activity_task {
     }
 
     /**
-     * This function is executed after all the tasks in the plan have been executed.
+     * After everything has been restored, find the matching instance in course_modules
+     * and add the course_module id to our table.
      */
     public function after_restore() {
         global $DB;
 
-         /**
-         * After everything has been restored, find the matching instance in course_modules
-         * and add the course_module id to our table.
-         */
-
         $courseid = $this->get_courseid();
-        $moduleid = $DB->get_field('modules', 'id', array('name'=>'notetaker'));
-        $cms = $DB->get_records('course_modules', array('course'=>$courseid, 'module'=>$moduleid));
+        $moduleid = $DB->get_field('modules', 'id', array('name' => 'notetaker'));
+        $cms = $DB->get_records('course_modules', array('course' => $courseid, 'module' => $moduleid));
 
         // For each of the notetakers in the course.
         foreach ($cms as $cm) {
             // Get the notes for that notetakerinstance.
-            $notetakernotes = (object)$DB->get_records('notetaker_notes', array('notetakerid'=>$cm->instance)); // Notetakerid.
+            $notetakernotes = (object)$DB->get_records('notetaker_notes', array('notetakerid' => $cm->instance)); // Notetakerid.
 
-            foreach($notetakernotes as $notetakernote) {
+            foreach ($notetakernotes as $notetakernote) {
                 $notetakernote->modid = $cm->id;
                 $DB->update_record('notetaker_notes', $notetakernote);
             }
