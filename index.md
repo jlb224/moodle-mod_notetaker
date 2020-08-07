@@ -48,6 +48,13 @@ Search notes            |  Manage note
 :-------------------------:|:-------------------------:
 ![image](https://user-images.githubusercontent.com/26649166/89668480-b5537280-d8d5-11ea-9ebd-9229e2fbbaee.png)  |  ![image](https://user-images.githubusercontent.com/26649166/89668758-33b01480-d8d6-11ea-8724-c88056d71711.png)
 
+### Video demo
+
+<a href="https://youtu.be/tYqt--dvqRI" target="_blank"><img src="https://user-images.githubusercontent.com/26649166/89675974-b6d76780-d8e2-11ea-9cb6-452bad42ce3e.png" 
+alt="" width="470" height="240" border="10" /></a>
+
+
+
 ## Further information
 
 [![Build Status](https://travis-ci.org/jlb224/notetaker.svg?branch=master)](https://travis-ci.org/jlb224/notetaker)
