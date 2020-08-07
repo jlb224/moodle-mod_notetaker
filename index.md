@@ -52,7 +52,7 @@ Search notes            |  Manage note
 
 [![Build Status](https://travis-ci.org/jlb224/notetaker.svg?branch=master)](https://travis-ci.org/jlb224/notetaker)
 
-Report a bug, or suggest an improvement: <https://github.com/jlb224/notetaker/issues>
+Report a bug, or suggest an improvement: <https://github.com/jlb224/moodle-mod_notetaker/issues>
 
 ## Contact details
 
@@ -64,6 +64,6 @@ Any questions or suggested improvements to: Jo Beaver <bvredesign@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it underthe terms of the GNU General Public License as published by the Free SoftwareFoundation, either version 3 of the License, or (at your option) any laterversion.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANYWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR APARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR APARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along withthis program.  If not, see <http://www.gnu.org/licenses/.>
