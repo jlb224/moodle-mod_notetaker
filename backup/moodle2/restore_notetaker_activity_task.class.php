@@ -125,12 +125,12 @@ class restore_notetaker_activity_task extends restore_activity_task {
         // For each of the notetakers in the course.
         foreach ($cms as $cm) {
             // Get the notes for that notetakerinstance.
-            $notetakernotes = (object)$DB->get_record('notetaker_notes', array('notetakerid'=>$cm->instance)); // Notetakerid.
-            // Update the modid to the correct cmid.
-            // As here https://moodle.org/mod/forum/discuss.php?d=342393
-            $notetakernotes->modid = $cm->id;
+            $notetakernotes = (object)$DB->get_records('notetaker_notes', array('notetakerid'=>$cm->instance)); // Notetakerid.
 
-            $DB->update_record('notetaker_notes', $notetakernotes);
+            foreach($notetakernotes as $notetakernote) {
+                $notetakernote->modid = $cm->id;
+                $DB->update_record('notetaker_notes', $notetakernote);
+            }
         }
     }
 }
