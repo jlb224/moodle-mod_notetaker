@@ -35,7 +35,7 @@ Follow the general [installing plugins](https://docs.moodle.org/39/en/Installing
 
 | Add note            |  
 |:-------------------------:|
-|![image](https://user-images.githubusercontent.com/26649166/89668293-71f90400-d8d5-11ea-8488-f1cfbd497139.png) |
+|![image](https://user-images.githubusercontent.com/26649166/89674681-75de5380-d8e0-11ea-81ab-09fba44c79b4.png) |
 
 ### Managing notes
 
