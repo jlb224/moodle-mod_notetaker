@@ -8,9 +8,9 @@ Teachers can manage all notes including those set to private.
 
 Each note can be tagged. Notes can be searched by name.
 
-Notetaker overview page            |  
-:-------------------------:|
-![image](https://user-images.githubusercontent.com/26649166/89666872-06ae3280-d8d3-11ea-9866-27cb0debe960.png) 
+| Notetaker overview page  |  
+|:-------------------------:|
+|![image](https://user-images.githubusercontent.com/26649166/89666872-06ae3280-d8d3-11ea-9866-27cb0debe960.png) |
 
 ## Installation
 
@@ -33,9 +33,9 @@ Follow the general [installing plugins](https://docs.moodle.org/39/en/Installing
 4. If _Allow public notes_ was set to Yes during activity configuration, _Make note public_ will be available. If set to Yes, the note will be visible to all course participants, otherwise the note will be private.
 5. Save changes
 
-Add note            |  
-:-------------------------:|
-![image](https://user-images.githubusercontent.com/26649166/89668293-71f90400-d8d5-11ea-8488-f1cfbd497139.png)
+| Add note            |  
+|:-------------------------:|
+|![image](https://user-images.githubusercontent.com/26649166/89668293-71f90400-d8d5-11ea-8488-f1cfbd497139.png) |
 
 ### Managing notes
 
