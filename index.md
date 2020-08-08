@@ -57,7 +57,7 @@ alt="" width="470" height="240" border="10" /></a>
 
 ## Further information
 
-[![Build Status](https://travis-ci.org/jlb224/notetaker.svg?branch=master)](https://travis-ci.org/jlb224/notetaker)
+[![Build Status](https://travis-ci.org/jlb224/moodle-mod_notetaker.svg?branch=master)](https://travis-ci.org/jlb224/moodle-mod_notetaker)
 
 Report a bug, or suggest an improvement: <https://github.com/jlb224/moodle-mod_notetaker/issues>
 
