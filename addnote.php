@@ -59,7 +59,7 @@ $hassiteconfig = has_capability('moodle/site:config', context_system::instance()
 list($editoroptions) = local::get_editor_options($course, $context);
 
 if ($noteid != 0) {
-    $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+    $entry = $DB->get_record('notetaker_notes', ['notetakerid' => $cm->id, 'id' => $noteid]);
 
     // Prepare the notefield editor.
     $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
@@ -100,7 +100,7 @@ if ($mform->is_cancelled()) {
 } else if ($fromform = $mform->get_data()) {
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
-    $fromform->modid = $cm->id;
+    $fromform->notetakerid = $cm->id;
     $fromform->userid = $USER->id;
     $fromform->notetakerid = $notetakerid;
 

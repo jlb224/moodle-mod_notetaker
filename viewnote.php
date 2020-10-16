@@ -65,7 +65,7 @@ if ($delete) {
 echo $OUTPUT->header();
 
 // Get note record.
-$result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+$result = $DB->get_record('notetaker_notes', ['notetakerid' => $cm->instance, 'id' => $noteid]);
 $messagetext = $result->notefield;
 $messagetext = file_rewrite_pluginfile_urls($messagetext, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 

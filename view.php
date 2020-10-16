@@ -78,7 +78,7 @@ $userid = $USER->id;
 $allowpublicposts = $DB->get_field('notetaker', 'publicposts', ['course' => $course->id, 'id' => $notetaker->id]);
 $hassiteconfig = has_capability('moodle/site:config', context_system::instance());
 $hasviewall = has_capability('mod/notetaker:viewallnotes', $context);
-$results = local::get_notes($cmid, $context, $userid, $allowpublicposts, $search, $hassiteconfig, $hasviewall);
+$results = local::get_notes($cm, $context, $userid, $allowpublicposts, $search, $hassiteconfig, $hasviewall);
 
 $PAGE->requires->js_call_amd('mod_notetaker/clearsearch', 'init');
 
@@ -140,7 +140,7 @@ foreach ($results as $result) {
 
     $note[] = [
         'noteid' => $result->id,
-        'cmid' => $result->modid,
+        'cmid' => $result->notetakerid,
         'name' => $result->name,
         'author' => $result->author,
         'lastmodified' => $lastmodified,

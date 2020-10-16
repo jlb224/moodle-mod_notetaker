@@ -115,7 +115,7 @@ function notetaker_delete_instance($id) {
     \core_completion\api::update_completion_date_event($cm->id, 'notetaker', $id, null);
 
     $DB->delete_records('notetaker', array('id' => $notetaker->id));
-    $DB->delete_records('notetaker_notes', array('modid' => $cm->id));
+    $DB->delete_records('notetaker_notes', array('notetakerid' => $cm->id));
 
     return true;
 }
