@@ -32,6 +32,7 @@ $noteid  = optional_param('note', 0, PARAM_INT); // Note id.
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+$notetakerid = $cm->instance;
 
 require_login($course, true, $cm);
 
@@ -57,7 +58,7 @@ if ($delete) {
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {
-        local::delete($cmid, $noteid);
+        local::delete($notetakerid, $noteid);
         redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
     }
 }
@@ -65,7 +66,7 @@ if ($delete) {
 echo $OUTPUT->header();
 
 // Get note record.
-$result = $DB->get_record('notetaker_notes', ['notetakerid' => $cm->instance, 'id' => $noteid]);
+$result = $DB->get_record('notetaker_notes', ['notetakerid' => $notetakerid, 'id' => $noteid]);
 $messagetext = $result->notefield;
 $messagetext = file_rewrite_pluginfile_urls($messagetext, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 

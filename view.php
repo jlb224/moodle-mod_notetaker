@@ -140,7 +140,7 @@ foreach ($results as $result) {
 
     $note[] = [
         'noteid' => $result->id,
-        'cmid' => $result->notetakerid,
+        'cmid' => $cmid,
         'name' => $result->name,
         'author' => $result->author,
         'lastmodified' => $lastmodified,
