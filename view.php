@@ -28,16 +28,16 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
 $cmid = required_param('id', PARAM_INT); // Course module id.
-$n  = optional_param('n', 0, PARAM_INT); // Module instance id.
+$notetakerid = optional_param('notetaker', 0, PARAM_INT); // Notetaker instance id.
 
 if ($cmid) {
-    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST); // ID of the notetaker from all modules in course.
+    $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST); // ID of the notetaker from all NT in course.
-} else if ($n) {
-    $notetaker = $DB->get_record('notetaker', array('id' => $n), '*', MUST_EXIST);
+    $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
+} else if ($notetakerid) {
+    $notetaker = $DB->get_record('notetaker', array('id' => $notetakerid), '*', MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $notetaker->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('notetaker', $notetaker->id, $notetaker->course, false, MUST_EXIST);
+    $cm = get_coursemodule_from_instance('notetaker', $notetaker->id, $course->id, false, MUST_EXIST);
 } else {
     print_error(get_string('missingidandcmid', 'mod_notetaker'));
 }
@@ -139,8 +139,9 @@ foreach ($results as $result) {
     }
 
     $note[] = [
-        'noteid' => $result->id,
         'cmid' => $cmid,
+        'notetakerid' => $notetaker->id,
+        'noteid' => $result->id,
         'name' => $result->name,
         'author' => $result->author,
         'lastmodified' => $lastmodified,
@@ -154,6 +155,7 @@ foreach ($results as $result) {
 
 $data = (object) [
     'cmid' => $cmid,
+    'notetakerid' => $notetaker->id,
     'note' => array_values($note),
     'search_html' => $mformhtml,
     'intro' => $intro
