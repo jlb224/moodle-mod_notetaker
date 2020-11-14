@@ -57,7 +57,7 @@ if ($delete) {
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {
-        local::delete($cmid, $noteid);
+        local::delete($notetaker->id, $noteid);
         redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cmid]), get_string('success'), 5);
     }
 }
