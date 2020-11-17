@@ -26,8 +26,8 @@ use mod_notetaker\lib\local;
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
-$cmid = required_param('cmid', PARAM_INT); // Course module id.
-$noteid  = optional_param('note', 0, PARAM_INT); // Note id.
+$cmid = optional_param('cmid', 0, PARAM_INT); // Course module id.
+$noteid = optional_param('note', 0, PARAM_INT); // Note id.
 
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -57,15 +57,15 @@ if ($delete) {
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {
-        local::delete($cmid, $noteid);
-        redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cm->id]), get_string('success'), 5);
+        local::delete($notetaker->id, $noteid);
+        redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cmid]), get_string('success'), 5);
     }
 }
 
 echo $OUTPUT->header();
 
 // Get note record.
-$result = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+$result = $DB->get_record('notetaker_notes', ['notetakerid' => $notetaker->id, 'id' => $noteid]);
 $messagetext = $result->notefield;
 $messagetext = file_rewrite_pluginfile_urls($messagetext, 'pluginfile.php', $context->id, 'mod_notetaker', 'notefield', $result->id);
 
@@ -84,7 +84,6 @@ $note[] = [
 ];
 
 $data = (object) [
-    'id' => $cmid,
     'cmid' => $cmid,
     'noteid' => $noteid,
     'note' => array_values($note),

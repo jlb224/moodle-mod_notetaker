@@ -29,7 +29,9 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once($CFG->libdir.'/formslib.php');
 
-$cmid = required_param('cmid', PARAM_INT);
+$cmid = optional_param('cmid', 0, PARAM_INT); // Course module id.
+$noteid = optional_param('note', 0, PARAM_INT); // Note id.
+
 $cm = get_coursemodule_from_id('notetaker', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $notetaker = $DB->get_record('notetaker', array('id' => $cm->instance), '*', MUST_EXIST);
@@ -46,8 +48,8 @@ if (!empty($_POST['id'])) {
 
 require_login($course, true, $cm);
 
-$context = context_module::instance($cmid);
-$url = new moodle_url('/mod/notetaker/addnote.php', ['cmid' => $cm->id]);
+$context = context_module::instance($cm->id);
+$url = new moodle_url('/mod/notetaker/addnote.php', ['cmid' => $cmid]);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($notetaker->name));
@@ -59,7 +61,7 @@ $hassiteconfig = has_capability('moodle/site:config', context_system::instance()
 list($editoroptions) = local::get_editor_options($course, $context);
 
 if ($noteid != 0) {
-    $entry = $DB->get_record('notetaker_notes', ['modid' => $cm->id, 'id' => $noteid]);
+    $entry = $DB->get_record('notetaker_notes', ['notetakerid' => $cm->instance, 'id' => $noteid]);
 
     // Prepare the notefield editor.
     $entry = file_prepare_standard_editor($entry, 'notefield', $editoroptions, $context, 'mod_notetaker', 'notefield', $entry->id);
@@ -78,12 +80,11 @@ $entry->cmid = $cmid;
 $entry->notefieldformat = FORMAT_HTML;
 
 // See if publicposts are enabled for this instance.
-$notetakerid = $notetaker->id;
-$publicposts = local::get_publicposts_value($notetakerid);
+$publicposts = local::get_publicposts_value($notetaker->id);
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
-    'cmid' => $cm->id,
+    'cmid' => $cmid,
     'editoroptions' => $editoroptions,
     'id' => $noteid,
     'publicposts' => $publicposts
@@ -100,9 +101,8 @@ if ($mform->is_cancelled()) {
 } else if ($fromform = $mform->get_data()) {
     $fromform->notefield = $fromform->notefield_editor['text'];
     $fromform->notefieldformat = $fromform->notefield_editor['format'];
-    $fromform->modid = $cm->id;
     $fromform->userid = $USER->id;
-    $fromform->notetakerid = $notetakerid;
+    $fromform->notetakerid = $notetaker->id;
 
     if ($fromform->id != 0) { // If it is existing note.
         $isnewnote = false;
@@ -125,7 +125,7 @@ if ($mform->is_cancelled()) {
         core_tag_tag::set_item_tags('mod_notetaker', 'notetaker_notes', $fromform->id, $context, $fromform->tags);
     }
 
-    redirect("viewnote.php?cmid=$cm->id&note=$fromform->id");
+    redirect("viewnote.php?cmid=$cmid&note=$fromform->id");
 }
 
 if (!empty($noteid)) {

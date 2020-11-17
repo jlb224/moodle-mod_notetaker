@@ -80,26 +80,26 @@ class local {
      * @param $cmid ID of the module instance.
      * @param $context current context.
      */
-    public static function get_notes($cmid, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig, $hasviewall) {
+    public static function get_notes($cm, $context, $userid, $allowpublicposts, string $search = null, $hassiteconfig, $hasviewall) {
         global $DB;
 
         $params = [];
-        $modid = $cmid;
+        $notetakerid = $cm->instance;
 
         if (empty($search)) {
             if ($hassiteconfig || $hasviewall) {
-                $results = $DB->get_records('notetaker_notes', ['modid' => $cmid]);
+                $results = $DB->get_records('notetaker_notes', ['notetakerid' => $notetakerid]);
             } else if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
-                $results = $DB->get_records('notetaker_notes', ['modid' => $cmid, 'userid' => $userid]);
+                $results = $DB->get_records('notetaker_notes', ['notetakerid' => $notetakerid, 'userid' => $userid]);
             } else {
                 // User sees all own private notes plus all public notes made by anybody.
                 $sql = "SELECT *
                         FROM {notetaker_notes}
-                        WHERE modid = :modid AND (publicpost = 1 OR userid = :userid)";
+                        WHERE notetakerid = :notetakerid AND (publicpost = 1 OR userid = :userid)";
                 $params = [
                     'userid' => $userid,
-                    'modid' => $modid
+                    'notetakerid' => $notetakerid
                 ];
                 $results = $DB->get_records_sql($sql, $params);
             }
@@ -107,21 +107,21 @@ class local {
         } else {
             $likename = $DB->sql_like('name', ':name', false);
             $name = '%'.$DB->sql_like_escape($search).'%';
-            $params = ['userid' => $userid, 'modid' => $modid, 'name' => $name];
+            $params = ['userid' => $userid, 'notetakerid' => $notetakerid, 'name' => $name];
 
             if ($hassiteconfig) {
-                $select = $likename . 'AND modid = :modid';
+                $select = $likename . 'AND notetakerid = :notetakerid';
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);
 
             } else if ($allowpublicposts != 1) { // If it is 0, public posts is set to No at instance level.
                 // User can only see own notes.
-                $select = $likename . 'AND userid = :userid AND modid = :modid';
+                $select = $likename . 'AND userid = :userid AND notetakerid = :notetakerid';
                 $results = $DB->get_records_select('notetaker_notes', $select, $params);
             } else {
                 // User sees all own private notes plus all public notes made by anybody.
                 $sql = "SELECT *
                         FROM {notetaker_notes}
-                        WHERE modid = :modid AND (publicpost = 1 OR userid = :userid)
+                        WHERE notetakerid = :notetakerid AND (publicpost = 1 OR userid = :userid)
                         AND $likename";
                 $results = $DB->get_records_sql($sql, $params);
             }
@@ -181,12 +181,12 @@ class local {
     /**
      * Deletes a note from the database.
      *
-     * @param $cmid ID of the module instance.
+     * @param $notetakerid ID of the module instance.
      * @param $noteid ID of the note.
      */
-    public static function delete($cmid, $noteid) {
+    public static function delete($notetakerid, $noteid) {
         global $DB;
-        $DB->delete_records('notetaker_notes', ['modid' => $cmid, 'id' => $noteid]);
+        $DB->delete_records('notetaker_notes', ['notetakerid' => $notetakerid, 'id' => $noteid]);
     }
 
     /**

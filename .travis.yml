@@ -1,7 +1,7 @@
 language: php
 
 os: linux
-dist: trusty
+dist: xenial
 
 services:
   - mysql
@@ -19,38 +19,34 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-jobs:
+matrix:
   include:
     - php: 7.3
       env:
         - MOODLE_BRANCH=master
         - DB=mysqli
 
-    - php: 7.4
+    - php: 7.3
       env:
         - MOODLE_BRANCH=MOODLE_39_STABLE
         - DB=pgsql
-
-    - php: 7.3
-      env:
-        - MOODLE_BRANCH=MOODLE_38_STABLE
-        - DB=pgsql
         - CHECK_GRUNT=yes
-
-    - php: 7.2
-      env:
-        - MOODLE_BRANCH=MOODLE_37_STABLE
-        - DB=mysqli
 
 before_install:
   - phpenv config-rm xdebug.ini
+
   - if [ -z $CHECK_GRUNT ]; then
       export CHECK_GRUNT=no;
     fi
-  - nvm install 14.2.0
-  - nvm use 14.2.0
+
+  - if [ -z $NODE ]; then
+      export NODE=14;
+    fi
+  - nvm install $NODE
+  - nvm use $NODE
+
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:

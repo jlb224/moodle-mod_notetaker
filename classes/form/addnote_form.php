@@ -34,7 +34,7 @@ class addnote_form extends \moodleform
 
         $mform = $this->_form;
 
-        // Store the cmid.
+        // Store the course module id.
         $mform->addElement('hidden', 'cmid', $this->_customdata['cmid']);
         $mform->setType('cmid', PARAM_INT);
 
@@ -44,7 +44,7 @@ class addnote_form extends \moodleform
 
         // Store the publicposts setting from mod_form.
         $mform->addElement('hidden', 'publicposts', $this->_customdata['publicposts']);
-        $mform->setType('id', PARAM_BOOL);
+        $mform->setType('publicposts', PARAM_BOOL);
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('name', 'mod_notetaker'), array('size' => '64'));

@@ -29,7 +29,6 @@
     * notecontent: the full content of the note.
     * cmid: the course module id.
     * noteid: the note id.
-    * id: the course module id.
 }}
 
 <div class="mod_viewnote">
@@ -45,9 +44,7 @@
     {{#noteowner}}
         <div class="mt-4">
             <a title="{{#str}} edit, mod_notetaker {{/str}}" href="{{config.wwwroot}}/mod/notetaker/addnote.php?cmid={{cmid}}&note={{noteid}}"><i class="icon fa fa-edit"></i></a>
-            <a title="{{#str}} delete {{/str}}" href="?delete={{id}}&cmid={{cmid}}&note={{noteid}}"><i class="icon fa fa-trash"></i></a>
+            <a title="{{#str}} delete {{/str}}" href="?delete={{cmid}}&cmid={{cmid}}&note={{noteid}}"><i class="icon fa fa-trash"></i></a>
         </div>
     {{/noteowner}}
 </div>
-
-
