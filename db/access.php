@@ -39,7 +39,7 @@ $capabilities = array(
     ],
 
     'mod/notetaker:addnote' => [
-        'riskbitmask' => RISK_SPAM,
+        'riskbitmask' => RISK_SPAM|RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -51,7 +51,7 @@ $capabilities = array(
     ],
 
     'mod/notetaker:viewallnotes' => [
-        'captype' => 'write',
+        'captype' => 'read',
         'riskbitmaskt' => 'RISK_PERSONAL',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
