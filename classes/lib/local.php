@@ -200,6 +200,7 @@ class local {
         global $DB;
 
         $intro = $DB->get_field('notetaker', 'intro', ['course' => $course->id, 'id' => $notetaker->id]);
+        $intro = format_text($intro);
         $intro = file_rewrite_pluginfile_urls($intro, 'pluginfile.php', $context->id, 'mod_notetaker', 'intro', null);
 
         return $intro;
