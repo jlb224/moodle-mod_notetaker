@@ -23,7 +23,7 @@
  */
 
 use mod_notetaker\form\addnote_form;
-use mod_notetaker\lib\local;
+use mod_notetaker\local\utilities;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
@@ -58,7 +58,7 @@ $PAGE->set_context($context);
 
 $hassiteconfig = has_capability('moodle/site:config', context_system::instance());
 
-list($editoroptions) = local::get_editor_options($course, $context);
+list($editoroptions) = utilities::get_editor_options($course, $context);
 
 if ($noteid != 0) {
     $entry = $DB->get_record('notetaker_notes', ['notetakerid' => $cm->instance, 'id' => $noteid]);
@@ -80,7 +80,7 @@ $entry->cmid = $cmid;
 $entry->notefieldformat = FORMAT_HTML;
 
 // See if publicposts are enabled for this instance.
-$publicposts = local::get_publicposts_value($notetaker->id);
+$publicposts = utilities::get_publicposts_value($notetaker->id);
 
 // Create form and set initial data.
 $mform = new addnote_form (null, [
