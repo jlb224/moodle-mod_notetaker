@@ -21,7 +21,7 @@
  * @copyright   2020 Jo Beaver
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-use mod_notetaker\lib\local;
+use mod_notetaker\local\utilities;
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
@@ -57,7 +57,7 @@ if ($delete) {
         echo $OUTPUT->confirm($message, $continue, $url);
         echo $OUTPUT->footer();
     } else {
-        local::delete($notetaker->id, $noteid);
+        utilities::delete($notetaker->id, $noteid);
         redirect(new moodle_url('/mod/notetaker/view.php', ['id' => $cmid]), get_string('success'), 5);
     }
 }

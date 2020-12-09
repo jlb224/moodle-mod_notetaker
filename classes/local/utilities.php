@@ -22,7 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_notetaker\lib;
+namespace mod_notetaker\local;
 
 use core_tag_tag;
 use DOMDocument;
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/tag/lib.php');
 
-class local {
+class utilities {
 
     /**
      * Return the editor options for a note entry

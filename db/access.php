@@ -39,7 +39,7 @@ $capabilities = array(
     ],
 
     'mod/notetaker:addnote' => [
-        'riskbitmask' => RISK_SPAM|RISK_XSS,
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
