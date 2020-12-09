@@ -53,7 +53,6 @@ class provider implements
             'notetaker_notes',
         [
             'id' => 'privacy:metadata:notetaker_notes:id',
-            'modid' => 'privacy:metadata:notetaker_notes:modid',
             'name' => 'privacy:metadata:notetaker_notes:name',
             'notefield' => 'privacy:metadata:notetaker_notes:notefield',
             'timecreated' => 'privacy:metadata:notetaker_notes:timecreated',
