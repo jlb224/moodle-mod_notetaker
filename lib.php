@@ -121,6 +121,94 @@ function notetaker_delete_instance($id) {
 }
 
 /**
+ * The elements to add the course reset form.
+ *
+ * @param moodleform $mform
+ */
+function notetaker_reset_course_form_definition(&$mform) {
+    $mform->addElement('header', 'notetakerheader', get_string('modulenameplural', 'notetaker'));
+    $mform->addElement('checkbox', 'reset_notetaker_notes', get_string('removeallnotetakernotes', 'notetaker'));
+    $mform->addHelpButton('reset_notetaker_notes', 'removeallnotetakernotes', 'mod_notetaker');
+    $mform->addElement('checkbox', 'reset_notetaker_tags', get_string('removeallnotetakertags', 'notetaker'));
+}
+
+/**
+ * Course reset form defaults.
+ *
+ * @param object $course
+ * @return array
+ */
+function notetaker_reset_course_form_defaults($course) {
+    return array('reset_notetaker_tags' => 1, 'reset_notetaker_notes' => 1);
+}
+
+/**
+ * This function is used by the reset_course_userdata function in moodlelib.
+ *
+ * @param $data the data submitted from the reset course.
+ * @return array status array
+ */
+function notetaker_reset_userdata($data) {
+    global $DB;
+
+    $status = [];
+
+    $params = array($data->courseid);
+
+    $allnotetakerssql = "SELECT n.id
+                         FROM {notetaker} n
+                         WHERE n.course = ?";
+
+    // Remove all the notes.
+    if (!empty($data->reset_notetaker_notes)) {
+
+        $params[] = 'notetaker_note';
+        $DB->delete_records_select('notetaker_notes', "notetakerid IN ($allnotetakerssql)", $params);
+
+        // Loop through the notetakers and remove the tags.
+        if ($notetakers = $DB->get_records('notetaker', array('course' => $data->courseid))) {
+            foreach ($notetakers as $notetaker) {
+                if (!$cm = get_coursemodule_from_instance('notetaker', $notetaker->id)) {
+                    continue;
+                }
+
+                // Remove the tags.
+                $context = context_module::instance($cm->id);
+                core_tag_tag::delete_instances('mod_notetaker', null, $context->id);
+            }
+        }
+        $status[] = [
+            'component' => get_string('modulenameplural', 'notetaker'),
+            'item' => get_string('notetakersreset', 'notetaker'),
+            'error' => false
+        ];
+    }
+
+    // Remove all the tags.
+    if (!empty($data->reset_notetaker_tags)) {
+
+        // Loop through the notetakers and remove the tags from the notes.
+        if ($notetakers = $DB->get_records('notetaker', array('course' => $data->courseid))) {
+            foreach ($notetakers as $notetaker) {
+                if (!$cm = get_coursemodule_from_instance('notetaker', $notetaker->id)) {
+                    continue;
+                }
+
+                $context = context_module::instance($cm->id);
+                core_tag_tag::delete_instances('mod_notetaker', null, $context->id);
+            }
+        }
+        $status[] = [
+            'component' => get_string('modulenameplural', 'notetaker'),
+            'item' => get_string('tagsdeleted', 'notetaker'),
+            'error' => false
+        ];
+    }
+
+    return $status;
+}
+
+/**
  * Mark the activity completed (if required) and trigger the course_module_viewed event.
  *
  * @param  stdClass $notetaker   notetaker object
