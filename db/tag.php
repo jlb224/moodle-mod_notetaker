@@ -29,6 +29,7 @@ $tagareas = array(
         'itemtype' => 'notetaker_notes',  // Name of the database table (without prefix).
         'component' => 'mod_notetaker',
         'callback' => 'mod_notetaker_get_tagged_notes',
-        'callbackfile' => '/mod/notetaker/classes/local/utlities.php',
+        'callbackfile' => '/mod/notetaker/lib.php',
     ),
 );
+
