@@ -57,7 +57,7 @@ alt="" width="470" height="240" border="10" /></a>
 
 ## Further information
 
-Moodle 3.7, 3.8, 3.9
+Moodle 3.7, 3.8, 3.9, 3.10
 
 [![Build Status](https://travis-ci.org/jlb224/moodle-mod_notetaker.svg?branch=master)](https://travis-ci.org/jlb224/moodle-mod_notetaker)
 
