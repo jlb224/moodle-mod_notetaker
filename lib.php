@@ -300,7 +300,7 @@ function mod_notetaker_get_tagged_notes($tag, $exclusivemode = false, $fromctx =
 
     // Build the SQL query.
     $ctxselect = context_helper::get_preload_record_columns_sql('ctx');
-    $query = "SELECT nn.id, nn.name, nn.notetakerid, nn.userid,
+    $query = "SELECT nn.id, nn.name, nn.notetakerid, nn.userid, nn.publicpost,
                     cm.id AS cmid, c.id AS courseid, c.shortname, c.fullname, $ctxselect
                 FROM {notetaker_notes} nn
                 JOIN {notetaker} n ON n.id = nn.notetakerid
@@ -347,10 +347,11 @@ function mod_notetaker_get_tagged_notes($tag, $exclusivemode = false, $fromctx =
         $modinfo = get_fast_modinfo($builder->get_course($courseid));
         // Set accessibility of this item and all other items in the same course.
         $builder->walk(function ($taggeditem) use ($courseid, $modinfo, $builder) {
+            global $USER;
             if ($taggeditem->courseid == $courseid) {
                 $accessible = false;
                 if (($cm = $modinfo->get_cm($taggeditem->cmid)) && $cm->uservisible) {
-                    if ($taggeditem->userid == $USER->id) {
+                    if ($taggeditem->userid == $USER->id || $taggeditem->publicpost == 1) {
                         $accessible = true;
                     }
                 }
