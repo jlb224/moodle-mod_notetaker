@@ -135,7 +135,7 @@ class provider implements
 
         // Find users with note entries.
         $sql = "SELECT nn.userid
-                FROM {notetaker_notes) nn
+                FROM {notetaker_notes} nn
                 JOIN {notetaker} nt ON nn.notetakerid
                 JOIN {course_modules} cm ON cm.instance = nt.id AND cm.module = :modid
                 JOIN {context} ctx ON ctx.instanceid = cm.id AND ctx.contextlevel = :contextlevel
