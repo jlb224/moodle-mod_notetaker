@@ -56,6 +56,7 @@ $string['notetaker:view'] = 'View notes';
 $string['notetaker:viewallnotes'] = 'View all notes';
 $string['notetakersreset'] = 'Notetakers have been reset';
 $string['privacy:metadata:core_tag'] = 'Tags added to notes are stored using core_tag system.';
+$string['privacy:metadata:notetaker_notes'] = 'Notes';
 $string['privacy:metadata:notetaker_notes:id'] = 'The ID of the note';
 $string['privacy:metadata:notetaker_notes:modid'] = 'The course module that contains the note the user added';
 $string['privacy:metadata:notetaker_notes:name'] = 'The name of the note the user added';
